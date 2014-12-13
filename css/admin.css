@@ -1,0 +1,50 @@
+tbody {
+  background: #E8E9EB;
+}
+td {
+	border: 1px solid rgba(51, 50, 50, .25);
+	padding-left: 5px;
+	padding-right: 5px;
+}
+thead {
+  background-color: #333232;
+  color: #E8E9EB;
+}
+th {
+  text-align: center;
+}
+.admin-form-inline {
+  display: inline-block;
+}
+.adminHeader {
+  background-color: #333232;
+  color: #E8E9EB;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+.timeNum {
+  width: 55px;
+  margin-right: 5px;
+}
+#answers-field {
+  margin-left: 30px;
+}
+#deleteAns {
+  color: black;
+}
+#deleteAns:hover {
+  color: red;
+}
+#newVoteBtn {
+  float: right;
+  border-radius: 3px;
+  margin: 5px;
+  margin-bottom: 15px;
+}
+
+/*Modifications to bootstrap*/
+.progress {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
