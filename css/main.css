@@ -1,0 +1,427 @@
+html, body {
+  overflow: hidden;
+  font-family: 'Helvetica', sans-serif;
+}
+
+.btn-sidebar {
+  width:100%;
+  text-align: left;
+  background-color: #E8E9EB;
+  border-radius: 0;
+  color: black;
+  border-bottom: 1px solid #333232;
+  height: 44px;
+  padding: 11px;
+}
+
+.carousel {
+  height: 100vh;
+  width: 220vw;
+  padding: 0px;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+.participantcarousel-content {
+  margin-top: 0;
+}
+
+.small-logo {
+  height: 30px !important;
+  margin-top: 10px !important;
+}
+
+.small-navbar-header {
+  height: 50px;
+  font-size: 25px;
+  line-height: 50px;
+}
+
+.text-error {
+  color : red;
+}
+
+#left-snap-drawer {
+  background-color: lightgray;
+}
+
+#snap-content {
+  background-color: white;
+}
+
+/* Styles for portrait orientation */
+.header-portrait {
+  width: 100vw;
+  height: 10vh;
+  position: relative;
+}
+
+.interests-portrait {
+  width: 55vw;
+}
+
+.interests-portrait img {
+  width: 9vw;
+  padding: .9vw;
+}
+
+.logo-portrait {
+  height: 6vh;
+  margin: 2vh 0px 2vh 10px;
+  /*position: absolute;*/
+  float: left;
+}
+
+.menu-portrait {
+  float: right;
+  margin: 2.5vh;
+  margin-right: 10px;
+}
+
+.menubutton-portrait {
+  height: 5vh;
+  width: 5vh;
+  position: relative;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0;
+}
+
+.navbar-header-portrait {
+  color: #E8E9EB;
+  margin: auto;
+  width: 100vw;
+  height:10vh;
+  left: 0;
+  top: 0;
+  line-height: 10vh;
+  vertical-align: middle;
+  letter-spacing: 1px;
+  font-size: 5vmin;
+  text-align: center;
+  position: absolute;
+}
+
+.participantcarousel-content-portrait {
+  /*position: relative;*/
+  margin: 10px auto;
+  width: 55vw;
+  text-align: center;
+}
+
+.participantemail-portrait {
+  font-size: 4vmin;
+}
+
+.participantinterests-portrait {
+  width: 8vmin;
+  padding: .5vmin;
+}
+
+.participantname-portrait {
+  font-size: 7vmin;
+}
+
+.participantpic-portrait {
+  width: 55vmin;
+  height: 60vmin;
+}
+
+
+/* Styles for landscape orientation */
+.header-landscape {
+  width: 100vw;
+  height: 10vh;
+  position: relative;
+}
+
+.interests-landscape {
+  width: 55vw;
+}
+
+.interests-landscape img {
+  width: 9vw;
+  padding: .9vw;
+}
+
+.logo-landscape {
+  height: 6vh;
+  margin: 2vh 0px 2vh 10px;
+  /*position: absolute;*/
+  float: left;
+}
+
+.menu-landscape {
+  float: right;
+  margin: 2.5vh;
+  margin-right: 10px;
+}
+
+.menubutton-landscape {
+  height: 5vh;
+  width: 5vh;
+  position: relative;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0;
+}
+
+.navbar-header-landscape {
+  color: #E8E9EB;
+  margin: auto;
+  width: 100vw;
+  height:10vh;
+  left: 0;
+  top: 0;
+  line-height: 10vh;
+  vertical-align: middle;
+  letter-spacing: 1px;
+  font-size: 5vmin;
+  text-align: center;
+  position: absolute;
+}
+
+.participantcarousel-content-landscape {
+  /*position: relative;*/
+  margin: 0px auto;
+  width: 75vw;
+}
+
+.participantemail-landscape {
+  font-size: 4vmin;
+}
+
+.participantinterests-landscape {
+  width: 8vw;
+  /*padding: 3px;*/
+  margin-right:5px;
+  max-width: 50px;
+}
+
+.participantname-landscape {
+  font-size: 7vmin;
+}
+
+.participantpic-landscape {
+  width: 55vmin;
+  height: 60vmin;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.sidecontent-landscape {
+  display: inline-block;
+  margin-left: 20px;
+  max-height: 60vmin;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Bootstrap modifications*/
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.navbar-default {
+	background-color: #333232;
+	border-color: #797979;
+}
+.navbar-default .navbar-brand {
+	color: #E8E9EB;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+	color: #00f900;
+}
+.navbar-default .navbar-text {
+	color: #E8E9EB;
+}
+.navbar-default .navbar-nav > li > a {
+	color: #E8E9EB;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: #00f900;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #00f900;
+	background-color: #797979;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	color: #00f900;
+	background-color: #797979;
+}
+.navbar-default .navbar-toggle {
+	border-color: #797979;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	background-color: #797979;
+}
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #E8E9EB;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+	border-color: #E8E9EB;
+}
+.navbar-default .navbar-link {
+	color: #E8E9EB;
+}
+.navbar-default .navbar-link:hover {
+	color: #00f900;
+}
+
+@media (max-width: 767px) {
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+		color: #E8E9EB;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+		color: #00f900;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		color: #00f900;
+		background-color: #797979;
+	}
+}
+
+
+
+/*Angular-snap.css Modifications*/
+.snap-content {
+  overflow:hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .carousel {
+  height: 100vh;
+  width: 220vw;
+  padding: 0px;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+.interests {
+  width: 55vw;
+}
+
+.interests img {
+  width: 9vw;
+  padding: .9vw;
+}
+
+.participantcarousel-content {
+  position: relative;
+  margin: 10px auto;
+  width: 55vw;
+  text-align: center;
+}
+
+.participantemail {
+  font-size: 4vmin;
+}
+
+.participantinterests {
+  width: 8vmin;
+  padding: .5vmin;
+}
+
+.participantname {
+  font-size: 7vmin;
+}
+
+.participantpic {
+  width: 55vmin;
+  height: 60vmin;
+}
+
+#menu {
+  float: right;
+  margin: 2.5vh;
+  margin-right: 10px;
+}
+
+#menubutton {
+  margin: 2.5vh;
+  margin-right: 10px;
+  height: 5vh;
+  position: relative;
+  float: right;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+#logo {
+  height: 6vh;
+  margin: 2vh 0px 2vh 10px;
+  position: absolute;
+  float: left;
+}
+
+#header {
+  width: 100vw;
+  height: 10vh;
+  background-color: #E8E9EB;
+  box-shadow: inset 0 0 9px 1vh #ddd;
+  background: linear-gradient(to bottom, #FFFFFF, #E8E9EB);
+  position: relative;
+}
+
+.header-portrait {
+  width: 100vw;
+  height: 10vh;
+  background-color: #E8E9EB;
+  box-shadow: inset 0 0 9px 1vh #ddd;
+  background: linear-gradient(to bottom, #FFFFFF, #E8E9EB);
+  position: relative;
+}
+
+#navbar-header {
+  color: #E8E9EB;
+  margin: auto;
+  width: 100vw;
+  height:10vh;
+  left: 0;
+  top: 0;
+  line-height: 10vh;
+  vertical-align: middle;
+  letter-spacing: 1px;
+  font-size: 5vmin;
+  text-align: center;
+  position: absolute;
+} */

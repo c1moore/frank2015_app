@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="frank2015">
+
+  <head>
+    <script data-require="jquery@*" data-semver="2.1.1" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link data-require="bootstrap@*" data-semver="3.2.0" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+    <script data-require="bootstrap@*" data-semver="3.2.0" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script data-require="angular.js@*" data-semver="1.3.0" src="//code.angularjs.org/1.3.0/angular.js"></script>
+    <script data-require="angular-ui@*" data-semver="0.4.0" src="http://rawgithub.com/angular-ui/angular-ui/master/build/angular-ui.js"></script>
+    <script data-require="angular-touch@*" data-semver="1.2.13" src="http://code.angularjs.org/1.2.13/angular-touch.js"></script>
+    <link rel="stylesheet" href="angular-snap.css" type="text/css" />
+    <script src="snap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="angular-snap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://blog.revolunet.com/angular-carousel/dist/angular-carousel.min.js"></script>
+    <link rel="stylesheet" src="http://blog.revolunet.com/angular-carousel/dist/angular-carousel.min.css" />
+    <script src="http://frank.jou.ufl.edu/tests_c1m/ng-FitText/src/ng-FitText.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="list.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body ng-controller="ParticipantController" resizable>
+    <snap-drawer id='left-snap-drawer'>
+      <a href="index.html" class="btn btn-sidebar" role="button"><i class="fa fa-list"></i> Particpant Slider</a> <br />
+      <a href="#" class="btn btn-sidebar" role="button"><i class="fa fa-arrow-left"></i> Back to App</a>
+    </snap-drawer>
+    <snap-content ng-controller="ParticipantController" id="snap-content">
+      <nav ng-class="{'header-portrait': portrait, 'header-landscape': !portrait}" class="navbar navbar-default" role="navigation" id="header">
+        <img ng-class="{'logo-portrait': portrait, 'logo-landscape': !portrait, 'small-logo' : smallSize}" id="logo" src="http://frank.jou.ufl.edu/wp-content/uploads/2014/10/frank-header-logo.png" />
+        <span ng-class="{'navbar-header-portrait': portrait, 'navbar-header-landscape': !portrait, 'small-navbar-header' : smallSize}" id="navbar-header">frank Face Book</span>
+        <div ng-class="{'menu-portrait': portrait, 'menu-landscape': !portrait}" ng-style="{'margin-top' : mBMargin}"><button snap-toggle="left" ng-class="{'menubutton-portrait': portrait, 'menubutton-landscape': !portrait}" class="btn btn-default fa fa-bars" id="menubutton"></button></div>
+      </nav>
+      <label for="search">Search: </label><input ng-model="query[queryBy]" name="search"/><br />
+      <label for="searchby" style="margin-top:5px;">Search by: </label>
+      <select ng-model="queryBy" name="searchby">
+        <option value="$">All Fields</option>
+        <option value="name">Name</option>
+        <option value="email">Email</option>
+        <option value="twitter">Twitter Handle</option>
+        <option value="interests">Interests</option>
+      </select>
+      <br />
+      <span style="font-weight:bold;">Fields: <label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.name"> Name</label><label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.email"> Email</label><label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.twitter"> Twitter</label><label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.interests"> Interests</label></span>
+      <hr />
+      <div class="frank-table">
+        <table>
+          <tr>
+            <td ng-show="showing.name">Name</td>
+            <td ng-show="showing.email">Email</td>
+            <td ng-show="showing.twitter">Twitter Handle</td>
+            <td ng-show="showing.interests">Interests</td>
+          </tr>
+          <tr ng-repeat="part in participants | filter:query">
+            <td ng-show="showing.name">{{part.name}}</td>
+            <td ng-show="showing.email">{{part.email}}</td>
+            <td ng-show="showing.twitter">{{part.twitter}}</td>
+            <td ng-show="showing.interests"><span ng-repeat="interest in part.interests track by $index">{{interest}}</span></td>
+          </tr>
+        </table>
+      </div>
+    </snap-content>
+  </body>
+
+</html>
