@@ -26,9 +26,9 @@
     </snap-drawer>
     <snap-content ng-controller="ParticipantController" id="snap-content">
       <nav ng-class="{'header-portrait': portrait, 'header-landscape': !portrait}" class="navbar navbar-default" role="navigation" id="header">
-        <img ng-class="{'logo-portrait': portrait, 'logo-landscape': !portrait, 'small-logo' : smallSize}" id="logo" src="http://frank.jou.ufl.edu/wp-content/uploads/2014/10/frank-header-logo.png" />
+        <div ng-class="{'menu-portrait': portrait, 'menu-landscape': !portrait}" ng-style="{'margin-top' : mBMargin}"><button snap-toggle="left" ng-class="{'menubutton-portrait': portrait, 'menubutton-landscape': !portrait}" class="btn btn-default fa fa-bars menubutton" data-fittext></button></div>
         <span ng-class="{'navbar-header-portrait': portrait, 'navbar-header-landscape': !portrait, 'small-navbar-header' : smallSize}" id="navbar-header">frank Face Book</span>
-        <div ng-class="{'menu-portrait': portrait, 'menu-landscape': !portrait}" ng-style="{'margin-top' : mBMargin}"><button snap-toggle="left" ng-class="{'menubutton-portrait': portrait, 'menubutton-landscape': !portrait}" class="btn btn-default fa fa-bars" id="menubutton"></button></div>
+        <img ng-class="{'logo-portrait': portrait, 'logo-landscape': !portrait, 'small-logo' : smallSize}" id="logo" src="http://frank.jou.ufl.edu/wp-content/uploads/2014/10/frank-header-logo.png" />
       </nav>
       <ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" data-dom-cache="true" rn-carousel="">
         <li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in participants">
