@@ -26,6 +26,34 @@ html, body {
   height: 100vh;
 }
 
+.menubutton {
+  color: #E8E9EB;
+  background-color: #333232;
+  border: none;
+  z-index: 2;
+}
+
+.menubutton:active {
+  color: #E8E9EB;
+  background-color: #333232;
+  border: none;
+  z-index: 2;
+}
+
+.menubutton:focus {
+  color: #E8E9EB;
+  background-color: #333232;
+  border: none;
+  z-index: 2;
+}
+
+.menubutton:hover {
+  color: #E8E9EB;
+  background-color: #333232;
+  border: none;
+  z-index: 2;
+}
+
 .participantcarousel-content {
   margin-top: 0;
 }
@@ -66,20 +94,19 @@ html, body {
 
 .interests-portrait img {
   width: 9vw;
-  padding: .9vw;
 }
 
 .logo-portrait {
   height: 6vh;
-  margin: 2vh 0px 2vh 10px;
+  margin: 2vh 10px 2vh 0px;
   /*position: absolute;*/
-  float: left;
+  float: right;
 }
 
 .menu-portrait {
-  float: right;
+  float: left;
   margin: 2.5vh;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .menubutton-portrait {
@@ -145,20 +172,19 @@ html, body {
 
 .interests-landscape img {
   width: 9vw;
-  padding: .9vw;
 }
 
 .logo-landscape {
   height: 6vh;
-  margin: 2vh 0px 2vh 10px;
+  margin: 2vh 10px 2vh 0px;
   /*position: absolute;*/
-  float: left;
+  float: right;
 }
 
 .menu-landscape {
-  float: right;
+  float: left;
   margin: 2.5vh;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .menubutton-landscape {
@@ -243,6 +269,9 @@ html, body {
 .disabled {
   pointer-events: none;
   opacity: 0.5;
+}
+.navbar {
+  border-radius: 0px;
 }
 .navbar-default {
 	background-color: #333232;
