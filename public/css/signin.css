@@ -1,0 +1,29 @@
+form.signin.form-horizontal {
+	padding-top: 5vh;
+	width: 100vw;
+	height: 100vh;
+}
+
+form.signin.form-horizontal fieldset {
+	width: 100vw;
+}
+
+.forgot-password {
+	width: 147px;
+	min-width: 147px;
+	margin: auto;
+}
+
+.form-group {
+	padding: 0;
+	margin: auto !important;
+	margin-top: 10px !important;
+}
+
+.signin-form-element {
+	min-width: 195px;
+}
+
+.text-center.form-group.signin-submit {
+	min-width: 200px;
+}

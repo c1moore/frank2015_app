@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="frankAppSplash">
+
+	<head>
+		<script data-require="jquery@*" data-semver="2.1.1" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script data-require="angular.js@*" data-semver="1.3.0" src="//code.angularjs.org/1.3.0/angular.js"></script>
+		<script src="../js/script.js"></script>
+		<script src="../libraries/angular-local-storage/dist/angular-local-storage.js"></script>
+		<link data-require="bootstrap@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+		<script data-require="bootstrap@*" data-semver="3.2.0" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
+		<script src="../js/snap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/angular-snap.js" type="text/javascript" charset="utf-8"></script>
+		<base href="/tests_c1m/public/view/" />
+		<link rel="stylesheet" href="../css/signin.css" />
+		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=0">
+	</head>
+	<body ng-controller="splashCtrl">
+		<div class="login-contianer">
+			<form ng-submit="signin()" class="signin form-horizontal">
+				<fieldset>
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" id="username_field" name="username" class="form-control signin-form-element" ng-model="credentials.username" placeholder="frankis@wesome.edu" />
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" id="password_field" name="password" class="form-control signin-form-element" ng-model="credentials.password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" />
+						</div>
+						<div class="text-center form-group signin-submit">
+							<button type="submit" class="btn btn-primary">Sign in</button>
+							or <a href="signup.html">Sign up</a>
+						</div>
+						<br />
+						<div class="forgot-password">
+							<a href="forgot_credentials.html">Forgot your password?</a>
+						</div>
+						<br />
+						<div data-ng-show="error" class="text-center text-danger">
+							<strong data-ng-bind="error"></strong>
+						</div>
+				</fieldset>
+			</form>
+		</div>
+	</body>
+
+</html>
