@@ -115,5 +115,16 @@ var appWindow = angular.module('appWindow', []);
 		return headerDefinition;
 	});
 
+var frankLocalStorage = angular.module('frankLocalStorage', ['LocalStorageModule']);
 
-var frankAppModule = angular.module('frank2015', ['participants', 'sidebar', 'appWindow', 'ngFitText']);
+frankLocalStorage.config(
+	function(LocalStorageServiceProvider) {
+		LocalStorageServiceProvider
+			.setPrefix('frankApp')
+			.setStorageType('localStorage')
+			.setNotify(true, true);
+	}
+);
+
+
+var frankAppModule = angular.module('frank2015', ['frankLocalStorage', 'participants', 'sidebar', 'appWindow', 'ngFitText']);
