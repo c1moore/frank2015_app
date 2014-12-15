@@ -10,11 +10,11 @@
 	* @param email - the value of email stored in localstorage
 	*/
 
-	include_ince "../storage_info.php";
+	include_once "../storage_info.php";
 
 	$conn = mysqli_connect(HOST, USER, PASS, NAME);
 	//Connect to the database, if there is an error return 500.
-	if(!mysqli_connect_error()) {
+	if(mysqli_connect_error()) {
 		header('HTTP/1.1 500 Could not connect to databse.', true, 500);
 		exit();
 	} else {
