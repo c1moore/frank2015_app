@@ -10,31 +10,31 @@ var frankAppSplash = angular.module('frankAppSplash', ['LocalStorageModule', 'fr
 * unlikely
 */
 frankAppSplash.controller('splashCtrl', ['$scope', '$timeout', 'localStorageService', '$http', '$location',
-	function($scope, $timeout, LocalStorageModule, $http, $location) {
+	function($scope, $timeout, localStorageService, $http, $location) {
 		$scope.storage = localStorageService;
 		
 		//Let the splash page display for 5 seconds, then check user authentication to redirect them properly.
 		$timeout(function() {
-			var user_id = $scope.storage.getItem('user_id'),
-				email = $scope.storage.getItem('email'),
-				username = $scope.storage.getItem('username');
+			var user_id = $scope.storage.get('user_id'),
+				email = $scope.storage.get('email'),
+				username = $scope.storage.get('username');
 
 			if(user_id && email && username) {
 				$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
-					$location('directory.html');
-				}).error({
+					$location.path('directory.html');
+				}).error(function() {
 					$scope.storage.remove('user_id');
 					$scope.storage.remove('email');
 					$scope.storage.remove('username');
 
-					$location('login.html');
+					$location.path('login.html');
 				});
 			} else {
 				$scope.storage.remove('user_id');
 				$scope.storage.remove('email');
 				$scope.storage.remove('username');
-				
-				$location('login.html');
+
+				$location.path('login.html');
 			}
 		}, 2000);
 	}
