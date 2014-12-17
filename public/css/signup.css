@@ -1,0 +1,32 @@
+form {
+	width: 99vw;
+	margin: auto;
+	display: block;
+	margin-top: 15px;
+}
+
+.form-control.ng-invalid.ng-dirty {
+	border-color: #FF9494;
+	outline: 0;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(255, 148, 148, .6);
+}
+
+.form-group {
+	margin-right: 0 !important;
+	margin-left: 0 !important;
+}
+
+.form-group .multiSelect {
+	display: inline-block;
+}
+
+.form-group button[type="submit"] {
+	margin: auto;
+	display: block;
+}
+
+.form-group input[type="file"] {
+	width: inherit;
+	max-width: 99%;
+	margin-left: 15px;
+}
