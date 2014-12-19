@@ -61,6 +61,14 @@
 						</span>
 					</div>
 					<div class="form-group">
+						<label for="password" class="sr-only">Password</label>
+						<input type="password" name="password" class="form-control signup-form-element" ng-model="account.password" placeholder="Password" pattern=".{6,}" required />
+					</div>
+					<div class="form-group">
+						<label for="retype_password" class="sr-only">Retype Password</label>
+						<input type="password" name="retype_password" class="form-control signup-form-element" ng-model="account.retype_password" placeholder="Retype Password" required />
+					</div>
+					<div class="form-group">
 						<label for="pic">Picture of yourself:</label><br />
 						<input type="file" ng-file-select accept="image/*" class="form-control" ng-model="accountPic" />
 					</div>

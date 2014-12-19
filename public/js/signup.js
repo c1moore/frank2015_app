@@ -15,7 +15,7 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 		$scope.accountPic = [];
 		$scope.storage = localStorageService;
 		$scope.selectedInterests = [];
-		
+
 		//Check if the user is already logged in.  If they are, they should be redirected to the directory page.
 		var user_id = $scope.storage.get('user_id'),
 			email = $scope.storage.get('email');
@@ -33,6 +33,10 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 		angular.forEach(interestsService.interests, function(value, key) {
 			$scope.interestsSelector.push({icon : "<img src='" + value + "' />", name : key, ticked : false});
 		});
+
+		$scope.$watch(function() {return $scope.account.retype_password;}, function() {
+			$scope.signup.retype_password.$setValidity("passwordsMatch", $scope.account.password === $scope.account.retype_password);
+		})
 		
 		$scope.signUpUser = function() {
 			$scope.errors = "";
