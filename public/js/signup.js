@@ -29,6 +29,19 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 			});
 		}
 
+		/**
+		* This code has been adopted from DotDotDot on stackoverflow.com.
+		* The link to the original post is here:
+		* http://stackoverflow.com/questions/17811305/angular-js-ng-repeat-breaking-apart-a-string
+		*/
+		var toErrArray = function(dbObject) {
+			if(!angular.isArray(dbObject)) {
+				return [dbObject];
+			} else {
+				return dbObject;
+			}
+		}
+
 		$scope.interestsSelector = [];
 		angular.forEach(interestsService.interests, function(value, key) {
 			$scope.interestsSelector.push({icon : "<img src='" + value + "' />", name : key, ticked : false});
@@ -39,6 +52,7 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 		})
 		
 		$scope.signUpUser = function() {
+			angular.element("button[type='submit']").prop("disabled", true);
 			$scope.errors = "";
 			$scope.account.interests = [];
 
@@ -58,12 +72,16 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 					$scope.storage.set("username", response.username);
 					$scope.storage.set("email", response.email);
 
-					$location('directory.html');
+					$location.path('directory.html');
 				}).error(function(response, status) {
+					angular.element("button[type='submit']").prop("disabled", true);
 					if(status === 500) {
 						$window.alert("Our servers could not handle your awesomeness.  Please try again later (they might be prepared by then).");
 					} else {
-						$scope.errors = $sce.trustAsHtml(response.message);
+						$scope.errors = toErrArray(response.message);
+						for(var i=0; i<$scope.errors.length; i++) {
+							$scope.errors[i] = $sce.trustAsHtml($scope.errors[i]);
+						}
 					}
 				});
 			} else {
@@ -73,12 +91,16 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 					$scope.storage.set("username", response.username);
 					$scope.storage.set("email", response.email);
 
-					$location('directory.html');
+					$location.path('directory.html');
 				}).error(function(response, status, headers) {
+					angular.element("button[type='submit']").prop("disabled", true);
 					if(status === 500) {
 						$window.alert("Our servers could not handle your awesomeness.  Please try again later (they might be prepared by then).");
 					} else {
-						$scope.errors = $sce.trustAsHtml(response.message);
+						$scope.errors = toErrArray(response.message);
+						for(var i=0; i<$scope.errors.length; i++) {
+							$scope.errors[i] = $sce.trustAsHtml($scope.errors[i]);
+						}
 					}
 				});
 			}

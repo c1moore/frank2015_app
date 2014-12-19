@@ -82,7 +82,9 @@
 					</div>
 					<div class="alert alert-danger" ng-show="errors">
 						<span><i class="fa fa-exclamation-triangle"></i><b>Error!</b></span>
-						<span class="error" ng-bind-html="errors"></span>
+						<span class="error" ng-repeat="error in errors">
+							<span ng-bind-html="error"></span><br />
+						</span>
 					</div>
 				</fieldset>
 			</form>

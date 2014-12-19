@@ -44,8 +44,12 @@
 			$picPath = "../../public/img/profile_pics/default.jpg";
 		}
 
-		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, pic_path, interests) VALUES (?, ?, ?, ?, NULLIF(?, ''), ?, NULLIF(?, ''))")) {
-			mysqli_stmt_bind_param($stmt, "sssisss", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $picPath, $_POST['interests']);
+		//Set the password hash
+		$salt = substr(bin2hex(openssl_random_pseudo_bytes(11)), 0, 22);
+		$password = crypt($_POST['password'], '$2a$31$' . $salt . '$');
+
+		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, password, pic_path, interests) VALUES (?, ?, ?, ?, NULLIF(?, ''), ?, ?, NULLIF(?, ''))")) {
+			mysqli_stmt_bind_param($stmt, "sssisss", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $password, $picPath, $_POST['interests']);
 
 			if(mysqli_stmt_execute($stmt)) {
 				header('HTTP/1.1 200 Account created.', true, 200);
@@ -63,7 +67,7 @@
 
 				if(mysqli_stmt_errno($stmt) === 1062) {
 					header('HTTP/1.1 400 Error creating account.', true, 400);
-					$data['message'] = "It looks like this account is already in use.  If you already have an account, login <a target="_self" href='login.html'>here</a>.  If you do not have an account, please contact Ann (<a target="_self" href='mailto:achristiano@jou.ufl.edu'>achristiano@jou.ufl.edu</a>) or Calvin (<a target="_self" href='mailto:c1moore@ufl.edu'>c1moore@ufl.edu</a>) immediately.";
+					$data['message'] = "It looks like this account is already in use.  If you already have an account, login <a target='_self' href='login.html'>here</a>.  If you do not have an account, please contact Ann (<a href='mailto:achristiano@jou.ufl.edu'>achristiano@jou.ufl.edu</a>) or Calvin (<a href='mailto:c1moore@ufl.edu'>c1moore@ufl.edu</a>) immediately.";
 				} else {
 					header('HTTP/1.1 500 Error creating account. Please try again later.', true, 500);
 					$data['message'] = mysqli_stmt_errno($stmt) . "There was an error connecting to our servers to create your account.  Please try again later.";
@@ -91,31 +95,48 @@
 		* the proper properties.
 		*/
 
-		//Make sure all required fields are specified, if not return 400 status.
-		if(!strlen($_POST['fName']) || !strlen($_POST['lName']) || !strlen($_POST['email'])) {
-			header('HTTP/1.1 400 Required field not specified.', true, 400);
-			$data = array();
-			$data['message'] = "A required field is missing.";
-			echo json_encode($data);
-			exit();
+		$data = array();
+		$data['message'] = array();
+
+		if(!strlen($_POST['fName'])) {
+			header('HTTP/1.1 400 You must fill out your first name.', true, 400);
+			$data['message'].push("You must fill out your first name.");
+		}
+
+		if(!strlen($_POST['lName'])) {
+			header('HTTP/1.1 400 You must fill out your last name.', false, 400);
+			$data['message'].push("You must fill out your last name.");
+		}
+
+		if(!strlen($_POST['email'])) {
+			header('HTTP/1.1 400 You must fill out your email.', false, 400);
+			$data['message'].push("You must fill out your email.");
+		}
+
+		if(strlen($_POST['password']) === 0) {
+			header('HTTP/1.1 400 You must fill out the password field.', false, 400);
+			$data['message'].push("You must fill out the password field.");
+		} else if(strlen($_POST['password']) < 6) {
+			header('HTTP/1.1 400 Your password must be at least 6 characters long.');
+			$data['message'].push("Your password must be at least 6 characters long.");
 		}
 
 		if(isset($_FILES['file']) && !exif_imagetype($_FILES['file']['tmp_name'])) {
-			header('HTTP/1.1 400 Image type not accepted.', true, 400);
-			$data = array();
-			$data['message'] = "File type not recognized or file is not an image.";
-			echo json_encode($data);
-			exit();
+			header('HTTP/1.1 400 Image type not accepted.', false, 400);
+			$data['message'].push("Image type not accepted.");
 		}
 
 		//If a username was specified, make sure it meets the requirements.  Also make sure it is not already being used.
-		if(isset($_POST['username']) && (!(strlen($_POST['username']) > 5 && strlen($_POST['username'] < 25)) || !ctype_alnum($_POST['username']))) {
-			header('HTTP/1.1 400 Username can only be alphanumeric characters.', true, 400);
-			$data = array();
-			$data['message'] = "Username can only contain letters and numbers.";
-			echo json_encode($data);
-			exit();
-		} else if(isset($_POST['username'])) {
+		//User strlen to determine if username field was set.
+		if(strlen($_POST['username']) && !(strlen($_POST['username']) > 5 && strlen($_POST['username']) < 25)) {
+			header('HTTP/1.1 400 Username has to be between 5 and 25 characters.', false, 400);
+			$data['message'].push("Username has to be between 5 and 25 characters.");
+		}
+		if(strlen($_POST['username']) && !ctype_alnum($_POST['username'])) {
+			header('HTTP/1.1 400 Username can only contain letters and numbers.', false, 400);
+			$data['message'].push("Username can only contain letters and numbers.");
+		} 
+		if(strlen($_POST['username'])) {
 			if($stmt = mysqli_prepare($conn, "SELECT username FROM User WHERE username=?")) {
 				mysqli_stmt_bind_param($stmt, "s", $_POST['username']);
 
@@ -125,11 +146,8 @@
 					$result = mysqli_stmt_fetch($stmt);
 					if(!is_null($result)) {
 						//Username is already in use.
-						header("HTTP/1.1 400 Username already exists.", true, 400);
-						$data = array();
-						$data['message'] = "Username already exists.";
-						echo json_encode($data);
-						exit();
+						header("HTTP/1.1 400 Username already exists.", false, 400);
+						$data['message'].push("Username already exists.");
 					} else if(!$result) {
 						//An error occurred.
 						header("HTTP/1.1 500 An error occurred. Please try again later.", true, 500);
@@ -152,14 +170,20 @@
 				echo json_encode($data);
 				exit();
 			}
-		} else if(!isset($_POST['username'])) {
+		} else if(!strlen($_POST['username'])) {
 			$_POST['username'] = '';
 		}
 
-		if(!isset($_POST['interests'])) {
+		if(!count($_POST['interests'])) {
 			$_POST['interests'] = '';
 		} else {
 			$_POST['interests'] = implode(",", $_POST['interests']);
+		}
+
+		//If there were any errors, send them now and exit execution.
+		if(count($data['message'])) {
+			echo json_encode($data);
+			exit();
 		}
 
 		/**
@@ -202,7 +226,7 @@
 
 			header('HTTP/1.1 400 Email not found.', true, 400);
 			$data = array();
-			$data['message'] = "Email not found.";
+			$data['message'] = "Email not found.  Please use the email you used to buy your Eventbrite tickets.";
 			echo json_encode($data);
 			exit();
 		} else {
