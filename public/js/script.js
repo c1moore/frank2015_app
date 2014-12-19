@@ -51,7 +51,7 @@ var appWindow = angular.module('appWindow', ['snap']);
 					scope.sideContent = ((winW*.75)-(winH*.55)-30) + 'px';
 				} else
 					scope.sideContent = 'auto';
-			}
+			};
 			
 			checkOrientation();
 			changeMBMargin();

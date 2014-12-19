@@ -1,8 +1,13 @@
-form {
+form.signup.form-horizontal {
 	width: 99vw;
 	margin: auto;
 	display: block;
 	margin-top: 15px;
+}
+
+.error {
+	display: block;
+	padding: 10px;
 }
 
 .form-control.ng-invalid.ng-dirty {
@@ -20,13 +25,19 @@ form {
 	display: inline-block;
 }
 
-.form-group button[type="submit"] {
+.form-group .f-nav-buttons {
 	margin: auto;
-	display: block;
+	display: table;
 }
 
 .form-group input[type="file"] {
 	width: inherit;
 	max-width: 99%;
 	margin-left: 15px;
+}
+
+.help-block {
+	/*color: black;
+	background-color: #E8E9EB;*/
+	padding: 7px;
 }

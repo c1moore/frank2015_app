@@ -12,6 +12,19 @@ frankAppLogin.controller('signinCtrl', ['$scope', 'localStorageService', '$http'
 		$scope.credentials = {};
 		$scope.storage = localStorageService;
 		
+		//Check if the user is already logged in.  If they are, they should be redirected to the directory page.
+		var user_id = $scope.storage.get('user_id'),
+			email = $scope.storage.get('email');
+		if(user_id && email) {
+			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
+				$location.path('directory.html');
+			}).error(function() {
+				$scope.storage.remove('user_id');
+				$scope.storage.remove('email');
+				$scope.storage.remove('username');
+			});
+		}
+		
 		$scope.signin = function() {
 			$scope.error = "";
 			$http.post('../../app/controllers/validate_login.php', $scope.credentials).success(function(response) {

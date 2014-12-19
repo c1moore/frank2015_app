@@ -33,16 +33,19 @@
 	* @return user_id - newly created user_id
 	*/
 
+	$_POST = json_decode(file_get_contents("php://input"), true);
+
 	function create_user($conn, $order_num) {
 		//Since exif_imagetype passed, we will assume the extension is correct.
 		if(isset($_FILES['file'])) {
 			$picPath = "../../public/img/profile_pics/" . $order_num . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			move_uploaded_file($_FILES['tmp_name'], $picPath);
 		} else {
 			$picPath = "../../public/img/profile_pics/default.jpg";
 		}
 
-		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, pic_path, interests) VALUES ('?', '?', '?', '?', NULLIF('?', ''), '?', NULLIF('?', ''))")) {
-			mysqli_stmt_bind_param($stmt, "sssssss", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $picPath, $_POST['interests']);
+		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, pic_path, interests) VALUES (?, ?, ?, ?, NULLIF(?, ''), ?, NULLIF(?, ''))")) {
+			mysqli_stmt_bind_param($stmt, "sssisss", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $picPath, $_POST['interests']);
 
 			if(mysqli_stmt_execute($stmt)) {
 				header('HTTP/1.1 200 Account created.', true, 200);
@@ -56,11 +59,24 @@
 
 				exit();
 			} else {
-				header('HTTP/1.1 400 Error creating account. Please try again later.', true, 400);
+				$data = array();
+
+				if(mysqli_stmt_errno($stmt) === 1062) {
+					header('HTTP/1.1 400 Error creating account.', true, 400);
+					$data['message'] = "It looks like this account is already in use.  If you already have an account, login <a target="_self" href='login.html'>here</a>.  If you do not have an account, please contact Ann (<a target="_self" href='mailto:achristiano@jou.ufl.edu'>achristiano@jou.ufl.edu</a>) or Calvin (<a target="_self" href='mailto:c1moore@ufl.edu'>c1moore@ufl.edu</a>) immediately.";
+				} else {
+					header('HTTP/1.1 500 Error creating account. Please try again later.', true, 500);
+					$data['message'] = mysqli_stmt_errno($stmt) . "There was an error connecting to our servers to create your account.  Please try again later.";
+				}
+
+				echo json_encode($data);
 				exit();
 			}
 		} else {
 			header('HTTP/1.1 500 Prepared statement failed.', true, 500);
+			$data = array();
+			$data['message'] = "Prepared statement failed.";
+			echo json_encode($data);
 			exit();
 		}
 	}
@@ -70,20 +86,34 @@
 	$conn = mysqli_connect(HOST, USER, PASS, NAME);
 
 	if(!mysqli_connect_error()) {
+		/**
+		* Check all fields to make sure they are specified, if necessary, and have
+		* the proper properties.
+		*/
+
 		//Make sure all required fields are specified, if not return 400 status.
 		if(!strlen($_POST['fName']) || !strlen($_POST['lName']) || !strlen($_POST['email'])) {
 			header('HTTP/1.1 400 Required field not specified.', true, 400);
+			$data = array();
+			$data['message'] = "A required field is missing.";
+			echo json_encode($data);
 			exit();
 		}
 
 		if(isset($_FILES['file']) && !exif_imagetype($_FILES['file']['tmp_name'])) {
 			header('HTTP/1.1 400 Image type not accepted.', true, 400);
+			$data = array();
+			$data['message'] = "File type not recognized or file is not an image.";
+			echo json_encode($data);
 			exit();
 		}
 
 		//If a username was specified, make sure it meets the requirements.  Also make sure it is not already being used.
 		if(isset($_POST['username']) && (!(strlen($_POST['username']) > 5 && strlen($_POST['username'] < 25)) || !ctype_alnum($_POST['username']))) {
 			header('HTTP/1.1 400 Username can only be alphanumeric characters.', true, 400);
+			$data = array();
+			$data['message'] = "Username can only contain letters and numbers.";
+			echo json_encode($data);
 			exit();
 		} else if(isset($_POST['username'])) {
 			if($stmt = mysqli_prepare($conn, "SELECT username FROM User WHERE username=?")) {
@@ -95,19 +125,31 @@
 					$result = mysqli_stmt_fetch($stmt);
 					if(!is_null($result)) {
 						//Username is already in use.
-						header("HTTP/1.1 400 Username already taken.", true, 400);
+						header("HTTP/1.1 400 Username already exists.", true, 400);
+						$data = array();
+						$data['message'] = "Username already exists.";
+						echo json_encode($data);
 						exit();
 					} else if(!$result) {
 						//An error occurred.
 						header("HTTP/1.1 500 An error occurred. Please try again later.", true, 500);
+						$data = array();
+						$data['message'] = "An error occurred.  Please try again later.";
+						echo json_encode($data);
 						exit();
 					}
 				} else {
 					header('HTTP/1.1 500 Prepared statement failed.', true, 500);
+					$data = array();
+					$data['message'] = "Prepared statement failed.";
+					echo json_encode($data);
 					exit();
 				}
 			} else {
 				header('HTTP/1.1 500 Prepared statement failed.', true, 500);
+				$data = array();
+				$data['message'] = "Prepared statement failed.";
+				echo json_encode($data);
 				exit();
 			}
 		} else if(!isset($_POST['username'])) {
@@ -116,8 +158,13 @@
 
 		if(!isset($_POST['interests'])) {
 			$_POST['interests'] = '';
+		} else {
+			$_POST['interests'] = implode(",", $_POST['interests']);
 		}
 
+		/**
+		* Make sure this user is registered to attend the event.
+		*/
 		if($fhandle = fopen("../resources/wmG73jP5M9R9JxqGxmYo.csv", "r")) {
 			$header = fgetcsv($fhandle);
 			$email_index = -1;
@@ -136,26 +183,40 @@
 
 			if($email_index === -1 || $order_index === -1) {
 				header('HTTP/1.1 500 Index not found.', true, 500);
+				$data = array();
+				$data['message'] = "Index not found.";
+				echo json_encode($data);
 				exit();
 			}
 
 			while($attendee = fgetcsv($fhandle)) {
-				if(strcasecmp($attendee[$email_index], $_POST['email']) {
+				if(strcasecmp($attendee[$email_index], $_POST['email']) === 0) {
 					$order_num = $attendee[$order_index];
 					fclose();
 
 					create_user($conn, $order_num);
+
+					break;
 				}
 			}
 
 			header('HTTP/1.1 400 Email not found.', true, 400);
+			$data = array();
+			$data['message'] = "Email not found.";
+			echo json_encode($data);
 			exit();
 		} else {
 			header('HTTP/1.1 500 File not found.', true, 500);
+			$data = array();
+			$data['message'] = "File not found.";
+			echo json_encode($data);
 			exit();
 		}
 	} else {
 		header('HTTP/1.1 500 Could not connect to server.', true, 500);
+			$data = array();
+			$data['message'] = "Could not connect to server.";
+			echo json_encode($data);
 		exit();
 	}
 ?>

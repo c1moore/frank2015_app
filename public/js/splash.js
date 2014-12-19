@@ -19,7 +19,7 @@ frankAppSplash.controller('splashCtrl', ['$scope', '$timeout', 'localStorageServ
 				email = $scope.storage.get('email'),
 				username = $scope.storage.get('username');
 
-			if(user_id && email && username) {
+			if(user_id && email) {
 				$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
 					$location.path('directory.html');
 				}).error(function() {
