@@ -1,0 +1,11 @@
+.frank-btn-large:first-of-type {
+	margin-top: 25px;
+}
+.frank-btn-large:last-of-type {
+	margin-bottom: 25px;
+}
+#snap-content {
+	overflow: auto;
+	overflow-x: hidden;
+	background-color: #E8E9EB;
+}

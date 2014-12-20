@@ -9,8 +9,8 @@ var frankAppSplash = angular.module('frankAppSplash', ['LocalStorageModule', 'fr
 * determine another user's email and user_id; however, this is not a major security concern as it is very
 * unlikely
 */
-frankAppSplash.controller('splashCtrl', ['$scope', '$timeout', 'localStorageService', '$http', '$location',
-	function($scope, $timeout, localStorageService, $http, $location) {
+frankAppSplash.controller('splashCtrl', ['$scope', '$timeout', 'localStorageService', '$http', '$window',
+	function($scope, $timeout, localStorageService, $http, $window) {
 		$scope.storage = localStorageService;
 		
 		//Let the splash page display for 5 seconds, then check user authentication to redirect them properly.
@@ -21,20 +21,20 @@ frankAppSplash.controller('splashCtrl', ['$scope', '$timeout', 'localStorageServ
 
 			if(user_id && email) {
 				$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
-					$location.path('directory.html');
+					$window.location.href = 'directory.html';
 				}).error(function() {
 					$scope.storage.remove('user_id');
 					$scope.storage.remove('email');
 					$scope.storage.remove('username');
 
-					$location.path('login.html');
+					$window.location.href = 'login.html';
 				});
 			} else {
 				$scope.storage.remove('user_id');
 				$scope.storage.remove('email');
 				$scope.storage.remove('username');
 
-				$location.path('login.html');
+				$window.location.href = 'login.html';
 			}
 		}, 2000);
 	}

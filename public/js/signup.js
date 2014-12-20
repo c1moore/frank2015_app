@@ -21,7 +21,7 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 			email = $scope.storage.get('email');
 		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
-				$location.path('directory.html');
+				$window.location.href = 'directory.html';
 			}).error(function() {
 				$scope.storage.remove('user_id');
 				$scope.storage.remove('email');
@@ -72,7 +72,7 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 					$scope.storage.set("username", response.username);
 					$scope.storage.set("email", response.email);
 
-					$location.path('directory.html');
+					$window.location.href = 'directory.html';
 				}).error(function(response, status) {
 					angular.element("button[type='submit']").prop("disabled", true);
 					if(status === 500) {
@@ -91,7 +91,7 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 					$scope.storage.set("username", response.username);
 					$scope.storage.set("email", response.email);
 
-					$location.path('directory.html');
+					$window.location.href = 'directory.html';
 				}).error(function(response, status, headers) {
 					angular.element("button[type='submit']").prop("disabled", true);
 					if(status === 500) {

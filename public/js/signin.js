@@ -7,17 +7,17 @@ var frankAppLogin = angular.module('frankAppLogin', ['LocalStorageModule', 'fran
 *
 * TODO Have a set amount of login attempts.
 */
-frankAppLogin.controller('signinCtrl', ['$scope', 'localStorageService', '$http', '$location',
-	function($scope, localStorageService, $http, $location) {
+frankAppLogin.controller('signinCtrl', ['$scope', 'localStorageService', '$http', '$window',
+	function($scope, localStorageService, $http, $window) {
 		$scope.credentials = {};
 		$scope.storage = localStorageService;
-		
+
 		//Check if the user is already logged in.  If they are, they should be redirected to the directory page.
 		var user_id = $scope.storage.get('user_id'),
 			email = $scope.storage.get('email');
 		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
-				$location.path('directory.html');
+				$window.location.href = 'directory.html';
 			}).error(function() {
 				$scope.storage.remove('user_id');
 				$scope.storage.remove('email');
@@ -32,7 +32,7 @@ frankAppLogin.controller('signinCtrl', ['$scope', 'localStorageService', '$http'
 				$scope.storage.set(username, response.username);
 				$scope.storage.set(email, response.email);
 
-				$location('directory.html');
+				$window.location.href = 'directory.html';
 			}).error(function(response, status) {
 				$scope.storage.remove('user_id');
 				$scope.storage.remove('email');

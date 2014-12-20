@@ -71,10 +71,11 @@ var appWindow = angular.module('appWindow', ['snap']);
 		};
 	});
 
-	appWindow.directive('header', function() {
+	appWindow.directive('frankHeader', function() {
 		var headerDefinition = {
 			restrict : 'E',
-			templateUrl : "../view/header.html"
+			templateUrl : "../view/header.html",
+			transclude: true
 		};
 
 		return headerDefinition;
@@ -92,7 +93,7 @@ frankLocalStorage.config(
 );
 
 
-var frankAppModule = angular.module('frank2015', ['frankLocalStorage', 'appWindow']);
+var frankAppModule = angular.module('frank2015', ['frankLocalStorage', 'appWindow', 'ngFitText']);
 
 frankAppModule.config(function($locationProvider) {
 	$locationProvider.html5Mode(true);
