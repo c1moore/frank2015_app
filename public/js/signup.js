@@ -74,7 +74,7 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 
 					$window.location.href = 'directory.html';
 				}).error(function(response, status) {
-					angular.element("button[type='submit']").prop("disabled", true);
+					angular.element("button[type='submit']").prop("disabled", false);
 					if(status === 500) {
 						$window.alert("Our servers could not handle your awesomeness.  Please try again later (they might be prepared by then).");
 					} else {
@@ -93,7 +93,7 @@ frankAppSignup.controller('signupCtrl', ['$scope', 'localStorageService', '$http
 
 					$window.location.href = 'directory.html';
 				}).error(function(response, status, headers) {
-					angular.element("button[type='submit']").prop("disabled", true);
+					angular.element("button[type='submit']").prop("disabled", false);
 					if(status === 500) {
 						$window.alert("Our servers could not handle your awesomeness.  Please try again later (they might be prepared by then).");
 					} else {

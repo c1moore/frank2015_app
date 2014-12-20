@@ -148,7 +148,7 @@
 						//Username is already in use.
 						header("HTTP/1.1 400 Username already exists.", false, 400);
 						$data['message'].push("Username already exists.");
-					} else if(!$result) {
+					} else if($result === false) {
 						//An error occurred.
 						header("HTTP/1.1 500 An error occurred. Please try again later.", true, 500);
 						$data = array();
@@ -189,8 +189,8 @@
 		/**
 		* Make sure this user is registered to attend the event.
 		*/
-		if($fhandle = fopen("../resources/wmG73jP5M9R9JxqGxmYo.csv", "r")) {
-			$header = fgetcsv($fhandle);
+		if($fhandle = fopen("../resources/wmG73jP5M9R9JxqGxmYo.csv", "r+")) {
+			$header = fgetcsv($fhandle, 1000);
 			$email_index = -1;
 			$order_index = -1;
 			foreach ($header as $key => $value) {
@@ -213,9 +213,16 @@
 				exit();
 			}
 
-			while($attendee = fgetcsv($fhandle)) {
+			while($attendee = fgetcsv($fhandle, 1000)) {
 				if(strcasecmp($attendee[$email_index], $_POST['email']) === 0) {
 					$order_num = $attendee[$order_index];
+
+					$data['hasAccount'] = true;
+					if(fputcsv($fhandle, $data) === false) {
+						header('HTTP/1.1 500 Error writing to file.');
+						exit();
+					}
+
 					fclose();
 
 					create_user($conn, $order_num);
