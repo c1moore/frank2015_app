@@ -22,7 +22,7 @@ html, body {
 	border-radius: 7px;
 	padding-left: 10px;
 	padding-right: 10px;
-	font-size: 15px;
+	font-size: 20px;
 }
 .icon-left {
 	float: left;
@@ -35,10 +35,12 @@ html, body {
 	frank-header {
 		position: fixed !important;
 		top: 0;
+		-webkit-backface-visibility: hidden !important;
 	}
 	nav {
 		position: fixed !important;
 		top: 0;
+		-webkit-backface-visibility: hidden !important;
 	}
 	.menubutton {
 		color: #E8E9EB;
