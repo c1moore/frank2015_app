@@ -30,6 +30,9 @@ html, body {
 .icon-right {
 	float: right;
 }
+#snap-content {
+	background-color: #E8E9EB;
+}
 
 /*Styling for header*/
 	frank-header {

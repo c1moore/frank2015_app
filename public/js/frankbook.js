@@ -1,6 +1,27 @@
-var participants = angular.module('participants', ['angular-carousel', 'ngFitText', 'frank2015']);
+var frankAppFBook = angular.module('frankAppFBook', ['angular-carousel', 'ngFitText', 'frank2015']);
 
-	participants.controller('ParticipantController', ['$scope', '$http', function($scope, $http) {
+frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService',
+	function($scope, $http, localStorageService) {
+		$scope.storage = localStorageService;
+
+		//Check if the user is logged in.  If not, they should be redirected to the login page.
+		/*var user_id = $scope.storage.get('user_id'),
+			email = $scope.storage.get('email');
+		if(user_id && email) {
+			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).error(function() {
+				$scope.storage.remove('user_id');
+				$scope.storage.remove('email');
+				$scope.storage.remove('username');
+
+				$window.location.href = 'login.html';
+			});
+		} else {
+			$scope.storage.remove('user_id');
+			$scope.storage.remove('email');
+			$scope.storage.remove('username');
+
+			$window.location.href = 'login.html';
+		}*/
 		$scope.query = {};
 		$scope.queryBy = '$';
 		
@@ -9,9 +30,15 @@ var participants = angular.module('participants', ['angular-carousel', 'ngFitTex
 		$scope.showColumn = function(column) {
 			$scope.showing[column] = true;
 		};
+
+		$scope.getTopMargin = function() {
+			var margin = parseInt(angular.element("#header").css('height'), 10) + 25;
+			return margin + "px";
+		}
 		
 		$scope.participants = [{image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Calvin Moore', email : 'c1moore@ufl.edu', interests : [{alt: 'Tech', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/technology.png'}, {alt: 'Environ', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/environment1.png'}, {alt: "Entertainment", image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/entertainment1.png'}]}, {image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Another Example', email : 'aexample@email.com', interests : [{alt: 'Travel', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/travel1.png'}, {alt: 'Conserve', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/conservation1.png'}, {alt: 'Education', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/education.png'}]}, {image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Calvin Moore', email : 'c1moore@ufl.edu', interests : [{alt: 'Programming', image: ''}, {alt: 'Development', image: ''}, {alt: 'Code', image:''}]}, {image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Another Example', email : 'aexample@email.com', interests : [{alt: 'Programming', image: ''}, {alt: 'Development', image: ''}, {alt: 'Code', image:''}]}];
-	}]);
+	}
+]);
 	
 	
 /*var participantTable = angular.module('participantTable', []);
