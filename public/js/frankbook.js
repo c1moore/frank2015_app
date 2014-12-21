@@ -1,7 +1,7 @@
 var frankAppFBook = angular.module('frankAppFBook', ['angular-carousel', 'ngFitText', 'frank2015']);
 
-frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService',
-	function($scope, $http, localStorageService) {
+frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$window',
+	function($scope, $http, localStorageService, $window) {
 		$scope.storage = localStorageService;
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
@@ -36,7 +36,12 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 			return margin + "px";
 		}
 		
-		$scope.participants = [{image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Calvin Moore', email : 'c1moore@ufl.edu', interests : [{alt: 'Tech', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/technology.png'}, {alt: 'Environ', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/environment1.png'}, {alt: "Entertainment", image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/entertainment1.png'}]}, {image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Another Example', email : 'aexample@email.com', interests : [{alt: 'Travel', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/travel1.png'}, {alt: 'Conserve', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/conservation1.png'}, {alt: 'Education', image: 'http://frank.jou.ufl.edu/wp-content/uploads/2014/08/education.png'}]}, {image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Calvin Moore', email : 'c1moore@ufl.edu', interests : [{alt: 'Programming', image: ''}, {alt: 'Development', image: ''}, {alt: 'Code', image:''}]}, {image: 'http://www.testically.org/wp-content/uploads/2012/06/web-programming.jpg', name : 'Another Example', email : 'aexample@email.com', interests : [{alt: 'Programming', image: ''}, {alt: 'Development', image: ''}, {alt: 'Code', image:''}]}];
+		$scope.participants = [];
+		$http.post('../../app/controllers/get_participants.php', {'default_path' : '../img/profile_pics/default.jpg', 'default_interests' : '[frank]'}).post(function(response) {
+			$scope.participants = response;
+		}).error(function(response, status) {
+			$window.alert("There was an error connecting to the servers (possibly due to all the cool people here).  Please try again later.");
+		});
 	}
 ]);
 	

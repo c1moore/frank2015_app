@@ -35,7 +35,7 @@
 
 	$_POST = json_decode(file_get_contents("php://input"), true);
 
-	function create_user($conn, $order_num) {
+	function create_user($conn, $order_num, $twitter, $csv_index) {
 		//Since exif_imagetype passed, we will assume the extension is correct.
 		if(isset($_FILES['file'])) {
 			$picPath = "../../public/img/profile_pics/" . $order_num . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
@@ -48,8 +48,8 @@
 		$salt = substr(bin2hex(openssl_random_pseudo_bytes(11)), 0, 22);
 		$password = crypt($_POST['password'], '$2a$31$' . $salt . '$');
 
-		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, password, pic_path, interests) VALUES (?, ?, ?, ?, NULLIF(?, ''), ?, ?, NULLIF(?, ''))")) {
-			mysqli_stmt_bind_param($stmt, "sssisss", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $password, $picPath, $_POST['interests']);
+		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, password, twitter_handle, pic_path, interests, csv_index) VALUES (?, ?, ?, ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, '')), ?")) {
+			mysqli_stmt_bind_param($stmt, "sssissssi", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $password, $twitter, $picPath, $_POST['interests'], $csv_index);
 
 			if(mysqli_stmt_execute($stmt)) {
 				header('HTTP/1.1 200 Account created.', true, 200);
@@ -193,19 +193,19 @@
 			$header = fgetcsv($fhandle, 1000);
 			$email_index = -1;
 			$order_index = -1;
+			$twitter_index = -1;
+
 			foreach ($header as $key => $value) {
 				if(strcasecmp($value, "Email") === 0) {
 					$email_index = $key;
-				}
-				if(strcasecmp($value, "Order #") === 0) {
+				} else if(strcasecmp($value, "Order #") === 0) {
 					$order_index = $key;
+				} else if(strcasecmp($value, "What is your Twitter handle?") === 0) {
+					$twitter_index = $key;
 				}
-
-				if($email_index > -1 && $order_index > -1)
-					break;
 			}
 
-			if($email_index === -1 || $order_index === -1) {
+			if($email_index === -1 || $order_index === -1 || $twitter_index === -1) {
 				header('HTTP/1.1 500 Index not found.', true, 500);
 				$data = array();
 				$data['message'] = "Index not found.";
@@ -213,21 +213,14 @@
 				exit();
 			}
 
-			while($attendee = fgetcsv($fhandle, 1000)) {
+			for($i = 0; $attendee = fgetcsv($fhandle, 1000); $i++) {
 				if(strcasecmp($attendee[$email_index], $_POST['email']) === 0) {
 					$order_num = $attendee[$order_index];
-
-					$data['hasAccount'] = true;
-					if(fputcsv($fhandle, $data) === false) {
-						header('HTTP/1.1 500 Error writing to file.');
-						exit();
-					}
+					$twitter_handle = $attendee[$twitter_index];
 
 					fclose();
 
-					create_user($conn, $order_num);
-
-					break;
+					create_user($conn, $order_num, $twitter_handle, $i);
 				}
 			}
 
