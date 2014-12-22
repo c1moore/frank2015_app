@@ -10,6 +10,8 @@
     <script data-require="angular.js@*" data-semver="1.3.0" src="//code.angularjs.org/1.3.0/angular.js"></script>
     <script src="../libraries/angular-local-storage/dist/angular-local-storage.js"></script>
     <script data-require="angular-ui@*" data-semver="0.4.0" src="http://rawgithub.com/angular-ui/angular-ui/master/build/angular-ui.js"></script>
+    <script type="text/javascript" src="../libraries/bindonce/bindonce.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0/angular-animate.min.js"></script>
     <script data-require="angular-touch@*" data-semver="1.2.13" src="http://code.angularjs.org/1.2.13/angular-touch.js"></script>
     <script src="../js/snap.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/angular-snap.js" type="text/javascript" charset="utf-8"></script>
@@ -34,8 +36,10 @@
     </snap-drawer>
     <snap-content ng-controller="ParticipantController" id="snap-content">
       <frank-header>frank book</frank-header>
-      <ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" data-dom-cache="true" rn-carousel="" ng-style="{'margin-top' : getTopMargin()}">
-        <li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in participants">
+      <div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(15)}"><i class="fa fa-search"></i></div>
+      <input class="search-box" type="text" ng-model="query[queryBy]" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(15)}" />
+      <ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" rn-carousel="" ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-controls rn-carousel-buffered>
+        <li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in participants | filter:query track by $index">
           <div ng-class="{'participantcarousel-content-portrait': portrait, 'participantcarousel-content-landscape': !portrait}" class="participantcarousel-content">
             <img ng-class="{'participantpic-portrait': portrait, 'participantpic-landscape': !portrait}" class="participantpic" src="{{participant.image}}" />
             <div ng-class="{'sidecontent-landscape' : !portrait}" ng-style="{'width' : sideContent}">

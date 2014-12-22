@@ -1,4 +1,9 @@
 <?php
+
+// ini_set('display_errors',1);
+// ini_set('display_startup_errors',1);
+// error_reporting(-1);
+
 	/**
 	* This controller will find all attendees registered for frank 2015 by first search through the
 	* database for all attendees with an account.  After obtaining all users from the database, the
@@ -30,7 +35,7 @@
 	$attendees = array();
 
 	if(!mysqli_connect_error()) {
-		if($results = myqli_query($conn, "SELECT * FROM USER")) {
+		if($results = mysqli_query($conn, "SELECT * FROM USER")) {
 			while($result = mysqli_fetch_assoc($results)) {
 				$index = $result["csv_index"];
 
@@ -45,12 +50,14 @@
 			}
 		} else {
 			header("HTTP/1.1 500 Connection to db failed.", true, 500);
+			$data = array();
 			$data['message'] = "Connection to db failed.";
 			echo json_encode($data);
 			exit();
 		}
 	} else {
 		header("HTTP/1.1 500 Failed to connect to database.", true, 500);
+		$data = array();
 		$data['message'] = "Failed to connect to database.";
 		echo json_encode($data);
 		exit();
@@ -58,7 +65,7 @@
 
 	//After searching database, get all remaining attendees from CSV file.
 	if($fhandle = fopen("../resources/wmG73jP5M9R9JxqGxmYo.csv", "r")) {
-		$header = fgetcsv($handle, 1000);
+		$header = fgetcsv($fhandle, 1000);
 		$fName_index = -1;
 		$lName_index = -1;
 		$email_index = -1;
@@ -76,7 +83,7 @@
 			}
 		}
 
-		if($email_index === -1 || $fName_index ===-1 || $lName_index === -1 || $twitter_index === -1) {
+		if($email_index === -1 || $fName_index === -1 || $lName_index === -1 || $twitter_index === -1) {
 			header("HTTP/1.1 500 Indices not found.", true, 500);
 			$data = array();
 			$data['message'] = "Indices not found.";
@@ -87,6 +94,7 @@
 		for($i = 0; $result = fgetcsv($fhandle, 1000); $i++) {
 			//Since isset is faster than array_key_exists and we should not have to worry about `null`, we can use isset here.
 			if(isset($attendees[$i])) {
+				echo json_encode("Skipped." . $i);
 				continue;
 			}
 
@@ -97,7 +105,7 @@
 			$attendee['image'] = $_POST['default_path'];
 			$attendee['interests'] = $_POST['default_interests'];
 
-			$attendees[$index] = $attendee;
+			$attendees[$i] = $attendee;
 		}
 	} else {
 		header("HTTP/1.1 500 Could not open file.", true, 500);

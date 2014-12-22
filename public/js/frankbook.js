@@ -1,4 +1,4 @@
-var frankAppFBook = angular.module('frankAppFBook', ['angular-carousel', 'ngFitText', 'frank2015']);
+var frankAppFBook = angular.module('frankAppFBook', ['angular-carousel', 'ngFitText', 'frank2015', 'ngAnimate', 'pasvaz.bindonce']);
 
 frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$window',
 	function($scope, $http, localStorageService, $window) {
@@ -24,6 +24,7 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 		}*/
 		$scope.query = {};
 		$scope.queryBy = '$';
+		$scope.search = false;
 		
 		$scope.showing = {name : true, email : false, twitter : true, interests : false};
 		
@@ -31,13 +32,13 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 			$scope.showing[column] = true;
 		};
 
-		$scope.getTopMargin = function() {
-			var margin = parseInt(angular.element("#header").css('height'), 10) + 25;
+		$scope.getTopMargin = function(height) {
+			var margin = parseInt(angular.element("#header").css('height'), 10) + height;
 			return margin + "px";
 		}
 		
 		$scope.participants = [];
-		$http.post('../../app/controllers/get_participants.php', {'default_path' : '../img/profile_pics/default.jpg', 'default_interests' : '[frank]'}).post(function(response) {
+		$http.post('../../app/controllers/get_participants.php', {'default_path' : '../img/profile_pics/default.jpg', 'default_interests' : ['frank']}).success(function(response) {
 			$scope.participants = response;
 		}).error(function(response, status) {
 			$window.alert("There was an error connecting to the servers (possibly due to all the cool people here).  Please try again later.");
