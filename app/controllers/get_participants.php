@@ -94,7 +94,6 @@
 		for($i = 0; $result = fgetcsv($fhandle, 1000); $i++) {
 			//Since isset is faster than array_key_exists and we should not have to worry about `null`, we can use isset here.
 			if(isset($attendees[$i])) {
-				echo json_encode("Skipped." . $i);
 				continue;
 			}
 

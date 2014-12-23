@@ -1,8 +1,9 @@
 var frankAppFBook = angular.module('frankAppFBook', ['angular-carousel', 'ngFitText', 'frank2015', 'ngAnimate', 'pasvaz.bindonce']);
 
-frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$window',
-	function($scope, $http, localStorageService, $window) {
+frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$window', 'interestsService',
+	function($scope, $http, localStorageService, $window, interestsService) {
 		$scope.storage = localStorageService;
+		$scope.intServArr = interestsService.interests;
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
 		/*var user_id = $scope.storage.get('user_id'),
@@ -25,6 +26,7 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 		$scope.query = {};
 		$scope.queryBy = '$';
 		$scope.search = false;
+		$scope.carouselIndex = 0;
 		
 		$scope.showing = {name : true, email : false, twitter : true, interests : false};
 		
