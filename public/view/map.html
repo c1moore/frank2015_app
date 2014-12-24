@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="frankAppMap">
+
+	<head>
+		<base href="/tests_c1m/public/view/" />
+		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no">
+
+		<script data-require="jquery@*" data-semver="2.1.1" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script data-require="bootstrap@*" data-semver="3.2.0" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script data-require="angular.js@*" data-semver="1.3.0" src="//code.angularjs.org/1.3.0/angular.js"></script>
+		<script src="../libraries/angular-local-storage/dist/angular-local-storage.js"></script>
+		<script data-require="angular-ui@*" data-semver="0.4.0" src="http://rawgithub.com/angular-ui/angular-ui/master/build/angular-ui.js"></script>
+		<script data-require="angular-touch@*" data-semver="1.2.13" src="http://code.angularjs.org/1.2.13/angular-touch.js"></script>
+		<script src="../js/snap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/angular-snap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../libraries/ng-FitText/src/ng-FitText.js" type="text/javascript"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=weather,visualization,panoramio"></script>
+		<script src="../libraries/angularjs-google-maps/build/scripts/ng-map.js" type="text/javascript"></script>
+		<script src="../js/script.js"></script>
+		<script type="text/javascript" src="../js/map.js"></script>
+
+
+		<link data-require="bootstrap@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+		<link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
+		<link rel="stylesheet" href="../css/style.css" />
+		<!-- <link rel="stylesheet" href="../css/frankbook.css" /> -->
+	</head>
+
+	<body ng-controller="mapCtrl" resizable>
+		<snap-drawer id='left-snap-drawer'>
+			<a href="participant_list.html" class="btn btn-sidebar" role="button"><i class="fa fa-list"></i> View Participant List</a> <br />
+			<a href="#" class="btn btn-sidebar" role="button"><i class="fa fa-arrow-left"></i> Back to App</a>
+		</snap-drawer>
+		<snap-content id="snap-content">
+			<frank-header>frank book</frank-header>
+			<map ng-style="{'margin-top' : getTopMargin(0), height : getMapHeight()}" style="width : 100vw;" zoom="17" center="29.649426,-82.323977" map-type-id="ROADMAP">
+				<marker position="29.649426,-82.323977" title="Hippodrome State Theatre" draggable="false" visible="true">
+				</marker>
+				<marker ng-if="userLoc" position="{{lat}}, {{lng}}" title="Your Location" animation="Animation.BOUNCE" visible="true">
+				</marker>
+			</map>
+		</snap-content>
+	</body>
+
+</html>
