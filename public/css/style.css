@@ -39,17 +39,19 @@ html, body {
 		position: fixed !important;
 		top: 0;
 		-webkit-backface-visibility: hidden !important;
+		z-index: 9999;
 	}
 	nav {
 		position: fixed !important;
 		top: 0;
 		-webkit-backface-visibility: hidden !important;
+		z-index: 9999;
 	}
 	.menubutton {
 		color: #E8E9EB;
 		background-color: #333232;
 		border: none;
-		z-index: 2;
+		z-index: 10000;
 	}
 	.menubutton:active {
 		color: #E8E9EB;

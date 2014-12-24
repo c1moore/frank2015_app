@@ -1,7 +1,12 @@
-var frankAppFBook = angular.module('frankAppFBook', ['angular-carousel', 'ngFitText', 'frank2015', 'ngAnimate', 'pasvaz.bindonce']);
+var frankAppFBook = angular.module('frankAppFBook', ['angular-carousel', 'ngFitText', 'frank2015', 'ngAnimate', 'pasvaz.bindonce', 'infinite-scroll']);
 
-frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$window', 'interestsService',
-	function($scope, $http, localStorageService, $window, interestsService) {
+
+/**
+* TODO: Change filter to ng-hide for performance reasons.
+*/
+
+frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$window', 'interestsService', '$timeout',
+	function($scope, $http, localStorageService, $window, interestsService, $timeout) {
 		$scope.storage = localStorageService;
 		$scope.intServArr = interestsService.interests;
 
@@ -25,8 +30,11 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 		}*/
 		$scope.query = {};
 		$scope.queryBy = '$';
+		$scope.carouselQuery = '';
 		$scope.search = false;
 		$scope.carouselIndex = 0;
+		$scope.carousel = false;
+		$scope.tableLimit = 20;
 		
 		$scope.showing = {name : true, email : false, twitter : true, interests : false};
 		
@@ -37,6 +45,22 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 		$scope.getTopMargin = function(height) {
 			var margin = parseInt(angular.element("#header").css('height'), 10) + height;
 			return margin + "px";
+		};
+
+		$scope.carouselFilter = function(row) {
+			var interestMatches = false;
+			for(var i=0; i<row.interests.length; i++) {
+				if(row.interests[i].toLowerCase().indexOf($scope.carouselQuery || '') !== -1) {
+					interestMatches = true;
+					break;
+				}
+			}
+
+			return (interestMatches || row.name.toLowerCase().indexOf($scope.carouselQuery || '') !== -1 || row.email.toLowerCase().indexOf($scope.carouselQuery || '') !== -1 || row.twitter.toLowerCase().indexOf($scope.carouselQuery || '') !== -1);
+		};
+
+		$scope.loadMore = function() {
+			$scope.tableLimit += 20;
 		}
 		
 		$scope.participants = [];

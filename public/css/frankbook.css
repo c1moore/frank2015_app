@@ -3,6 +3,41 @@ html, body {
   font-family: 'Helvetica', sans-serif;
 }
 
+table {
+  width: 100vw;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 5px;
+}
+
+th {
+  padding-left: 15px;
+  padding-right: 15px;
+  background: #333232;
+  color: white;
+}
+
+tr:nth-child(odd) {
+  background-color: #d4ffaa;
+}
+
+tr:nth-child(odd):hover, tr:nth-child(odd):active {
+  background-color: #c0ff96;
+}
+
+tr:nth-child(even) {
+  background-color: white;
+}
+
+tr:nth-child(even):hover, tr:nth-child(even):active {
+  background-color: #f0fff0;
+}
+
+ul[rn-carousel]>li {
+  width: 100vw;
+  height: 100vh;
+}
+
 .btn-sidebar {
   width:100%;
   text-align: left;
@@ -26,8 +61,129 @@ html, body {
   height: 100vh;
 }
 
+.checkbox-label {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+
+.field-checkbox {
+  margin-left: 5px !important;
+}
+
+.frank-table {
+  margin:0px;padding:0px;
+  width:100%;
+  border:1px solid #3f7f00;
+  
+  -moz-border-radius-bottomleft:0px;
+  -webkit-border-bottom-left-radius:0px;
+  border-bottom-left-radius:0px;
+  
+  -moz-border-radius-bottomright:0px;
+  -webkit-border-bottom-right-radius:0px;
+  border-bottom-right-radius:0px;
+  
+  -moz-border-radius-topright:0px;
+  -webkit-border-top-right-radius:0px;
+  border-top-right-radius:0px;
+  
+  -moz-border-radius-topleft:0px;
+  -webkit-border-top-left-radius:0px;
+  border-top-left-radius:0px;
+
+  margin-bottom: 100px;
+}
+
+.frank-table table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  width:100%;
+  height:100%;
+  margin:0px;padding:0px;
+}
+
+.frank-table tr:last-child td:last-child {
+  -moz-border-radius-bottomright:0px;
+  -webkit-border-bottom-right-radius:0px;
+  border-bottom-right-radius:0px;
+}
+
+.frank-table table tr:first-child td:first-child {
+  -moz-border-radius-topleft:0px;
+  -webkit-border-top-left-radius:0px;
+  border-top-left-radius:0px;
+}
+
+.frank-table table tr:first-child td:last-child {
+  -moz-border-radius-topright:0px;
+  -webkit-border-top-right-radius:0px;
+  border-top-right-radius:0px;
+}
+
+.frank-table tr:last-child td:first-child{
+  -moz-border-radius-bottomleft:0px;
+  -webkit-border-bottom-left-radius:0px;
+  border-bottom-left-radius:0px;
+}
+
+.frank-table td {
+  vertical-align:middle;
+  
+  border:1px solid #3f7f00;
+  border-width:0px 1px 1px 0px;
+  text-align:left;
+  padding:7px;
+  font-size:10px;
+  font-family:Helvetica;
+  font-weight:normal;
+  color:#000000;
+}
+
+.frank-table tr:last-child td{
+  border-width:0px 1px 0px 0px;
+}
+
+.frank-table tr td:last-child{
+  border-width:0px 0px 1px 0px;
+}
+
+.frank-table tr:last-child td:last-child{
+  border-width:0px 0px 0px 0px;
+}
+
+.frank-table tr:first-child td:first-child{
+  border-width:0px 0px 1px 0px;
+}
+
+.frank-table tr:first-child td:last-child{
+  border-width:0px 0px 1px 1px;
+}
+
+.frank-table tr:first-child td{
+  border:0px solid #3f7f00;
+  text-align:center;
+  border-width:0px 0px 1px 1px;
+  font-size:12px;
+  font-family:Helvetica;
+  font-weight:bold;
+  color:#ffffff;
+}
+
 .participantcarousel-content {
   margin-top: 0;
+}
+
+.ptable-body {
+  padding: 15px;
+  background-color: whitesmoke;
+}
+
+.ptable-loading {
+  display: block;
+}
+
+.rn-carousel-control.rn-carousel-control-next {
+  left: 99vw;
 }
 
 .search-box {
@@ -44,13 +200,13 @@ html, body {
 }
 
 .search-box.ng-hide-add {
-  -webkit-animation: fadeandgrow 1s;
+  -webkit-animation: fadeandgrow 500ms;
   -webkit-animation-direction: reverse;
-  -moz-animation: fadeandgrow 1s;
+  -moz-animation: fadeandgrow 500ms;
   -moz-animation-direction: reverse;
-  -o-animation: fadeandgrow 1s;
+  -o-animation: fadeandgrow 500ms;
   -o-animation-direction: reverse;
-  animation: fadeandgrow 1s;
+  animation: fadeandgrow 500ms;
   animation-direction: reverse;
 }
 
@@ -114,10 +270,10 @@ html, body {
 }
 
 .search-icon.ng-hide-remove {
-  -webkit-animation: fade 1100ms;
-  -moz-animation: fade 1100ms;
-  -o-animation: fade 1100ms;
-  animation: fade 1100ms;
+  -webkit-animation: fade 700ms;
+  -moz-animation: fade 700ms;
+  -o-animation: fade 700ms;
+  animation: fade 700ms;
 }
 
 @-webkit-keyframes fade {
@@ -143,6 +299,15 @@ html, body {
 
 .text-error {
   color : red;
+}
+
+.view-switch {
+  float: left;
+  margin-left: 15px;
+  cursor: pointer;
+  color: #2a6496;
+  position: relative;
+  top: 0;
 }
 
 /* Styles for portrait orientation */
