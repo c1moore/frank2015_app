@@ -12,6 +12,18 @@
 
 	include_once "../storage_info.php";
 
+	if(!isset($send_response_on_success)) {
+		$send_response_on_success = true;
+	}
+
+	if(!isset($_POST['user_id']) || !isset($_POST['email'])) {
+		header('HTTP/1.1 400 Credentials not set.', true, 500);
+		$data = array();
+		$data['message'] = "Credentials not set.";
+		echo json_encode($data);
+		exit();
+	}
+
 	$conn = mysqli_connect(HOST, USER, PASS, NAME);
 	//Connect to the database, if there is an error return 500.
 	if(mysqli_connect_error()) {
@@ -27,8 +39,10 @@
 				//Check that the credentials match, return 401 if user not found or credentials don't match, 200 otherwise.
 				if(mysqli_stmt_fetch($stmt)) {
 					if($rusername == $_POST['username'] && $remail == $_POST['email']) {
-						header('HTTP/1.1 200 Success', true, 200);
-						exit();
+						if($send_response_on_success) {
+							header('HTTP/1.1 200 Success', true, 200);
+							exit();
+						}
 					} else {
 						header('HTTP/1.1 401 Credentials do not match.', true, 401);
 					}
