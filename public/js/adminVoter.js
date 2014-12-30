@@ -10,8 +10,29 @@ var frankAdmin = angular.module('frankAdmin', ['mgcrea.ngStrap']);
 * TODO Delete a vote
 */
 
-frankAdmin.controller('votesCtrl', ['$scope', '$timeout',
-	function($scope, $timeout) {
+frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService', '$window', '$interval',
+	function($scope, $timeout, localStorageService, $window, $interval) {
+		$scope.storage = localStorageService;
+		//Check if the user is logged in.  If not, they should be redirected to the login page.
+		var user_id = $scope.storage.get('user_id'),
+			email = $scope.storage.get('email'),
+			username = $scope.storage.get('username');
+		/*if(user_id && email) {
+			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username, 'check_admin' : true}).error(function() {
+				$scope.storage.remove('user_id');
+				$scope.storage.remove('email');
+				$scope.storage.remove('username');
+
+				$window.location.href = 'login.html';
+			});
+		} else {
+			$scope.storage.remove('user_id');
+			$scope.storage.remove('email');
+			$scope.storage.remove('username');
+
+			$window.location.href = 'login.html';
+		}*/
+
 		/**
 		* This function is used to make sure everything is filled out
 		* properly when the form is submitted to create a vote.
@@ -77,11 +98,52 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout',
 			{name : 'Research Prize', winner : 'Calvin Moore', start : parseInt(Date.now()-60000), duration : 120000, options : [{choice : 'A', percent : 20}, {choice : 'B', percent : 30}, {choice : 'C', percent : 10}, {choice : 'D', percent : 40}]},
 			{name : 'Research Prize', winner : 'Calvin Moore', start : parseInt(Date.now()-600000), duration : 120000, options : [{choice : 'A', percent : 50}, {choice : 'B', percent : 15}, {choice : 'C', percent : 25}, {choice : 'D', percent : 10}]}
 		];*/
-		$http.post('../../app/controllers/get_votes_count.php', {'user_id' : user_id, 'email' : email, 'username' : username}).success(function(response) {
+		var getVoteStats = function() {
+			for(var i=0; i<$scope.votes.length; i++) {
+				var tempWinner = null,
+					tempMax = 0,
+					answersLength = $scope.votes[i].answers.length,
+					totalVotes = 0;
 
-		}).error(function(response, status) {
+				for(var j=0; j < answersLength; j++) {
+					totalVotes += $scope.votes[i].answers[j].count;
+				}
 
-		});
+				for(var j=0; j < answersLength; j++) {
+					$scope.votes[i].answers[j].percent = $scope.votes[i].answers[j].count / totalVotes;
+					
+					if(tempMax < $scope.votes[i].answers[j].count) {
+						tempMax = $scope.votes[i].answers[j].count;
+						tempWinner = $scope.votes[i].answers[j].value;
+					} else if(tempMax === $scope.votes[i].answers[j].count && tempMax > 0) {
+						tempWinner = tempWinner + ", " + $scope.votes[i].answers[j].value;
+					}
+				}
+
+				$scope.votes[i].winner = tempWinner;
+			}
+		};
+
+		$scope.votes = [];
+		var getVotes = function() {
+			$http.post('../../app/controllers/get_votes_count.php', {'user_id' : user_id, 'email' : email, 'username' : username}).success(function(response) {
+				$scope.votes = response;
+				getVoteStats();
+			}).error(function(response, status) {
+				if((status === 400 && response.message === "Credentials not set.") || status === 401) {
+					$scope.storage.remove('user_id');
+					$scope.storage.remove('email');
+					$scope.storage.remove('username');
+
+					$window.location.href = "login.html";
+				} else {
+					$window.alert("There was an error connecting with the servers.  Please refresh the page.");
+				}
+			});
+		};
+
+		getVotes();
+		$interval(getVotes(), 10000);	//Refresh data every 10 seconds.
 		
 		//Enumerate all the options for the progress bars that can be used to illustrate the current rankings for a given vote.
 		$scope.progressClasses = ["progress-bar-success progress-bar-striped active", "progress-bar-info progress-bar-striped active", "progress-bar-warning progress-bar-striped active", "progress-bar-danger  progress-bar-striped active", "progress-bar-striped active", "progress-bar-success progress-bar-striped", "progress-bar-warning progress-bar-striped", "progress-bar-danger progress-bar-striped", "progress-bar-striped", "progress-bar-success", "progress-bar-info", "progress-bar-warning", "progress-bar-danger", ""];
@@ -149,22 +211,41 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout',
 			validator();
 			if(!$scope.vote.errors) {
 				var newVote = {};
+				newVote.question = $scope.vote.question;
 				newVote.name = $scope.vote.name;
-				newVote.winner = "";
 				if($scope.vote.option === 1) {
-					newVote.start = Date.now() + intsToMilliseconds($scope.vote.hours, $scope.vote.minutes, $scope.vote.seconds);
-					console.log(newVote.start);
+					newVote.start_time = Date.now() + intsToMilliseconds($scope.vote.hours, $scope.vote.minutes, $scope.vote.seconds);
 				} else {
-					newVote.start = new Date($scope.vote.datetime).getTime();
+					newVote.start_time = new Date($scope.vote.datetime).getTime();
 				}
 				newVote.duration = intsToMilliseconds($scope.vote.durationhrs, $scope.vote.durationmns, $scope.vote.durationsec);
 				newVote.options = [];
 				for(var i=0; i<$scope.vote.answers.length; i++) {
-					newVote.options.push({choice : $scope.vote.answers[i].id, percent : 0});
+					newVote.options.push({option : $scope.vote.answers[i].id, value : $scope.vote.answers[i].text});
 				}
+
+				newVote.username = username;
+				newVote.email = email;
+				newVote.user_id = user_id;
 				
-				$scope.votes.push(newVote);
-				$scope.resetForm();
+				$http.post('../../app/controllers/create_vote.php', newVote).success(function(response) {
+					getVotes();
+					$scope.resetForm();
+				}).error(function(response, status) {
+					if((status === 400 && response.message === "Credentials not set.") || (status === 401 && response.message !== "Not an admin.")) {
+						$scope.storage.remove('user_id');
+						$scope.storage.remove('email');
+						$scope.storage.remove('username');
+
+						$window.location.href = "login.html";
+					} else if(response.message === "Not an admin.") {
+						$window.location.href = "directory.html";
+					} else if(status === 500) {
+						$window.alert("Error connecting to server.  Please try again.");
+					} else {
+						$window.alert(response.message);
+					}
+				});
 			}
 		}
 	}

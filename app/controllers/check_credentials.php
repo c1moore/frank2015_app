@@ -8,12 +8,17 @@
 	* @param user_id - the value of user_id stored in localstorage
 	* @param username - the value of username stored in localstorage
 	* @param email - the value of email stored in localstorage
+	* @param check_admin - if specified and true, 200 will be returned only if the user is an admin
 	*/
 
 	include_once "../storage_info.php";
 
 	if(!isset($send_response_on_success)) {
 		$send_response_on_success = true;
+	}
+
+	if(!isset($_POST['check_admin'])) {
+		$_POST['check_admin'] = false;
 	}
 
 	if(!isset($_POST['user_id']) || !isset($_POST['email'])) {
@@ -31,17 +36,32 @@
 		exit();
 	} else {
 		//Prepare statement to search database based on user_id, if error return 500.
-		if($stmt = mysqli_prepare($conn, "SELECT username, email FROM User WHERE user_id=?")) {
+		if($stmt = mysqli_prepare($conn, "SELECT username, email, role FROM User WHERE user_id=?")) {
 			mysqli_stmt_bind_param($stmt, "s", $_POST['user_id']);
 			if(mysqli_stmt_execute($stmt)) {
-				mysqli_stmt_bind_result($stmt, $rusername, $remail);
+				mysqli_stmt_bind_result($stmt, $rusername, $remail, $rrole);
 
 				//Check that the credentials match, return 401 if user not found or credentials don't match, 200 otherwise.
 				if(mysqli_stmt_fetch($stmt)) {
 					if($rusername == $_POST['username'] && $remail == $_POST['email']) {
-						if($send_response_on_success) {
-							header('HTTP/1.1 200 Success', true, 200);
-							exit();
+						if($_POST['check_admin']) {
+							if($rrole === "admin") {
+								if($send_response_on_success) {
+									header('HTTP/1.1 200 Success', true, 200);
+									exit();
+								} else {
+									header('HTTP/1.1 401 Not authorized.', true, 401);
+									$data = array();
+									$data['message'] = "Not authorized.";
+									echo json_encode($data);
+									exit();
+								}
+							}
+						} else {
+							if($send_response_on_success) {
+								header('HTTP/1.1 200 Success', true, 200);
+								exit();
+							}
 						}
 					} else {
 						header('HTTP/1.1 401 Credentials do not match.', true, 401);

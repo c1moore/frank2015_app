@@ -1,10 +1,9 @@
 var frankAppVoter = angular.module('frankAppVoter', ['ngFitText', 'frank2015', 'ngAnimate']);
 
 
-frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$timeout', '$window'
-	function($scope, $http, localStorageService, $window, interestsService, $timeout, $window) {
+frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStorageService', '$timeout', '$window',
+	function($scope, $http, localStorageService, $timeout, $window) {
 		$scope.storage = localStorageService;
-		$scope.intServArr = interestsService.interests;
 		$scope.userVote = [];
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
