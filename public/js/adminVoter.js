@@ -1,4 +1,4 @@
-var frankAdmin = angular.module('frankAdmin', ['mgcrea.ngStrap']);
+var frankAdmin = angular.module('frankAdmin', ['mgcrea.ngStrap', 'frank2015']);
 
 /**
 * This controller will be used for the admin page to create a new vote.
@@ -10,8 +10,8 @@ var frankAdmin = angular.module('frankAdmin', ['mgcrea.ngStrap']);
 * TODO Delete a vote
 */
 
-frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService', '$window', '$interval',
-	function($scope, $timeout, localStorageService, $window, $interval) {
+frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService', '$window', '$interval', '$http',
+	function($scope, $timeout, localStorageService, $window, $interval, $http) {
 		$scope.storage = localStorageService;
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
 		var user_id = $scope.storage.get('user_id'),
@@ -92,12 +92,6 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService',
 				return (hrs * 3600000) + (min * 60000) + (sec * 1000) + ms;
 		};
 		
-		/*$scope.votes = [
-			{name : 'Research Prize', winner : 'Calvin Moore', start : parseInt(Date.now()+30000), duration : 30000, options : [{choice : 'A', percent : 50}, {choice : 'B', percent : 15}, {choice : 'C', percent : 25}, {choice : 'D', percent : 10}]},
-			{name : 'Research Prize', winner : 'Calvin Moore', start : parseInt(Date.now()+300000), duration : 120000, options : [{choice : 'A', percent : 10}, {choice : 'B', percent : 10}, {choice : 'C', percent : 10}, {choice : 'D', percent : 10}, {choice : 'E', percent : 10}, {choice : 'F', percent : 10}, {choice : 'G', percent : 10}, {choice : 'D', percent : 10}, {choice : 'D', percent : 10}, {choice : 'D', percent : 10}]},
-			{name : 'Research Prize', winner : 'Calvin Moore', start : parseInt(Date.now()-60000), duration : 120000, options : [{choice : 'A', percent : 20}, {choice : 'B', percent : 30}, {choice : 'C', percent : 10}, {choice : 'D', percent : 40}]},
-			{name : 'Research Prize', winner : 'Calvin Moore', start : parseInt(Date.now()-600000), duration : 120000, options : [{choice : 'A', percent : 50}, {choice : 'B', percent : 15}, {choice : 'C', percent : 25}, {choice : 'D', percent : 10}]}
-		];*/
 		var getVoteStats = function() {
 			for(var i=0; i<$scope.votes.length; i++) {
 				var tempWinner = null,
@@ -136,14 +130,16 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService',
 					$scope.storage.remove('username');
 
 					$window.location.href = "login.html";
-				} else {
+				} else if(status === 500) {
 					$window.alert("There was an error connecting with the servers.  Please refresh the page.");
+				} else {
+					$window.alert(response.message);
 				}
 			});
 		};
 
 		getVotes();
-		$interval(getVotes(), 10000);	//Refresh data every 10 seconds.
+		$interval(getVotes, 10000);	//Refresh data every 10 seconds.
 		
 		//Enumerate all the options for the progress bars that can be used to illustrate the current rankings for a given vote.
 		$scope.progressClasses = ["progress-bar-success progress-bar-striped active", "progress-bar-info progress-bar-striped active", "progress-bar-warning progress-bar-striped active", "progress-bar-danger  progress-bar-striped active", "progress-bar-striped active", "progress-bar-success progress-bar-striped", "progress-bar-warning progress-bar-striped", "progress-bar-danger progress-bar-striped", "progress-bar-striped", "progress-bar-success", "progress-bar-info", "progress-bar-warning", "progress-bar-danger", ""];
@@ -214,11 +210,11 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService',
 				newVote.question = $scope.vote.question;
 				newVote.name = $scope.vote.name;
 				if($scope.vote.option === 1) {
-					newVote.start_time = Date.now() + intsToMilliseconds($scope.vote.hours, $scope.vote.minutes, $scope.vote.seconds);
+					newVote.start_time = (Date.now() + parseInt(intsToMilliseconds($scope.vote.hours, $scope.vote.minutes, $scope.vote.seconds), 10)).toString();
 				} else {
-					newVote.start_time = new Date($scope.vote.datetime).getTime();
+					newVote.start_time = new Date($scope.vote.datetime).getTime().toString();
 				}
-				newVote.duration = intsToMilliseconds($scope.vote.durationhrs, $scope.vote.durationmns, $scope.vote.durationsec);
+				newVote.duration = intsToMilliseconds($scope.vote.durationhrs, $scope.vote.durationmns, $scope.vote.durationsec).toString();
 				newVote.options = [];
 				for(var i=0; i<$scope.vote.answers.length; i++) {
 					newVote.options.push({option : $scope.vote.answers[i].id, value : $scope.vote.answers[i].text});
@@ -260,7 +256,7 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService',
 */
 frankAdmin.filter('millisToTime', function() {
 	return function(milliseconds) {
-		milliseconds = parseInt(milliseconds);
+		milliseconds = parseInt(milliseconds, 10);
 		var hours = Math.floor(milliseconds/3600000);
 		milliseconds = (milliseconds%3600000);
 		var minutes = Math.floor(milliseconds/60000);
@@ -314,13 +310,20 @@ frankAdmin.directive('countdown', ['$timeout',
 									'{{remaining | millisToTime}}' +
 								'</div>',
 			link: function postLink(scope, element, attrs) {
+				scope.duration = parseInt(scope.duration, 10);
+				scope.start = parseInt(scope.start, 10);
+
 				var countdown = function() {
 					$timeout(function() {
-						scope.remaining = scope.duration-(Date.now()-scope.start);
-						if(scope.remaining >= 10)
+						if(scope.start > Date.now()) {
 							countdown();
-						else
-							scope.remaining = 0;
+						} else {
+							scope.remaining = scope.duration-(Date.now()-scope.start);
+							if(scope.remaining >= 10)
+								countdown();
+							else
+								scope.remaining = 0;
+						}
 					}, 10);
 					
 					//When the timer reaches 10 seconds, make text red.
@@ -332,11 +335,14 @@ frankAdmin.directive('countdown', ['$timeout',
 				$timeout(function() {
 					scope.remaining = scope.duration;
 					if(scope.start-Date.now() > 0) {
+						//If voting has not begun for this event yet, don't begin the countdown yet.
 						$timeout(countdown, scope.start-Date.now());
 					} else if(-scope.remaining < (scope.start-Date.now())) {
+						//If there is still time remaining to vote, countdown.
 						scope.remaining = -(scope.start-Date.now());
 						countdown();
 					} else {
+						//If no time is remaining, show the time remaining as 0.
 						scope.remaining = 0;
 						angular.element(element).addClass("text-error");
 					}

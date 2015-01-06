@@ -22,6 +22,9 @@
 	$_POST = json_decode(file_get_contents("php://input"), true);
 	$_POST['check_admin'] = true;
 
+	//echo var_dump($_POST);
+	//exit();
+
 	//Make sure user is an authenticated user.
 	/*$send_response_on_success = false;
 	require './check_credentials.php';*/
@@ -30,20 +33,17 @@
 
 	$conn = mysqli_connect(HOST, USER, PASS, NAME);
 
-	$votes = array();
-	$votes['answers'] = array();
-
 	if(!mysqli_connect_error()) {
-		if($stmt = mysqli_prepare($conn, "INSERT INTO Vote(name, question, start_time, duration) VALUES ('?', '?', ?, ?)")) {
-			mysqli_stmt_bind_param($stmt, "ssii", $_POST['name'], $_POST['question'], $_POST['start_time'], $_POST['duration']);
+		if($stmt = mysqli_prepare($conn, "INSERT INTO Vote(name, question, start_time, duration) VALUES (?, ?, CONVERT(?, UNSIGNED), CONVERT(?, UNSIGNED))")) {
+			mysqli_stmt_bind_param($stmt, "ssss", $_POST['name'], $_POST['question'], $_POST['start_time'], $_POST['duration']);
 
 			if(mysqli_stmt_execute($stmt)) {
 				$vote_id = mysqli_insert_id($conn);
 
-				if($stmt = mysqli_prepare($conn, "INSERT INTO Answer(vote_id, option, value) VALUES (?, ?, ?)")) {
+				if($stmt = mysqli_prepare($conn, "INSERT INTO Answer(vote_id, `option`, value) VALUES (?, ?, ?)")) {
 					$length =count($_POST['options']);
 					for($i=0; $i<$length; $i++) {
-						mysqli_stmt_bind_param($stmt, "iss", $vote_id, $_POST['options'][$i].option, $_POST['options'][$i].value);
+						mysqli_stmt_bind_param($stmt, "iss", $vote_id, $_POST['options'][$i]['option'], $_POST['options'][$i]['value']);
 
 						if(!mysqli_stmt_execute($stmt)) {
 							header('HTTP/1.1 500 Prepared statement failed.', true, 500);
@@ -77,6 +77,5 @@
 	}
 
 	header("HTTP/1.1 200 OK", true, 200);
-	echo json_encode($votes);
 	exit();
 ?>

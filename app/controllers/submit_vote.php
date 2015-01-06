@@ -81,7 +81,7 @@ error_reporting(-1);
 		}
 
 		//Everything checks out, add the vote to the database.
-		if($stmt = mysqli_prepare($conn, "INSERT INTO Ballot(vote_id, user_id, choice) VALUES (?, ?, '?')")) {
+		if($stmt = mysqli_prepare($conn, "INSERT INTO Ballot(vote_id, user_id, choice) VALUES (?, ?, ?)")) {
 			mysqli_stmt_bind_param($stmt, "iis", $_POST['vote_id'], $_POST['user_id'], $_POST['choice']);
 
 			if(mysqli_stmt_execute($stmt)) {

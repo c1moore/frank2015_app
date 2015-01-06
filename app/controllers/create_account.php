@@ -33,8 +33,6 @@
 	* @return user_id - newly created user_id
 	*/
 
-	$_POST = json_decode(file_get_contents("php://input"), true);
-
 	function create_user($conn, $order_num, $twitter, $csv_index) {
 		//Since exif_imagetype passed, we will assume the extension is correct.
 		if(isset($_FILES['file'])) {
@@ -100,41 +98,41 @@
 
 		if(!strlen($_POST['fName'])) {
 			header('HTTP/1.1 400 You must fill out your first name.', true, 400);
-			$data['message'].push("You must fill out your first name.");
+			array_push($data['message'], "You must fill out your first name.");
 		}
 
 		if(!strlen($_POST['lName'])) {
 			header('HTTP/1.1 400 You must fill out your last name.', false, 400);
-			$data['message'].push("You must fill out your last name.");
+			array_push($data['message'], "You must fill out your last name.");
 		}
 
 		if(!strlen($_POST['email'])) {
 			header('HTTP/1.1 400 You must fill out your email.', false, 400);
-			$data['message'].push("You must fill out your email.");
+			array_push($data['message'], "You must fill out your email.");
 		}
 
 		if(strlen($_POST['password']) === 0) {
 			header('HTTP/1.1 400 You must fill out the password field.', false, 400);
-			$data['message'].push("You must fill out the password field.");
+			array_push($data['message'], "You must fill out the password field.");
 		} else if(strlen($_POST['password']) < 6) {
 			header('HTTP/1.1 400 Your password must be at least 6 characters long.');
-			$data['message'].push("Your password must be at least 6 characters long.");
+			array_push($data['message'], "Your password must be at least 6 characters long.");
 		}
 
 		if(isset($_FILES['file']) && !exif_imagetype($_FILES['file']['tmp_name'])) {
 			header('HTTP/1.1 400 Image type not accepted.', false, 400);
-			$data['message'].push("Image type not accepted.");
+			array_push($data['message'], "Image type not accepted.");
 		}
 
 		//If a username was specified, make sure it meets the requirements.  Also make sure it is not already being used.
 		//User strlen to determine if username field was set.
 		if(strlen($_POST['username']) && !(strlen($_POST['username']) > 5 && strlen($_POST['username']) < 25)) {
 			header('HTTP/1.1 400 Username has to be between 5 and 25 characters.', false, 400);
-			$data['message'].push("Username has to be between 5 and 25 characters.");
+			array_push($data['message'], "Username has to be between 5 and 25 characters.");
 		}
 		if(strlen($_POST['username']) && !ctype_alnum($_POST['username'])) {
 			header('HTTP/1.1 400 Username can only contain letters and numbers.', false, 400);
-			$data['message'].push("Username can only contain letters and numbers.");
+			array_push($data['message'], "Username can only contain letters and numbers.");
 		} 
 		if(strlen($_POST['username'])) {
 			if($stmt = mysqli_prepare($conn, "SELECT username FROM User WHERE username=?")) {
@@ -147,7 +145,7 @@
 					if(!is_null($result)) {
 						//Username is already in use.
 						header("HTTP/1.1 400 Username already exists.", false, 400);
-						$data['message'].push("Username already exists.");
+						array_push($data['message'], "Username already exists.");
 					} else if($result === false) {
 						//An error occurred.
 						header("HTTP/1.1 500 An error occurred. Please try again later.", true, 500);

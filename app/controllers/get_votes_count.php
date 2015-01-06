@@ -37,18 +37,13 @@
 	$conn = mysqli_connect(HOST, USER, PASS, NAME);
 
 	$votes = array();
-	$votes['answers'] = array();
 
 	if(!mysqli_connect_error()) {
-		$query = 	"SELECT id, start_time, duration, name, question, GROUP_CONCAT(" .
-						"CONCAT_WS(" .
-							"'|', option, value)" .
-						"SEPARATOR '|') AS answers" .
-					"FROM Vote LEFT JOIN Answer ON id=vote_id" .
-					"GROUP BY id" .
-					"ORDER BY id";
-		if($votes_result = mysqli_query($conn, $query)) {
-			$query = "SELECT vote_id, choice, COUNT(user_id) AS vote_count FROM Ballot GROUP BY vote_id, choice ORDER BY id";
+		$query = 	"SELECT id, start_time, duration, name, question, GROUP_CONCAT(CONCAT_WS('|', `option`, value) SEPARATOR '|') AS answers FROM Vote LEFT JOIN Answer ON id=vote_id GROUP BY id ORDER BY id";
+
+		$votes_result = mysqli_query($conn, $query);
+		if($votes_result) {
+			$query = "SELECT vote_id, choice, COUNT(user_id) AS vote_count FROM Ballot GROUP BY vote_id, choice ORDER BY vote_id";
 			if($count_result = mysqli_query($conn, $query)) {
 				$count_index = 0;
 				$count = mysqli_fetch_assoc($count_result);
@@ -61,7 +56,7 @@
 					$vote['question'] = $result['question'];
 					$vote['answers'] = array();
 
-					$temp = $result['answers'];
+					$temp = explode('|', $result['answers']);
 					$length = count($temp);
 					for($i=0; $i<$length; $i=$i+2) {
 						$answer = array();
@@ -99,10 +94,16 @@
 				header('HTTP/1.1 500 Connection to db failed.', true, 500);
 				exit();
 			}
-		} else {
+		} else if($votes_result === false) {
 			header("HTTP/1.1 500 Connection to db failed.", true, 500);
 			$data = array();
 			$data['message'] = "Connection to db failed.";
+			echo json_encode($data);
+			exit();
+		} else {
+			header("HTTP/1.1 400 No results found.", true, 400);
+			$data = array();
+			$data['message'] = "No votes have been created yet.";
 			echo json_encode($data);
 			exit();
 		}

@@ -15,6 +15,7 @@
 		<script src="../js/snap.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/angular-snap.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../libraries/ng-FitText/src/ng-FitText.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../libraries/angular-ui/ui-bootstrap-tpls-0.12.0.min.js"></script>
 		<script src="../js/script.js"></script>
 		<script type="text/javascript" src="../js/vote.js"></script>
 
@@ -33,19 +34,27 @@
 		</snap-drawer>
 		<snap-content id="snap-content">
 			<frank-header>frank Voting</frank-header>
-			<accordion clost-others="true">
-				<accordion-group ng-repeat="vote in votes" is-disabled="voteOpen[$index]" heading="vote.name">
-					<div class="vote">
-						<form class="ballot" name="ballot" id="ballot" ng-if="ballotOpen[$index]" ng-submit="submitVote($index, vote.id)">
-							<span class="question">{{vote.question}}</span>
-							<label ng-repeat="answer in vote.answers" class="answer"><input type="radio" ng-model="userVote[$index]" value="answer.option" required /> {{answer.option}}. {{answer.value}}</label>
-							<input type="submit" value="Vote" ng-disabled="ballot.$invalid" />
-						</form>
-						<div class="results" ng-if="voteOpen[$index]">
+			<div ng-style="{'margin-top' : getTopMargin(15)}">
+				<accordion close-others="{{true}}">
+					<accordion-group ng-repeat="vote in votes track by vote.id" is-disabled="!voteOpen[$index]" heading="{{vote.name}}">
+						<div class="vote">
+							<form class="ballot" name="ballot" id="ballot" ng-class="{disabled : !ballotOpen[$index]}" ng-disabled="!ballotOpen[$index]" ng-submit="submitVote($index, vote.id)">
+								<span class="question">{{vote.question}}</span>
+								<br />
+								<div ng-repeat="answer in vote.answers" class="vote-answer">
+									<label class="answer">
+										<input type="radio" ng-model="userVote[$parent.$index]" name="{{'ballot' + $parent.$index}}" value="{{answer.option}}" required /> {{answer.option}}. {{answer.value}}
+									</label>
+									<br />
+								</div>
+								<input type="submit" value="Vote" ng-disabled="!userVote[$index]" ng-class="{disabled : !userVote[$index]}" ng-if="ballotOpen[$index]" />
+							</form>
+							<div class="results" ng-if="voteOpen[$index]">
+							</div>
 						</div>
-					</div>
-				</accordion-group>
-			</accordion>
+					</accordion-group>
+				</accordion>
+			</div>
 		</snap-content>
 	</body>
 

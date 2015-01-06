@@ -1,0 +1,14 @@
+form.disabled {
+	opacity: .5;
+}
+form#ballot {
+	background-color: #E8E9EB;
+	padding: 10px;
+}
+input[type='submit'] {
+	margin: auto;
+	display: block;
+}
+.vote-answer {
+	margin-left: 15px;
+}

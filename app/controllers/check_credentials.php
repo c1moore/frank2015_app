@@ -22,7 +22,7 @@
 	}
 
 	if(!isset($_POST['user_id']) || !isset($_POST['email'])) {
-		header('HTTP/1.1 400 Credentials not set.', true, 500);
+		header('HTTP/1.1 400 Credentials not set.', true, 400);
 		$data = array();
 		$data['message'] = "Credentials not set.";
 		echo json_encode($data);
@@ -49,13 +49,13 @@
 								if($send_response_on_success) {
 									header('HTTP/1.1 200 Success', true, 200);
 									exit();
-								} else {
-									header('HTTP/1.1 401 Not authorized.', true, 401);
-									$data = array();
-									$data['message'] = "Not authorized.";
-									echo json_encode($data);
-									exit();
 								}
+							} else {
+								header('HTTP/1.1 401 Not authorized.', true, 401);
+								$data = array();
+								$data['message'] = "Not authorized.";
+								echo json_encode($data);
+								exit();
 							}
 						} else {
 							if($send_response_on_success) {
