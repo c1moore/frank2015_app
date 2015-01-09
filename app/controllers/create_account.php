@@ -33,10 +33,14 @@
 	* @return user_id - newly created user_id
 	*/
 
+	header('HTTP/1.1 400 Dump variables.', true, 400);
+	echo json_encode(var_dump($_FILES));
+	exit();
+
 	function create_user($conn, $order_num, $twitter, $csv_index) {
 		//Since exif_imagetype passed, we will assume the extension is correct.
 		if(isset($_FILES['file'])) {
-			$picPath = "../../public/img/profile_pics/" . $order_num . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			$picPath = "../../public/img/profile_pics/" . $order_num . "." . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 			move_uploaded_file($_FILES['tmp_name'], $picPath);
 		} else {
 			$picPath = "../../public/img/profile_pics/default.jpg";
@@ -187,7 +191,7 @@
 		/**
 		* Make sure this user is registered to attend the event.
 		*/
-		if($fhandle = fopen("../resources/wmG73jP5M9R9JxqGxmYo.csv", "r+")) {
+		if($fhandle = fopen("../resources/wmG73jP5M9R9JxqGxmYo.csv", "r")) {
 			$header = fgetcsv($fhandle, 1000);
 			$email_index = -1;
 			$order_index = -1;
