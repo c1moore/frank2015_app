@@ -10,7 +10,7 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 		var user_id = $scope.storage.get('user_id'),
 			email = $scope.storage.get('email'),
 			username = $scope.storage.get('username');
-		/*if(user_id && email) {
+		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).error(function() {
 				$scope.storage.remove('user_id');
 				$scope.storage.remove('email');
@@ -24,7 +24,7 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 			$scope.storage.remove('username');
 
 			$window.location.href = 'login.html';
-		}*/
+		}
 
 		$scope.getTopMargin = function(height) {
 			var margin = parseInt(angular.element("#header").css('height'), 10) + height;
