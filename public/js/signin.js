@@ -28,9 +28,9 @@ frankAppLogin.controller('signinCtrl', ['$scope', 'localStorageService', '$http'
 		$scope.signin = function() {
 			$scope.error = "";
 			$http.post('../../app/controllers/validate_login.php', $scope.credentials).success(function(response) {
-				$scope.storage.set(user_id, response.user_id);
-				$scope.storage.set(username, response.username);
-				$scope.storage.set(email, response.email);
+				$scope.storage.set('user_id', response.user_id);
+				$scope.storage.set('username', response.username);
+				$scope.storage.set('email', response.email);
 
 				$window.location.href = 'directory.html';
 			}).error(function(response, status) {

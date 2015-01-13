@@ -23,6 +23,8 @@
 	* @return email - if the creadentials are accurate, the email address used to signup is returned
 	*/
 
+	$_POST = json_decode(file_get_contents("php://input"), true);
+
 	include_once "../storage_info.php";
 
 	$conn = mysqli_connect(HOST, USER, PASS, NAME);
@@ -41,12 +43,11 @@
 				mysqli_stmt_bind_result($stmt, $rusername, $remail, $ruser_id, $rpassword);
 
 				if(mysqli_stmt_fetch($stmt)) {
-					if($rpassword && crypt($_POST['password'], $rpassword)) {
+					if(crypt($_POST['password'], $rpassword) === $rpassword) {
 						header('Content-Type: application/json');
 						header('HTTP/1.1 200 Success', true, 200);
 
-						$data = array();
-						$data['body'] = array('username' => $rusername, 'email' => $remail, 'user_id' => $ruser_id);
+						$data = array('username' => $rusername, 'email' => $remail, 'user_id' => $ruser_id);
 
 						echo json_encode($data);
 					} else {

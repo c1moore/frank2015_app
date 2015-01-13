@@ -1,4 +1,8 @@
 <?php
+
+// ini_set('display_errors',1);
+// ini_set('display_startup_errors',1);
+// error_reporting(-1);
 	/**
 	* This controller handles creating a user account.  Since it is required for a user to have
 	* signed up on Eventbrite to attend the event, a file containing all Eventbrite registrants
@@ -33,25 +37,25 @@
 	* @return user_id - newly created user_id
 	*/
 
-	header('HTTP/1.1 400 Dump variables.', true, 400);
-	echo json_encode(var_dump($_FILES));
-	exit();
+	if(!isset($_FILES['file'])) {
+		$_POST = json_decode(file_get_contents("php://input"), true);
+	}
 
 	function create_user($conn, $order_num, $twitter, $csv_index) {
 		//Since exif_imagetype passed, we will assume the extension is correct.
 		if(isset($_FILES['file'])) {
 			$picPath = "../../public/img/profile_pics/" . $order_num . "." . pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-			move_uploaded_file($_FILES['tmp_name'], $picPath);
+			move_uploaded_file($_FILES['file']['tmp_name'], $picPath);
 		} else {
 			$picPath = "../../public/img/profile_pics/default.jpg";
 		}
 
 		//Set the password hash
 		$salt = substr(bin2hex(openssl_random_pseudo_bytes(11)), 0, 22);
-		$password = crypt($_POST['password'], '$2a$31$' . $salt . '$');
+		$password = crypt($_POST['password'], '$2a$07$' . $salt . '$');
 
-		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, password, twitter_handle, pic_path, interests, csv_index) VALUES (?, ?, ?, ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, '')), ?")) {
-			mysqli_stmt_bind_param($stmt, "sssissssi", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $password, $twitter, $picPath, $_POST['interests'], $csv_index);
+		if($stmt = mysqli_prepare($conn, "INSERT INTO User(fName, lName, email, user_id, username, password, twitter_handle, pic_path, interests, csv_index) VALUES (?, ?, ?, ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), ?)")) {
+			mysqli_stmt_bind_param($stmt, "sssisssssi", $_POST['fName'], $_POST['lName'], $_POST['email'], $order_num, $_POST['username'], $password, $twitter, $picPath, $_POST['interests'], $csv_index);
 
 			if(mysqli_stmt_execute($stmt)) {
 				header('HTTP/1.1 200 Account created.', true, 200);
@@ -82,6 +86,7 @@
 			header('HTTP/1.1 500 Prepared statement failed.', true, 500);
 			$data = array();
 			$data['message'] = "Prepared statement failed.";
+			$data['error'] = mysqli_error($conn);
 			echo json_encode($data);
 			exit();
 		}
