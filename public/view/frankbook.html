@@ -41,7 +41,7 @@
 				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}">View Participant Table</span>
 				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(15)}"><i class="fa fa-search"></i></div>
 				<input class="search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(15)}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
-				<ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-buffered rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls>
+				<ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls>
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in (participants | filter:carouselFilter) track by $index" bindonce>
 						<div ng-class="{'participantcarousel-content-portrait': portrait, 'participantcarousel-content-landscape': !portrait}" class="participantcarousel-content">
 							<img ng-class="{'participantpic-portrait': portrait, 'participantpic-landscape': !portrait}" class="participantpic" bo-src="participant.image" />
@@ -54,7 +54,8 @@
 								<div ng-if="!portrait">
 									<h1 class="participantname-landscape participantname" data-fittext data-fittext-max="50px" bo-text="participant.name"></h1><br/>
 									<p class="participantemail-landscape participantemail" data-fittext data-fittext-max="23px" bo-text="participant.email"></p>
-									<p class="participanttwitter-landscape participanttwitter" fittext data-fittext-max="23px" bo-text="participant.twitter">
+									<br />
+									<p class="participanttwitter-landscape participanttwitter" fittext data-fittext-max="23px" bo-text="participant.twitter"></p>
 								</div>
 								<div ng-class="{'interests-portrait': portrait, 'interests-landscape': !portrait}" class="interests">
 									<div ng-repeat="interest in participant.interests track by $index" bindonce>

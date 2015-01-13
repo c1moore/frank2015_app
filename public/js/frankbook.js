@@ -33,7 +33,7 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 		$scope.carouselQuery = '';
 		$scope.search = false;
 		$scope.carouselIndex = 0;
-		$scope.carousel = false;
+		$scope.carousel = true;
 		$scope.tableLimit = 20;
 		
 		$scope.showing = {name : true, email : false, twitter : true, interests : false};
