@@ -37,6 +37,7 @@
 	* @return user_id - newly created user_id
 	*/
 
+	//If this isn't a multipart form, set $_POST.
 	if(!isset($_FILES['file'])) {
 		$_POST = json_decode(file_get_contents("php://input"), true);
 	}

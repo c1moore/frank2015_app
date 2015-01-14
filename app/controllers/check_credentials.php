@@ -11,6 +11,11 @@
 	* @param check_admin - if specified and true, 200 will be returned only if the user is an admin
 	*/
 
+	//If user_id is not set, $_POST may not be set so we need to set it.  Otherwise, no need to reset $_POST.
+	if(!$_POST['user_id']) {
+		$_POST = json_decode(file_get_contents("php://input"), true);
+	}
+
 	include_once "../storage_info.php";
 
 	if(!isset($send_response_on_success)) {
