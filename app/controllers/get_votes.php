@@ -37,17 +37,17 @@
 
 	if(!mysqli_connect_error()) {
 		//Since the user_id has been validated at this point, we can simply escape the string.
-		$query = sprintf("SELECT id, start_time, duration, name, question, GROUP_CONCAT(CONCAT_WS('|', `option`, value) SEPARATOR '|') AS answers, IFNULL(Ballot.choice, '') AS user_choice FROM (Vote LEFT JOIN Answer ON id=Answer.vote_id) LEFT OUTER JOIN Ballot ON id=Ballot.vote_id AND Ballot.user_id='%s' GROUP BY id",
+		$query = sprintf("SELECT id, start_time, duration, name, question, GROUP_CONCAT(CONCAT_WS('|', `option`, value) SEPARATOR '|') AS answers, IFNULL(Ballot.choice, '') AS user_choice FROM (Vote LEFT JOIN Answer ON id=Answer.vote_id) LEFT OUTER JOIN Ballot ON id=Ballot.vote_id AND Ballot.user_id=%s GROUP BY id",
 			mysqli_real_escape_string($conn, $_POST['user_id']));
 		$results = mysqli_query($conn, $query);
 		if($results) {
 			while($result = mysqli_fetch_assoc($results)) {
-				$vote = array();
-				$vote['name'] = $result['name'];
-				$vote['id'] = $result['id'];
-				$vote['start_time'] = $result['start_time'];
-				$vote['duration'] = $result['duration'];
-				$vote['question'] = $result['question'];
+				$vote = $result;
+				//$vote['name'] = $result['name'];
+				//$vote['id'] = $result['id'];
+				//$vote['start_time'] = $result['start_time'];
+				//$vote['duration'] = $result['duration'];
+				//$vote['question'] = $result['question'];
 				$vote['answers'] = array();
 
 				$temp = explode('|', $result['answers']);

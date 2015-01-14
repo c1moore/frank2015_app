@@ -127,8 +127,8 @@
           </td>
           <td>
             <div class="progress">
-              <div class="progress-bar" ng-repeat="option in vote.options track by $index" aria-valuenow="option.percent" aria-valuemin="0" aria-valuemax="100" style="width:{{option.percent + '%'}};" ng-class="progressClasses[$index]">
-                {{option.choice}} - {{option.percent}}%
+              <div class="progress-bar" ng-repeat="option in vote.answers track by option.option" aria-valuenow="option.percent" aria-valuemin="0" aria-valuemax="100" style="width:{{option.percent + '%'}};" ng-class="progressClasses[$index]">
+                {{option.option}} - {{option.percent}}%
               </div>
             </div>
           </td>

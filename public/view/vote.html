@@ -38,7 +38,7 @@
 				<accordion close-others="{{true}}">
 					<accordion-group ng-repeat="vote in votes track by vote.id" is-disabled="!voteOpen[$index]" heading="{{vote.name}}">
 						<div class="vote">
-							<form class="ballot" name="ballot" id="ballot" ng-class="{disabled : !ballotOpen[$index]}" ng-disabled="!ballotOpen[$index]" ng-submit="submitVote($index, vote.id)">
+							<form class="ballot" name="ballot" id="ballot" ng-class="{disabled : !ballotOpen[$index] || vote.user_choice}" ng-disabled="!ballotOpen[$index]" ng-submit="submitVote($index, vote.id)">
 								<span class="question">{{vote.question}}</span>
 								<br />
 								<div ng-repeat="answer in vote.answers" class="vote-answer">
@@ -47,7 +47,7 @@
 									</label>
 									<br />
 								</div>
-								<input type="submit" value="Vote" ng-disabled="!userVote[$index]" ng-class="{disabled : !userVote[$index]}" ng-if="ballotOpen[$index]" />
+								<input type="submit" value="Vote" ng-disabled="!userVote[$index]" ng-class="{disabled : !userVote[$index]}" ng-if="ballotOpen[$index] || vote.user_choice" />
 							</form>
 							<div class="results" ng-if="voteOpen[$index]">
 							</div>

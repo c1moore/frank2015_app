@@ -6,7 +6,6 @@ var frankAdmin = angular.module('frankAdmin', ['mgcrea.ngStrap', 'frank2015']);
 * these measured will need to be put into place to guarantee only
 * admins can create/delete a vote.
 *
-* TODO SECURITY
 * TODO Delete a vote
 */
 
@@ -100,11 +99,11 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService',
 					totalVotes = 0;
 
 				for(var j=0; j < answersLength; j++) {
-					totalVotes += $scope.votes[i].answers[j].count;
+					totalVotes += parseInt($scope.votes[i].answers[j].count, 10);
 				}
 
 				for(var j=0; j < answersLength; j++) {
-					$scope.votes[i].answers[j].percent = $scope.votes[i].answers[j].count / totalVotes;
+					$scope.votes[i].answers[j].percent = $scope.votes[i].answers[j].count / totalVotes * 100;
 					
 					if(tempMax < $scope.votes[i].answers[j].count) {
 						tempMax = $scope.votes[i].answers[j].count;

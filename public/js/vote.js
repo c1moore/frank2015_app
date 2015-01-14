@@ -97,7 +97,6 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 		$scope.votes = [];
 		$scope.voteOpen = [];
 		$scope.ballotOpen = [];
-		$scope.userVote = [];
 		var getVotes = function() {
 			$http.post('../../app/controllers/get_votes.php', {'user_id' : user_id, 'email' : email, 'username' : username}).success(function(response) {
 				$scope.votes = response;
@@ -130,6 +129,8 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 						$scope.storage.remove('user_id');
 						$scope.storage.remove('email');
 						$scope.storage.remove('username');
+
+						$scope.votes[index].user_choice = $scope.userVote[index];
 
 						$window.location.href = 'login.html';
 					} else {

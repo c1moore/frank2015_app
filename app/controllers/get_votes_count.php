@@ -48,12 +48,7 @@
 				$count_index = 0;
 				$count = mysqli_fetch_assoc($count_result);
 				while($result = mysqli_fetch_assoc($votes_result)) {
-					$vote = array();
-					$vote['name'] = $result['name'];
-					$vote['id'] = $result['id'];
-					$vote['start_time'] = $result['start_time'];
-					$vote['duration'] = $result['duration'];
-					$vote['question'] = $result['question'];
+					$vote = $result;
 					$vote['answers'] = array();
 
 					$temp = explode('|', $result['answers']);
@@ -65,16 +60,52 @@
 
 						if($count) {
 							if($count['vote_id'] === $vote['id']) {
-								$answer['count'] = $count['vote_count'];
-								$count = mysqli_fetch_assoc($votes_result);
+								$count_choice_ascii = ord($count['choice']);
+								$ans_option_ascii = ord($answer['option']);
+								
+								if($count_choice_ascii === $ans_option_ascii) {
+									$answer['count'] = $count['vote_count'];
+									$count = mysqli_fetch_assoc($count_result);	
+								} else if($count_choice_ascii < $ans_option_ascii) {
+									do {
+										$count = mysqli_fetch_assoc($count_result);
+										$count_choice_ascii = ord($count['choice']);
+										$ans_option_ascii = ord($answer['option']);
+									} while ($count_choice_ascii < $ans_option_ascii);
+
+									if($count_choice_ascii === $ans_option_ascii) {
+										$answer['count'] = $count['vote_count'];
+										$count = mysqli_fetch_assoc($count_result);	
+									}
+								} else {
+									$answer['count'] = 0;
+								}
 							} else if($count['vote_id'] < $vote['id']) {
 								do {
-									$count = mysqli_fetch_assoc($votes_result);
-								} while($count['vote_id'] < $vote['id'] && $count['vote_id']);	//While the current vote of $count is less than the current vote of $vote, get the next row if that row exists.
+									$count = mysqli_fetch_assoc($count_result);
+								} while($count && $count['vote_id'] < $vote['id']);	//While the current vote of $count is less than the current vote of $vote, get the next row if that row exists.
 
 								if($count['vote_id'] === $vote['id']) {
-									$answer['count'] = $count['vote_count'];
-									$count = mysqli_fetch_assoc($votes_result);
+									$count_choice_ascii = ord($count['choice']);
+									$ans_option_ascii = ord($answer['option']);
+									
+									if($count_choice_ascii === $ans_option_ascii) {
+										$answer['count'] = $count['vote_count'];
+										$count = mysqli_fetch_assoc($count_result);	
+									} else if($count_choice_ascii < $ans_option_ascii) {
+										do {
+											$count = mysqli_fetch_assoc($count_result);
+											$count_choice_ascii = ord($count['choice']);
+											$ans_option_ascii = ord($answer['option']);
+										} while ($count_choice_ascii < $ans_option_ascii);
+
+										if($count_choice_ascii === $ans_option_ascii) {
+											$answer['count'] = $count['vote_count'];
+											$count = mysqli_fetch_assoc($count_result);	
+										}
+									} else {
+										$answer['count'] = 0;
+									}
 								} else {
 									$answer['count'] = 0;
 								}
