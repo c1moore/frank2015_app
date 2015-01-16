@@ -49,10 +49,12 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 
 		$scope.carouselFilter = function(row) {
 			var interestMatches = false;
-			for(var i=0; i<row.interests.length; i++) {
-				if(row.interests[i].toLowerCase().indexOf($scope.carouselQuery || '') !== -1) {
-					interestMatches = true;
-					break;
+			if(row.interests != undefined) {
+				for(var i=0; i<row.interests.length; i++) {
+					if(row.interests[i].toLowerCase().indexOf($scope.carouselQuery || '') !== -1) {
+						interestMatches = true;
+						break;
+					}
 				}
 			}
 
