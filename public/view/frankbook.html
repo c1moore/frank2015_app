@@ -41,25 +41,25 @@
 				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}">View Participant Table</span>
 				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(15)}"><i class="fa fa-search"></i></div>
 				<input class="search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(15)}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
-				<ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls>
-					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in (participants | filter:carouselFilter) track by $index" bindonce>
+				<ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls rn-carousel-buffered>
+					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in participants | filter:carouselFilter track by $index">
 						<div ng-class="{'participantcarousel-content-portrait': portrait, 'participantcarousel-content-landscape': !portrait}" class="participantcarousel-content">
-							<img ng-class="{'participantpic-portrait': portrait, 'participantpic-landscape': !portrait}" class="participantpic" bo-src="participant.image" />
+							<img ng-class="{'participantpic-portrait': portrait, 'participantpic-landscape': !portrait}" class="participantpic" src="{{participant.image}}" />
 							<div ng-class="{'sidecontent-landscape' : !portrait}" ng-style="{'width' : sideContent}">
 								<div ng-if="portrait">
-									<h1 class="participantname-portrait participantname" bo-text="participant.name"></h1>
-									<p class="participantemail-portrait participantemail" bo-text="participant.email"></p>
-									<p class="participanttwitter-portrait participanttwitter" bo-text="participant.twitter"></p>
+									<h1 class="participantname-portrait participantname"> {{participant.name}}</h1>
+									<p class="participantemail-portrait participantemail">{{participant.email}}</p>
+									<p class="participanttwitter-portrait participanttwitter">{{participant.twitter}}</p>
 								</div>
 								<div ng-if="!portrait">
-									<h1 class="participantname-landscape participantname" data-fittext data-fittext-max="50px" bo-text="participant.name"></h1><br/>
-									<p class="participantemail-landscape participantemail" data-fittext data-fittext-max="23px" bo-text="participant.email"></p>
+									<h1 class="participantname-landscape participantname" data-fittext data-fittext-max="50px">{{participant.name}}</h1><br/>
+									<p class="participantemail-landscape participantemail" data-fittext data-fittext-max="23px">{{participant.email}}</p>
 									<br />
-									<p class="participanttwitter-landscape participanttwitter" fittext data-fittext-max="23px" bo-text="participant.twitter"></p>
+									<p class="participanttwitter-landscape participanttwitter" data-fittext data-fittext-max="23px">{{participant.twitter}}</p>
 								</div>
 								<div ng-class="{'interests-portrait': portrait, 'interests-landscape': !portrait}" class="interests">
-									<div ng-repeat="interest in participant.interests track by $index" bindonce>
-										<img ng-class="{'participantinterests-portrait': portrait, 'participantinterests-landscape': !portrait}" class="participantinterests" bo-src="intServArr[interest]" bo-alt="interest" />
+									<div ng-repeat="interest in participant.interests track by $index">
+										<img ng-class="{'participantinterests-portrait': portrait, 'participantinterests-landscape': !portrait}" class="participantinterests" src="{{intServArr[interest]}}" alt="{{interest}}" />
 									</div>
 								</div>
 							</div>
