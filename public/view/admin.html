@@ -75,7 +75,7 @@
               <label style="width: 100%;">Question: <input type="text" ng-model="vote.question" placeholder="Is frank awesome?" style="width: 70%;" /></label>
               <div id="answers-field">
                 <label ng-repeat="answer in vote.answers track by answer.id" style="width: 100%;">Answer {{answer.id}}: 
-                  <div style="width: 100%; margin-left: 10px;"><a href="" id="deleteAns" ng-if="enoughAnswers()" ng-click="removeAnswer($index)"><i class="fa fa-times"></i></a><input type="text" ng-model="answer.text" style="width: 90%;" placeholder="{{vote.placeholders[$index]}}" /><button role="button" class="btn btn-success" style="max-width: 8%; margin-left: 5px;" ng-click="addAnswer()" ng-if="$last"><i class="fa fa-plus"></i></button></div>
+                  <div style="width: 100%; margin-left: 10px;"><a href="" id="deleteAns" ng-if="enoughAnswers()" ng-click="removeAnswer($index)" tabindex="-1"><i class="fa fa-times"></i></a><input type="text" ng-model="answer.text" style="width: 90%;" placeholder="{{vote.placeholders[$index]}}" /><button role="button" class="btn btn-success" style="max-width: 8%; margin-left: 5px;" ng-click="addAnswer()" ng-if="$last"><i class="fa fa-plus"></i></button></div>
                 </label>
               </div>
             </form>
