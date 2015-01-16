@@ -75,6 +75,7 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 
 		var setupOpenStatuses = function() {
 			for(var i=0; i<$scope.votes.length; i++) {
+				$scope.userVote[i] = $scope.votes[i].user_choice;
 				if(parseInt($scope.votes[i].start_time, 10) <= Date.now()) {
 					$scope.voteOpen[i] = true;
 				} else {
@@ -121,6 +122,8 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 			var submission_time = Date.now();
 			if(submission_time <= ($scope.votes[index].start_time + $scope.votes[index].duration)) {
 				$http.post('../../app/controllers/submit_vote.php', {'vote_id' : $scope.votes[index].id, 'user_id' : user_id, 'email' : email, 'username' : username, 'choice' : $scope.userVote[index], 'submission_time' : submission_time}).success(function(response) {
+					$scope.votes[index].user_choice = $scope.userVote[index];
+					
 					$window.alert("Your ballot has been submitted.");
 				}).error(function(response, status) {
 					if(status === 500) {
@@ -129,8 +132,6 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 						$scope.storage.remove('user_id');
 						$scope.storage.remove('email');
 						$scope.storage.remove('username');
-
-						$scope.votes[index].user_choice = $scope.userVote[index];
 
 						$window.location.href = 'login.html';
 					} else {
