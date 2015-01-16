@@ -169,6 +169,10 @@ ul[rn-carousel]>li {
   color:#ffffff;
 }
 
+.interests div {
+  display: inline-block;
+}
+
 .participantcarousel-content {
   margin-top: 0;
 }
