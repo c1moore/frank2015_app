@@ -48,7 +48,7 @@
 				$attendee['email'] = $result['email'];
 				$attendee['twitter'] = $result['twitter_handle'];
 				$attendee['image'] = $result['pic_path'];
-				$attendee['interests'] = $result['interests'];
+				$attendee['interests'] = explode(",", $result['interests']);
 
 				$attendees[$index] = $attendee;
 			}
@@ -119,6 +119,7 @@
 	}
 
 	header("HTTP/1.1 200 OK", true, 200);
+	$attendees = array_values($attendees);
 	echo json_encode($attendees);
 	exit();
 ?>

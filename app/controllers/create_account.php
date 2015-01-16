@@ -182,6 +182,8 @@
 			$_POST['username'] = '';
 		}
 
+		$_POST['interests'] = json_decode($_POST['interests']);		//For some reason, the interests array is not decoded.
+
 		if(!count($_POST['interests'])) {
 			$_POST['interests'] = '';
 		} else {
