@@ -81,6 +81,28 @@ var appWindow = angular.module('appWindow', ['snap']);
 		return headerDefinition;
 	});
 
+	appWindow.directive('frankSidebarMenu', function($location, $timeout) {
+		var frankSidebarMenuDefinition = {
+			restrict : "E",
+			template : 	"<a href='directory.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-home'></i> Home</a> <br />" +
+						"<a href='frankbook_directory.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-user'></i> Who's Here?</a> <br />" +
+						"<a href='frankbook.html' target='_self' class='btn btn-sidebar sidebar-item sidebar-item-2' role='button'><i class='fa fa-user'></i> frank book</a> <br />" +
+						"<a href='map.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-map-marker'></i> Map</a> <br />" +
+						"<a href='vote.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-check-square-o'></i> Voting</a> <br />",
+			link : function postlink() {
+				$timeout(
+					function() {
+						var path = $location.path().substr(1);
+						var element = angular.element("a.sidebar-item [href='" + path + "']");
+						element.addClass("cp-sidebar-item");
+					},
+				0);
+			}
+		}
+		
+		return frankSidebarMenuDefinition;
+	});
+
 var frankLocalStorage = angular.module('frankLocalStorage', ['LocalStorageModule']);
 
 frankLocalStorage.config(

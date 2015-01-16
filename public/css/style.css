@@ -16,6 +16,19 @@ html, body {
 .button-icon {
 	line-height: 75px;
 }
+.btn-sidebar {
+  width:100%;
+  text-align: left;
+  background-color: #E8E9EB;
+  border-radius: 0;
+  color: black;
+  border-bottom: 1px solid #333232;
+  height: 44px;
+  padding: 11px;
+}
+.btn-sidebar-2 {
+	text-indent: 15px;
+}
 .disabled {
 	opacity: .85;
 	pointer-events: none;
