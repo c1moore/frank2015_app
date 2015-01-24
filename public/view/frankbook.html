@@ -44,17 +44,18 @@
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in participants | filter:carouselFilter track by $index">
 						<div ng-class="{'participantcarousel-content-portrait': portrait, 'participantcarousel-content-landscape': !portrait}" class="participantcarousel-content">
 							<img ng-class="{'participantpic-portrait': portrait, 'participantpic-landscape': !portrait}" class="participantpic" src="{{participant.image}}" />
-							<div ng-class="{'sidecontent-landscape' : !portrait}" ng-style="{'width' : sideContent}">
-								<div ng-if="portrait">
+							<div ng-class="{'sidecontent-landscape' : !portrait, 'sidecontent-portrait' : portrait}"> <!--  ng-style="{'width' : sideContent}" -->
+								<div ng-if="portrait" class="sidecontent-text" ng-class="{'sidecontent-text-portrait' : portrait}">
 									<h1 class="participantname-portrait participantname"> {{participant.name}}</h1>
 									<p class="participantemail-portrait participantemail">{{participant.email}}</p>
+									<br />
 									<p class="participanttwitter-portrait participanttwitter">{{participant.twitter}}</p>
 								</div>
 								<div ng-if="!portrait">
 									<h1 class="participantname-landscape participantname" data-fittext data-fittext-max="50px">{{participant.name}}</h1><br/>
 									<p class="participantemail-landscape participantemail" data-fittext data-fittext-max="23px">{{participant.email}}</p>
 									<br />
-									<p class="participanttwitter-landscape participanttwitter" data-fittext data-fittext-max="23px">{{participant.twitter}}</p>
+									<p class="participanttwitter-landscape participanttwitter">{{participant.twitter}}</p>
 								</div>
 								<div ng-class="{'interests-portrait': portrait, 'interests-landscape': !portrait}" class="interests">
 									<div ng-repeat="interest in participant.interests track by $index">

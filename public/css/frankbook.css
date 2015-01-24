@@ -316,7 +316,11 @@ ul[rn-carousel]>li {
 
 /* Styles for portrait orientation */
 .interests-portrait {
-  width: 55vw;
+  transform: matrix(1, 0, -0.6, 1, 0, 0);
+  -webkit-transform: matrix(1, 0, -0.6, 1, 0, 0);
+  -moz-transform: matrix(1, 0, -0.6, 1, 0, 0);
+  -o-transform: matrix(1, 0, -0.6, 1, 0, 0);
+  width: 60vw;
 }
 
 .interests-portrait img {
@@ -324,14 +328,14 @@ ul[rn-carousel]>li {
 }
 
 .participantcarousel-content-portrait {
-  /*position: relative;*/
-  margin: 10px auto;
-  width: 55vw;
+  width: 100vw;
+  height: 84vh;
   text-align: center;
 }
 
 .participantemail-portrait {
   font-size: 4vmin;
+  display: inline;
 }
 
 .participantinterests-portrait {
@@ -341,11 +345,43 @@ ul[rn-carousel]>li {
 
 .participantname-portrait {
   font-size: 7vmin;
+  display: inline;
 }
 
 .participantpic-portrait {
-  width: 55vmin;
-  height: 60vmin;
+  width: 100%;
+  height: 100%;
+}
+
+.participanttwitter-portrait {
+  display: inline;
+  font-size: 4vmin;
+}
+
+.sidecontent-portrait {
+  position: absolute;
+  width: 75vw;
+  top: 50vh;
+  right: 0;
+  background-color: rgb(115, 201, 45);
+  background-color: rgba(115, 201, 45, .85);
+  text-align: right;
+  transform: matrix(1, 0, 0.6, 1, 0, 0);
+  -webkit-transform: matrix(1, 0, 0.6, 1, 0, 0);
+  -moz-transform: matrix(1, 0, 0.6, 1, 0, 0);
+  -o-transform: matrix(1, 0, 0.6, 1, 0, 0);
+  transform-origin: top right;
+  -webkit-transform-origin: top right;
+  -moz-transform-origin: top right;
+  -o-transform-origin: top right;
+}
+
+.sidecontent-text-portrait {
+  transform: matrix(1, 0, -0.6, 1, 0, 0);
+  -webkit-transform: matrix(1, 0, -0.6, 1, 0, 0);
+  -moz-transform: matrix(1, 0, -0.6, 1, 0, 0);
+  -o-transform: matrix(1, 0, -0.6, 1, 0, 0);
+  width: 69vw;
 }
 
 
@@ -359,9 +395,9 @@ ul[rn-carousel]>li {
 }
 
 .participantcarousel-content-landscape {
-  /*position: relative;*/
   margin: 0px auto;
   width: 75vw;
+  height: 80vh;
 }
 
 .participantemail-landscape {
@@ -377,19 +413,28 @@ ul[rn-carousel]>li {
 
 .participantname-landscape {
   font-size: 7vmin;
+  margin-top: 0;
 }
 
 .participantpic-landscape {
-  width: 55vmin;
-  height: 60vmin;
+  width: 25vw;
+  height: 100%;
   display: inline-block;
   vertical-align: top;
+}
+
+.participanttwitter-landscape {
+  font-size: 23px;
 }
 
 .sidecontent-landscape {
   display: inline-block;
   margin-left: 20px;
-  max-height: 60vmin;
+  height: 50vh;
+  margin-top: 15vh;
+  max-width: 40vw;
+  padding: 20px;
+  background-color: rgba(115, 201, 45, .85);
 }
 
 /*Angular-snap.css Modifications*/
