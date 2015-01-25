@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="frankAppSFBook">
+
+	<head>
+		<base href="/tests_c1m/public/view/" />
+		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no">
+
+		<script data-require="jquery@*" data-semver="2.1.1" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script data-require="bootstrap@*" data-semver="3.2.0" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script data-require="angular.js@*" data-semver="1.3.0" src="//code.angularjs.org/1.3.0/angular.js"></script>
+		<script src="../libraries/angular-local-storage/dist/angular-local-storage.js"></script>
+		<script data-require="angular-ui@*" data-semver="0.4.0" src="http://rawgithub.com/angular-ui/angular-ui/master/build/angular-ui.js"></script>
+		<script type="text/javascript" src="../libraries/bindonce/bindonce.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0/angular-animate.min.js"></script>
+		<script data-require="angular-touch@*" data-semver="1.2.13" src="http://code.angularjs.org/1.2.13/angular-touch.js"></script>
+		<script src="../js/snap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/angular-snap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="http://blog.revolunet.com/angular-carousel/dist/angular-carousel.min.js"></script>
+		<script src="../libraries/ng-FitText/src/ng-FitText.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../libraries/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+		<script src="../js/script.js"></script>
+		<script type="text/javascript" src="../js/speaker-frankbook.js"></script>
+
+
+		<link data-require="bootstrap@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+		<link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
+		<link rel="stylesheet" href="http://blog.revolunet.com/angular-carousel/dist/angular-carousel.min.css" />
+		<link rel="stylesheet" href="../css/style.css" />
+		<!-- <link rel="stylesheet" href="../css/frankbook.css" /> -->
+		<link rel="stylesheet" href="../css/speaker-frankbook.css" />
+	</head>
+
+	<body ng-controller="SpeakerController" resizable>
+		<snap-drawer id='left-snap-drawer'>
+			<frank-sidebar-menu></frank-sidebar-menu>
+		</snap-drawer>
+		<snap-content id="snap-content">
+			<frank-header>frank book</frank-header>
+			<section ng-show="carousel">
+				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}">View Speaker Table</span>
+				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(15)}"><i class="fa fa-search"></i></div>
+				<input class="search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(15)}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
+				<ul data-role="page" id="speakercarousel" ng-class="{'speakercarousel-portrait': portrait, 'speakercarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls rn-carousel-buffered>
+					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="speaker in speakers | filter:carouselFilter track by $index">
+						<div ng-class="{'speakercarousel-content-portrait': portrait, 'speakercarousel-content-landscape': !portrait}" class="speakercarousel-content">
+							<img ng-class="{'speakerpic-portrait': portrait, 'speakerpic-landscape': !portrait}" class="speakerpic" src="{{speaker.image}}" />
+							<div ng-class="{'sidecontent-landscape' : !portrait, 'sidecontent-portrait' : portrait}"> <!--  ng-style="{'width' : sideContent}" -->
+								<div ng-if="portrait" class="sidecontent-text" ng-class="{'sidecontent-text-portrait' : portrait}">
+									<h1 class="speakername-portrait speakername"> {{speaker.name}}</h1>
+									<p class="speakeremail-portrait speakeremail">{{speaker.organization}}</p>
+									<div class="speaker-bio-portrait">
+										<span ng-bind-html="speaker.bio"></span>
+									</div>
+								</div>
+								<div ng-if="!portrait">
+									<h1 class="speakername-landscape speakername" data-fittext data-fittext-max="50px">{{speaker.name}}</h1><br/>
+									<p class="speakeremail-landscape speakeremail" data-fittext data-fittext-max="23px">{{speaker.organization}}</p>
+									<div class="speaker-bio-landscape">
+										<span ng-bind-html="speaker.bio"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</section>
+			<section ng-hide="carousel" style="overflow-y:auto; height:100vh;">
+				<span class="view-switch" ng-click="carousel = true" ng-style="{'margin-top' : getTopMargin(15)}">View Speaker Carousel</span>
+				<div ng-style="{'margin-top' : getTopMargin(40)}" class="ptable-body">
+					<label for="search">Search: </label><input ng-model="query[queryBy]" name="search"/><br />
+					<label for="searchby" style="margin-top:5px;">Search by: </label>
+					<select ng-model="queryBy" name="searchby">
+						<option value="$">All Fields</option>
+						<option value="name">Name</option>
+						<option value="organization">Organization</option>
+					</select>
+					<hr />
+					<div class="frank-table">
+						<table infinite-scroll="loadMore()" infinite-scroll-distance="3">
+							<tr>
+								<th ng-show="showing.name">Name</th>
+								<th ng-show="showing.organization">Organization</th>
+							</tr>
+							<tr ng-repeat="speaker in speakers | filter:query | limitTo:tableLimit" bindonce>
+								<td ng-show="showing.name" bo-text="speaker.name"></td>
+								<td ng-show="showing.organization" bo-text="speaker.organization"></td>
+							</tr>
+						</table>
+						<span ng-if="tableLimit < speakers.length" class="ptable-loading"><em>Scroll to load more...</em></span>
+					</div>
+				</div>
+			</section>
+		</snap-content>
+	</body>
+
+</html>
