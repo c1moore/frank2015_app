@@ -39,7 +39,7 @@
 	$attendees = array();
 
 	if(!mysqli_connect_error()) {
-		if($results = mysqli_query($conn, "SELECT * FROM USER")) {
+		if($results = mysqli_query($conn, "SELECT * FROM User")) {
 			while($result = mysqli_fetch_assoc($results)) {
 				$index = $result["csv_index"];
 
