@@ -24,7 +24,7 @@
 		<link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
 		<link rel="stylesheet" href="../css/style.css" />
-		<!-- <link rel="stylesheet" href="../css/frankbook.css" /> -->
+		<link rel="stylesheet" href="../css/map.css" />
 	</head>
 
 	<body ng-controller="mapCtrl" resizable>
@@ -33,12 +33,40 @@
 		</snap-drawer>
 		<snap-content id="snap-content">
 			<frank-header>Locator</frank-header>
-			<map ng-style="{'margin-top' : getTopMargin(0), height : getMapHeight()}" style="width : 100vw;" zoom="17" center="29.649426,-82.323977" map-type-id="ROADMAP">
-				<marker position="29.649426,-82.323977" title="Hippodrome State Theatre" draggable="false" visible="true">
-				</marker>
-				<marker ng-if="userLoc" position="{{lat}}, {{lng}}" title="Your Location" animation="Animation.BOUNCE" visible="true">
+			<map ng-style="{'margin-top' : getTopMargin(0), height : getMapHeight()}" style="width : 100vw;" zoom="17" center="{{mapCenter}}" map-type-id="ROADMAP" on-drag="stopTracking()">
+				<info-window position="29.649426,-82.323977" visible="true" id="hipp_iw" title="hipp_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Hippodrome State Theatre</h4>
+					</div>
+				</info-window>
+				<info-window position="29.6520975,-82.3250057" visible="true" id="wooly_iw" title="wooly_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">The Wooly</h4>
+					</div>
+				</info-window>
+				<info-window position="29.652054,-82.323598" visible="true" id="bdp_iw" title="bdp_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Bo Diddley Plaza</h4>
+					</div>
+				</info-window>
+				<info-window position="29.6862705,-82.319746" visible="true" id="hamp_inn_iw" title="hamp_inn_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4>Hampton Inn</h4>
+					</div>
+				</info-window>
+				<marker ng-if="userLoc" position="{{lat}}, {{lng}}" title="Your Location" icon="{{crosshairs}}" visible="true">
 				</marker>
 			</map>
+			<button ng-click="toggleTracking()" ng-class="{'tracking-active' : trackUser, 'tracking-inactive' : !trackUser}" class="track-but"><i class="fa fa-crosshairs"></i></button>
+			<div class="marker_selector">
+				<span class="marker_selector_title">Show markers:</span>
+				<form class="marker_selector_options">
+					<label><input type="checkbox" ng-click="updateMarkers('hipp_iw')" ng-model="showHipp" />Hippodrome State Theatre</label>
+					<label><input type="checkbox" ng-click="updateMarkers('wooly_iw')" ng-model="showWooly" ng-true-value="true" ng-false-value="false" />The Wooly</label>
+					<label><input type="checkbox" ng-click="updateMarkers('bdp_iw')" ng-model="showBDP" ng-true-value="true" ng-false-value="false" />Bo Diddley Plaza</label>
+					<label><input type="checkbox" ng-click="updateMarkers('hamp_inn_iw')" ng-model="showHampton" ng-true-value="true" ng-false-value="false" />Hampton Inn</label>
+				</form>
+			</div>
 		</snap-content>
 	</body>
 

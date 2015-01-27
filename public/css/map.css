@@ -1,0 +1,58 @@
+.fa.fa-crosshairs {
+	margin: 0;
+	padding: 0;
+}
+.marker_selector {
+	position: fixed;
+	bottom: 0;
+	background-color: #333232;
+	color: #E8E9EB;
+	width: 100vw;
+	height: 65px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.marker_selector_options {
+	margin-left: 25px;
+	padding: 5px;
+}
+
+.marker_selector_options label {
+	margin-right: 20px;
+}
+
+.marker_selector_title {
+	font-size: 18px;
+	font-weight: 800;
+	padding: 10px;
+}
+
+.marker_title {
+	margin-top: 0;
+}
+
+.track-but {
+	position: absolute;
+	right: 10px;
+	bottom: 75px;
+	height: 42px;
+	width: 42px;
+	padding: 0;
+	font-size: 24px;
+	border-radius: 7px;
+	border-color: #333232;
+	border-style: solid;
+	border-width: 1px;
+	text-align: center;
+}
+
+.track-but.tracking-active {
+	color: white;
+	background-color: blue;
+}
+
+.track-but.tracking-inactive {
+	color: blue;
+	background-color: white;
+}
