@@ -53,7 +53,11 @@ frankAppSFBook.controller('SpeakerController', ['$scope', '$http', 'localStorage
 
 		$scope.loadMore = function() {
 			$scope.tableLimit += 20;
-		}
+		};
+
+		$scope.getBioLinkMargin = function() {
+			return (($window.innerWidth * .5) - 50) + 'px';
+		};
 		
 		$scope.speakers = [
 			{

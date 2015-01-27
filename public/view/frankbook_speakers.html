@@ -41,11 +41,12 @@
 				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}">View Speaker Table</span>
 				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(15)}"><i class="fa fa-search"></i></div>
 				<input class="search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(15)}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
-				<ul data-role="page" id="speakercarousel" ng-class="{'speakercarousel-portrait': portrait, 'speakercarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls rn-carousel-buffered>
+				<ul data-role="page" id="speakercarousel" ng-class="{'speakercarousel-portrait': portrait, 'speakercarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls>
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="speaker in speakers | filter:carouselFilter track by $index">
 						<div ng-class="{'speakercarousel-content-portrait': portrait, 'speakercarousel-content-landscape': !portrait}" class="speakercarousel-content">
 							<img ng-class="{'speakerpic-portrait': portrait, 'speakerpic-landscape': !portrait}" class="speakerpic" src="{{speaker.image}}" />
-							<div ng-class="{'sidecontent-landscape' : !portrait, 'sidecontent-portrait' : portrait}"> <!--  ng-style="{'width' : sideContent}" -->
+							<a href="{{'#bio' + $index}}" role="button" class="bio-link" ng-style="{'margin-left' : getBioLinkMargin()}">Bio <i class="fa fa-chevron-down"></i></a>
+							<div ng-class="{'sidecontent-landscape' : !portrait, 'sidecontent-portrait' : portrait}" id="{{'bio' + $index}}"> <!--  ng-style="{'width' : sideContent}" -->
 								<div ng-if="portrait" class="sidecontent-text" ng-class="{'sidecontent-text-portrait' : portrait}">
 									<h1 class="speakername-portrait speakername"> {{speaker.name}}</h1>
 									<p class="speakeremail-portrait speakeremail">{{speaker.organization}}</p>

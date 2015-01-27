@@ -38,6 +38,19 @@ ul[rn-carousel]>li {
   height: 100vh;
 }
 
+.bio-link {
+  position: absolute;
+  top: 70vh;
+  width: 100px;
+  height: 35px;
+  font-size: 22px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #E8E9EB;
+  background-color: rgba(232, 233, 235, .6);
+  border-radius: 20px;
+}
+
 .btn-sidebar {
   width:100%;
   text-align: left;
