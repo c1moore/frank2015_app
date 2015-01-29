@@ -55,8 +55,15 @@ frankAppSFBook.controller('SpeakerController', ['$scope', '$http', 'localStorage
 			$scope.tableLimit += 20;
 		};
 
-		$scope.getBioLinkMargin = function() {
+		$scope.getBioLinkLeftPos = function() {
 			return (($window.innerWidth * .5) - 50) + 'px';
+		};
+
+		$scope.scrollToBio = function(index) {
+			elemId = 'carousel-item-' + index;
+			$timeout(function() {
+				document.getElementById(elemId).scrollTop = $window.innerHeight * .75;
+			},0);
 		};
 		
 		$scope.speakers = [

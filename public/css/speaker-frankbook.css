@@ -40,7 +40,7 @@ ul[rn-carousel]>li {
 
 .bio-link {
   position: absolute;
-  top: 70vh;
+  top: 60vh;
   width: 100px;
   height: 35px;
   font-size: 22px;
@@ -388,6 +388,14 @@ ul[rn-carousel]>li {
 
 .speaker-bio-landscape p {
   text-indent: 25px;
+}
+
+.speaker-bio-landscape {
+  margin-bottom: 50px;
+}
+
+.speaker-bio-landscape span {
+  margin-bottom: 50px;
 }
 
 .speakercarousel-content-landscape {
