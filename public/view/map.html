@@ -58,7 +58,7 @@
 				</marker>
 			</map>
 			<button ng-click="toggleTracking()" ng-class="{'tracking-active' : trackUser, 'tracking-inactive' : !trackUser}" class="track-but"><i class="fa fa-crosshairs"></i></button>
-			<div class="marker_selector">
+			<div class="marker_selector" id="marker_selector">
 				<span class="marker_selector_title">Show markers:</span>
 				<form class="marker_selector_options">
 					<label><input type="checkbox" ng-click="updateMarkers('hipp_iw')" ng-model="showHipp" />Hippodrome State Theatre</label>

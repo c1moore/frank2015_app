@@ -37,7 +37,7 @@ frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '
 		};
 
 		$scope.getMapHeight = function() {
-			return $window.innerHeight - parseInt(angular.element("#header").css('height'), 10);
+			return $window.innerHeight - parseInt(angular.element("#header").css('height'), 10) - parseInt(angular.element("#marker_selector").css('height'), 10);
 		};
 
 		$scope.crosshairs = {
