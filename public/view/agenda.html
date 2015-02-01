@@ -15,7 +15,7 @@
 		<script data-require="angular-touch@*" data-semver="1.2.13" src="http://code.angularjs.org/1.2.13/angular-touch.js"></script>
 		<script src="../js/snap.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/angular-snap.js" type="text/javascript" charset="utf-8"></script>
-		<script src="http://blog.revolunet.com/angular-carousel/dist/angular-carousel.min.js"></script>
+		<script src="../libraries/angular-carousel/dist/angular-carousel.min.js"></script>
 		<script src="../libraries/ng-FitText/src/ng-FitText.js" type="text/javascript"></script>
 		<script src="../js/script.js"></script>
 		<script type="text/javascript" src="../js/agenda.js"></script>
@@ -24,7 +24,7 @@
 		<link data-require="bootstrap@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
 		<link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
-		<link rel="stylesheet" href="http://blog.revolunet.com/angular-carousel/dist/angular-carousel.min.css" />
+		<link rel="stylesheet" href="../libraries/angular-carousel/dist/angular-carousel.min.css" />
 		<link rel="stylesheet" href="../css/style.css" />
 		<!-- <link rel="stylesheet" href="../css/frankbook.css" /> -->
 	</head>
@@ -36,14 +36,16 @@
 		<snap-content id="snap-content">
 			<frank-header>Agenda</frank-header>
 			<div class="calendar">
-				<ul data-role="page" class="calendar-carousel" rn-carousel rn-carousel-index="day" rn-carousel-controls>
-					<li class="calendar-day" ng-repeat="day in dailyCalendar track by day.start_time" ng-if="happensToday($index, day.start_time)">
+				<ul data-role="page" class="calendar-carousel" rn-carousel rn-carousel-index="day" rn-carousel-controls rn-carousel-deep-watch>
+					<li class="calendar-day" ng-repeat="day in dailyCalendar track by $index">
 						<h1 class="date-heading">Day {{$index}} ()</h1>
-						<div class="calendar-allday">
-							<div class="allday-event" ng-repeat="allDayEvent in day track by $index" ng-style="{height : allDayEvent.height, 'background-color' : #333232, color : #E8E9EB}"></div>
-						</div>
-						<div class="calendar-hourly">
-							<div class="event" ng-repeat="event in day track by $index" ng-style="{height : event.height, 'background-color' : eventColors[$index % eventColors.length], color : #E8E9EB}"></div>
+						<div class="calendar-area">
+							<div class="calendar-allday">
+								<div class="allday-event" ng-repeat="event in day.allDayList track by event.start_time" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : '#333232', color : '#E8E9EB'}"></div>
+							</div>
+							<div class="calendar-hourly">
+								<div class="event" ng-repeat="event in day.hourlyList track by event.start_time" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : getEventColor($index), color : '#E8E9EB'}"></div>
+							</div>
 						</div>
 					</li>
 				</ul>
