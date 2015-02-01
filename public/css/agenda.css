@@ -1,0 +1,72 @@
+ul[rn-carousel] {
+	overflow-y: auto;
+	position: relative;
+	margin: 0;
+}
+
+ul[rn-carousel] li {
+	height: 2880px;
+}
+
+.allday-event {
+	width: 25px;
+	position: absolute;
+	display: inline-block;
+	margin-left: 10px;
+	left: 0;
+}
+
+.allday-event span {
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	-o-transform: rotate(90deg);	transform-origin: left top 0;
+	-webkit-transform-origin: left top 0;
+	-moz-transform-origin: left top 0;
+	-ms-transform-origin: left top 0;
+	-o-transform-origin: left top 0;
+	display: inline-block;
+	margin-left: 24px;
+	height: 175px;
+	width: 175px;
+}
+
+.calendar-allday {
+	display: inline-block;
+}
+
+.calendar-hourly {
+	display: inline-block;
+}
+
+.date-heading {
+	text-align: center;
+}
+
+.event {
+	position: absolute;
+}
+
+.event-location {
+	text-indent: 25px;
+}
+
+.event-name {
+	font-weight: 900;
+}
+
+.hourly-event-time {
+	margin-bottom: 5px;
+}
+
+.time-bar {
+	border-bottom-width: 1px;
+	border-bottom-color: black;
+	width: 100vw;
+	text-align: right;
+}
+
+.faded-time-bar {
+	opacity : .75;
+}
