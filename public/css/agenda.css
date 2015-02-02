@@ -61,12 +61,15 @@ ul[rn-carousel] li {
 }
 
 .time-bar {
+	position: fixed;
 	border-bottom-width: 1px;
 	border-bottom-color: black;
+	border-bottom-style: solid;
 	width: 100vw;
 	text-align: right;
+	z-index: 500;
 }
 
 .faded-time-bar {
-	opacity : .75;
+	opacity : .3;
 }

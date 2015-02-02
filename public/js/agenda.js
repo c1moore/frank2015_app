@@ -96,6 +96,45 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		};
 
 		/**
+		* Returns the number of days into the frank 2015.
+		*/
+		$scope.daysSinceStart = function() {
+			var x = (Date.now() - $scope.startDate) / $scope.millisInDay;
+			return (x>=0) ? x : 0;
+		};
+
+		$scope.day = $scope.daysSinceStart();		//Set the index for the carousel.
+
+		$scope.timeBarTop = 0;
+		$scope.time = null;
+		/**
+		* Sets timeBarTop, which represents the value of the CSS property top.  This function also has a
+		* timeout to repeatedly call this function so the timebar moves with the time.
+		*/
+		$scope.setTimeBarTop = function() {
+			var currTime = new Date(Date.now());
+			var midnight = Date.parse(new Date(currTime.getFullYear(), currTime.getMonth(), currTime.getDate(), 0, 0, 0));
+
+			$scope.timeBarTop = Math.floor(((currTime - midnight) / (60 * 1000)) * $scope.pixelMinuteRatio);
+			$scope.time = Date.parse(currTime);
+
+			$timeout(function() {$scope.setTimeBarTop();}, 10000);		//Update every 10 seconds.
+		};
+
+		$scope.setTimeBarTop();
+
+		/**
+		* Set the page to initially scroll so that the time-bar is in the center of the page.
+		*/
+		var setPageScrollTop = function() {
+			$timeout(function() {
+				document.getElementsByClassName("calendar-carousel")[0].scrollTop = $scope.timeBarTop - ($window.innerHeight * .5);
+			}, 0);
+		};
+
+		$scope.$watch('day', function() {setPageScrollTop();});
+
+		/**
 		* Determine the height of the event based on the duration of the event.  starttime and endtime
 		* should be in milliseconds.  1 minute = 3 pixels.
 		*/
@@ -132,16 +171,6 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 
 			return Date.parse(today);
 		};
-
-		/**
-		* Returns the number of days into the frank 2015.
-		*/
-		$scope.daysSinceStart = function() {
-			var x = (Date.now() - $scope.startDate) / $scope.millisInDay;
-			return (x>=0) ? x : 0;
-		};
-
-		$scope.day = $scope.daysSinceStart();		//Set the index for the carousel.
 
 		/**
 		* Determines if a given event occurs today.  Since events do not go over to the next day, only
@@ -187,6 +216,7 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		$scope.dailyCalendar = [];
 		$http.post('../../app/controllers/get_agenda.php', {'start_date' : 0}).success(function(response) {
 			$scope.segregateDays(response);
+			setPageScrollTop();
 
 			/*$http.post('../../app/controllers/get_agenda.php', {'end_date' : getMidnightTime()}).success(function(response) {
 				segregateDays(response);
