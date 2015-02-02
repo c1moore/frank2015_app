@@ -18,6 +18,7 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		$scope.pixelMinuteRatio = 2;
 		$scope.hourlyLeftPos = (25 *2) + (10*2) + 10;	//The size of 2 all-day events (there should be the max # of all day events) plus their left-margin (of 10 pixels) plus the left-margin for the hourly event.
 		$scope.hourlyWidth = $window.innerWidth - $scope.hourlyLeftPos - 55;	//The entire width of the screen minus the width of all-day events (times two as there should not be more than 2) minus the left-margin for all-day events (time 2 as there should not be more than 2) minus the margin between all-day and hourly events minus the right-margin of hourly events (including the scrollbar).
+		$scope.halfHrIntervals = ["", "1am", "", "2am", "", "3am", "", "4am", "", "5am", "", "6am", "", "7am", "", "8am", "", "9am", "", "10am", "", "11am", "", "12pm", "", "1pm", "", "2pm", "", "3pm", "", "4pm", "", "5pm", "", "6pm", "", "7pm", "", "8pm", "", "9pm", "", "10pm", "", "11pm", ""];
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
 		/*var user_id = $scope.storage.get('user_id'),
@@ -115,10 +116,10 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 			var currTime = new Date(Date.now());
 			var midnight = Date.parse(new Date(currTime.getFullYear(), currTime.getMonth(), currTime.getDate(), 0, 0, 0));
 
-			$scope.timeBarTop = Math.floor(((currTime - midnight) / (60 * 1000)) * $scope.pixelMinuteRatio);
+			$scope.timeBarTop = Math.floor(((currTime - midnight) / (60 * 1000)) * $scope.pixelMinuteRatio) - 21;
 			$scope.time = Date.parse(currTime);
 
-			$timeout(function() {$scope.setTimeBarTop();}, 10000);		//Update every 10 seconds.
+			$timeout(function() {$scope.setTimeBarTop();}, 1000);		//Update every 1 second.
 		};
 
 		$scope.setTimeBarTop();
@@ -244,9 +245,37 @@ frankAgenda.filter('millisToTime', function() {
 		if(!hour)
 			hour = 12;
 
-		if(!minutes)
-			minutes = '00';
+		if(minutes < 9)
+			minutes = '0' + minutes;
 
 		return hour + ':' + minutes + meridian;
 	};
+});
+
+frankAgenda.directive('marker', function($timeout) {
+	var markerDefinition = {
+		restrict : 'E',
+		scope : {
+			halfHrIntervals : '=',
+			currentIndex: '='
+		},
+		template : "<div class=\"marker\">{{halfHrIntervals[currentIndex]}}</div>",	// ng-style=\"{top : getMarkerPosition(currentIndex)}\"
+		link : function postLink(scope, element, attrs) {
+			/**
+			* Return the value for the CSS top value of each half-hour marker.  In order to position
+			* the marker correctly, the height needs to be subtracted from the position.
+			*/
+			/*scope.getMarkerPosition = function() {
+				$timeout(function() {
+					console.log(element.css('height'));
+					var topValue = ((scope.currentIndex + 1) * 60) - parseInt(element.css('height'), 10);
+					element.css({'top' : topValue});
+				});
+			};
+
+			scope.$watch(function() {return element.css('height');}, scope.getMarkerPosition);*/
+		}
+	};
+
+	return markerDefinition;
 });

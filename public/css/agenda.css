@@ -5,7 +5,6 @@ ul[rn-carousel] {
 }
 
 ul[rn-carousel] li {
-	height: 2880px;
 }
 
 .allday-event {
@@ -36,6 +35,12 @@ ul[rn-carousel] li {
 	display: inline-block;
 }
 
+.calendar-area {
+	position: relative;
+	height: 2880px;		/*2880 pixels for the day (1440 minutes/day time the pixel/minute ratio)*/
+	background-color: white;
+}
+
 .calendar-hourly {
 	display: inline-block;
 }
@@ -56,14 +61,40 @@ ul[rn-carousel] li {
 	font-weight: 900;
 }
 
+.half-hour-marker .marker {
+	opacity: .1;
+}
+
+.hour-marker .marker {
+	opacity: .2;
+}
+
 .hourly-event-time {
 	margin-bottom: 5px;
 }
 
-.time-bar {
-	position: fixed;
+.marker {
+	border: none;
+	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: black;
+	position: relative;
+	text-align: left;
+	height: 60px;
+	vertical-align: bottom;
+	display: table-cell;
+	width: 100vw;
+	top: -21px;
+}
+
+.rn-carousel-control {
+	top: 25px;
+}
+
+.time-bar {
+	position: relative;
+	border-bottom-width: 1px;
+	border-bottom-color: #C54E90;
 	border-bottom-style: solid;
 	width: 100vw;
 	text-align: right;

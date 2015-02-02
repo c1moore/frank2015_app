@@ -39,8 +39,9 @@
 				<ul data-role="page" class="calendar-carousel" rn-carousel rn-carousel-index="day" rn-carousel-controls rn-carousel-deep-watch ng-style="{'margin-top' : getTopMargin(15), height : slideHeight(15)}">
 					<li class="calendar-day" ng-repeat="day in dailyCalendar track by $index">
 						<h1 class="date-heading">Day {{$index}} ()</h1>
-						<div class="time-bar" ng-class="{'faded-time-bar' : $index !== day}" ng-style="{top : timeBarTop}">{{time | millisToTime}}</div>
 						<div class="calendar-area">
+							<div class="time-bar" ng-class="{'faded-time-bar' : $index !== day}" ng-style="{top : timeBarTop}">{{time | millisToTime}}</div>
+							<marker half-hr-intervals="halfHrIntervals" current-index="$index" ng-class="{'hour-marker' : $odd, 'half-hour-marker' : $even}" ng-repeat="interval in halfHrIntervals track by $index"></marker>
 							<div class="calendar-allday">
 								<div class="allday-event" ng-repeat="event in day.allDayList track by event.start_time" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : '#333232', color : '#E8E9EB', top : getScrollTop(event.start_time, $parent.$index)}">
 									<span class="event-time allday-event-time">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
