@@ -85,6 +85,7 @@ var appWindow = angular.module('appWindow', ['snap']);
 		var frankSidebarMenuDefinition = {
 			restrict : "E",
 			template : 	"<a href='directory.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-home'></i> Home</a> <br />" +
+						"<a href='agenda.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-calendar'></i> Agenda</a> <br />" +
 						"<a href='frankbook_directory.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-user'></i> Who's Here?</a> <br />" +
 						"<a href='frankbook.html' target='_self' class='btn btn-sidebar sidebar-item sidebar-item-2' role='button'><i class='fa fa-user'></i> frankbook</a> <br />" +
 						"<a href='frankbook_speakers.html' target='_self' class='btn btn-sidebar sidebar-item sidebar-item-2' role='button'><i class='fa fa-microphone'></i> Speaker frankbook</a> <br />" +
