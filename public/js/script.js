@@ -89,7 +89,7 @@ var appWindow = angular.module('appWindow', ['snap']);
 						"<a href='frankbook_directory.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-user'></i> Who's Here?</a> <br />" +
 						"<a href='frankbook.html' target='_self' class='btn btn-sidebar sidebar-item sidebar-item-2' role='button'><i class='fa fa-user'></i> frankbook</a> <br />" +
 						"<a href='frankbook_speakers.html' target='_self' class='btn btn-sidebar sidebar-item sidebar-item-2' role='button'><i class='fa fa-microphone'></i> Speaker frankbook</a> <br />" +
-						"<a href='events.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-beer'></i> Events</a> <br />" +
+						"<a href='./events' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-beer'></i> Events</a> <br />" +
 						"<a href='map.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-map-marker'></i> Map</a> <br />" +
 						"<a href='vote.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-check-square-o'></i> Voting</a> <br />",
 			link : function postlink() {
