@@ -17,7 +17,6 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		$scope.millisInDay = 1000 * 60 * 60 * 24;
 		$scope.pixelMinuteRatio = 2;
 		$scope.hourlyLeftPos = (25 *2) + (10*2) + 10;	//The size of 2 all-day events (there should be the max # of all day events) plus their left-margin (of 10 pixels) plus the left-margin for the hourly event.
-		$scope.hourlyWidth = $window.innerWidth - $scope.hourlyLeftPos - 55;	//The entire width of the screen minus the width of all-day events (times two as there should not be more than 2) minus the left-margin for all-day events (time 2 as there should not be more than 2) minus the margin between all-day and hourly events minus the right-margin of hourly events (including the scrollbar).
 		$scope.halfHrIntervals = ["", "1am", "", "2am", "", "3am", "", "4am", "", "5am", "", "6am", "", "7am", "", "8am", "", "9am", "", "10am", "", "11am", "", "12pm", "", "1pm", "", "2pm", "", "3pm", "", "4pm", "", "5pm", "", "6pm", "", "7pm", "", "8pm", "", "9pm", "", "10pm", "", "11pm", ""];
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
@@ -38,6 +37,33 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 
 			$window.location.href = 'login.html';
 		}*/
+
+		/**
+		* Returns the width of that an hourly event should have.  The width is the width
+		* of the screen minus the widths of two all day events minus a 10px margin
+		* between each element minus a 10px margin for the right of the hourly event. If
+		* this is a Huddle, the width should be half the size of a normal element to
+		* allow for another block for office hours right beside it.
+		*/
+		$scope.hourlyWidth = function(name) {
+			var hourlyWidth = $window.innerWidth - $scope.hourlyLeftPos - 55;	//The entire width of the screen minus the width of all-day events (times two as there should not be more than 2) minus the left-margin for all-day events (time 2 as there should not be more than 2) minus the margin between all-day and hourly events minus the right-margin of hourly events (including the scrollbar).
+
+			if(name === 'Huddles')
+				hourlyWidth *= .5;
+
+			return hourlyWidth;
+		}
+
+		$scope.officeHrsLeftPos = $scope.hourlyLeftPos + $scope.hourlyWidth('Huddles');
+
+		/**
+		* Returns the header of a given carousel item.  The header has the format
+		* "M/D/YY (Day `index`)".
+		*/
+		$scope.getHeader = function(index) {
+			var date = new Date(($scope.millisInDay * index) + $scope.startDate);
+			return date.toLocaleDateString() + ' (Day ' + index + ')';
+		};
 
 		$scope.getTopMargin = function(height) {
 			var margin = parseInt(angular.element("#header").css('height'), 10) + height;
@@ -132,8 +158,6 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 				document.getElementsByClassName("calendar-carousel")[0].scrollTop = $scope.timeBarTop - ($window.innerHeight * .5);
 			}, 0);
 		};
-
-		$scope.$watch('day', function() {setPageScrollTop();});
 
 		/**
 		* Determine the height of the event based on the duration of the event.  starttime and endtime

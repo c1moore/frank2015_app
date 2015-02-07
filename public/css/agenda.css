@@ -15,6 +15,10 @@ ul[rn-carousel] li {
 	left: 0;
 }
 
+.allday-event-2 {
+	margin-left: 45px;
+}
+
 .allday-event span {
 	transform: rotate(90deg);
 	-webkit-transform: rotate(90deg);
@@ -54,11 +58,15 @@ ul[rn-carousel] li {
 }
 
 .event-location {
-	text-indent: 25px;
+	margin-left: 5px;
 }
 
 .event-name {
 	font-weight: 900;
+}
+
+.event span {
+	min-width: 170px;
 }
 
 .half-hour-marker .marker {

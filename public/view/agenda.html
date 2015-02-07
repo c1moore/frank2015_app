@@ -38,22 +38,31 @@
 			<div class="calendar">
 				<ul data-role="page" class="calendar-carousel" rn-carousel rn-carousel-index="day" rn-carousel-controls rn-carousel-deep-watch ng-style="{'margin-top' : getTopMargin(15), height : slideHeight(15)}">
 					<li class="calendar-day" ng-repeat="day in dailyCalendar track by $index">
-						<h1 class="date-heading">Day {{$index}} ()</h1>
+						<h1 class="date-heading">{{getHeader($index)}}</h1>
 						<div class="calendar-area">
 							<div class="time-bar" ng-class="{'faded-time-bar' : $index !== day}" ng-style="{top : timeBarTop}">{{time | millisToTime}}</div>
 							<marker half-hr-intervals="halfHrIntervals" current-index="$index" ng-class="{'hour-marker' : $odd, 'half-hour-marker' : $even}" ng-repeat="interval in halfHrIntervals track by $index"></marker>
 							<div class="calendar-allday">
-								<div class="allday-event" ng-repeat="event in day.allDayList track by event.start_time" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : '#333232', color : '#E8E9EB', top : getScrollTop(event.start_time, $parent.$index)}">
+								<div class="allday-event" ng-repeat="event in day.allDayList track by event.start_time" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : '#333232', color : '#E8E9EB', top : getScrollTop(event.start_time, $parent.$index)}" ng-class="{'allday-event-2' : $even}">
 									<span class="event-time allday-event-time">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
 									<span class="event-name allday-event-name">{{event.name}}</span>
 									<span class="event-location allday-event-location"><i class="fa fa-map-marker"></i> {{event.location}}</span>
 								</div>
 							</div>
 							<div class="calendar-hourly">
-								<div class="event" ng-repeat="event in day.hourlyList track by event.start_time" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : getEventColor($index), color : '#333232', width : hourlyWidth, top : getScrollTop(event.start_time, $parent.$index), left : hourlyLeftPos}">
-									<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time)}">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
-									<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time)}">{{event.name}}</span>
-									<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time)}"><i class="fa fa-map-marker"></i> {{event.location}}</span>
+								<div ng-repeat="event in day.hourlyList track by event.start_time">
+									<div class="event" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : getEventColor($index), color : '#333232', width : hourlyWidth(event.name), top : getScrollTop(event.start_time, $parent.$index), left : hourlyLeftPos}">
+										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.name !== 'Break'">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
+										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time), 'min-width' : '120px'}" ng-if="event.name === 'Break'">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
+										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time), 'min-width' : '0px'}" ng-if="event.name === 'Break'">{{event.name}}</span>
+										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.name !== 'Break'">{{event.name}}</span>
+										<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.location"><i class="fa fa-map-marker"></i> {{event.location}}</span>
+									</div>
+									<div class="event" ng-if="event.name === 'Huddles'" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : getEventColor($index+2), color : '#333232', width : hourlyWidth(event.name), top : getScrollTop(event.start_time, $parent.$parent.$index), left : officeHrsLeftPos}">
+										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time)}">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
+										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time)}">Office Hours</span>
+										<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.location"><i class="fa fa-map-marker"></i> {{event.location}}</span>
+									</div>
 								</div>
 							</div>
 						</div>
