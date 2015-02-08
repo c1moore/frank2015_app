@@ -1,11 +1,11 @@
-var frankAppEvent = angular.module("frankAppEvent", ['LocalStorageModule', 'frank2015']);
+var frankAppEventDirectory = angular.module("frankAppEventDirectory", ['LocalStorageModule', 'frank2015']);
 /**
 * This controller is very simple.  All it has to do is determine if the user
 * can view this page, redirecting them to the login page if not, and determine
 * if the survey button should be clickable yet (this will only happen on the
 * last day of the event).
 */
-frankAppEvent.controller('eventsCtrl', ['$scope', 'localStorageService', '$window', '$http',
+frankAppEventDirectory.controller('eventsDirectoryCtrl', ['$scope', 'localStorageService', '$window', '$http',
 	function($scope, localStorageService, $window, $http) {
 		$scope.storage = localStorageService;
 
