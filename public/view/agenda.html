@@ -52,16 +52,17 @@
 							<div class="calendar-hourly">
 								<div ng-repeat="event in day.hourlyList track by event.start_time">
 									<div class="event" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : getEventColor($index), color : '#333232', width : hourlyWidth(event.name), top : getScrollTop(event.start_time, $parent.$index), left : hourlyLeftPos}">
-										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.name !== 'Break'">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
+										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.name !== 'Break'" ng-class="{'no-min-width' : event.name === 'Huddles'}">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
 										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time), 'min-width' : '120px'}" ng-if="event.name === 'Break'">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
 										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time), 'min-width' : '0px'}" ng-if="event.name === 'Break'">{{event.name}}</span>
-										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.name !== 'Break'">{{event.name}}</span>
-										<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.location"><i class="fa fa-map-marker"></i> {{event.location}}</span>
+										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.name !== 'Break'" ng-class="{'no-min-width' : event.name === 'Huddles'}">{{event.name}}</span>
+										<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.location && event.name !== 'Huddles'"><i class="fa fa-map-marker"></i> {{event.location}}</span>
+										<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.name === 'Huddles'" ng-class="{'no-min-width' : event.name === 'Huddles'}"><a ng-href="events/event.html#{{$parent.$parent.$index}}" target="_self"><i class="fa fa-map-marker"></i> {{event.location}}</a></span>
 									</div>
 									<div class="event" ng-if="event.name === 'Huddles'" ng-style="{height : getEventHeight(event.start_time, event.end_time), 'background-color' : getEventColor($index+2), color : '#333232', width : hourlyWidth(event.name), top : getScrollTop(event.start_time, $parent.$parent.$index), left : officeHrsLeftPos}">
-										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time)}">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
-										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time)}">Office Hours</span>
-										<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time)}" ng-if="event.location"><i class="fa fa-map-marker"></i> {{event.location}}</span>
+										<span class="event-time hourly-event-time" ng-style="{display : getDisplay(event.start_time, event.end_time), 'min-width' : 0}">{{event.start_time | millisToTime}}-{{event.end_time | millisToTime}}</span>
+										<span class="event-name hourly-event-name" ng-style="{display : getDisplay(event.start_time, event.end_time), 'min-width' : 0}">Office Hours</span>
+										<span class="event-location hourly-event-location" ng-style="{display : getDisplay(event.start_time, event.end_time), 'min-width' : 0}" ng-if="event.location"><a ng-href="events/event.html#{{$parent.$parent.$index}}" target="_self"><i class="fa fa-map-marker"></i> {{event.location}}</a></span>
 									</div>
 								</div>
 							</div>

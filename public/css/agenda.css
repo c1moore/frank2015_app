@@ -69,6 +69,10 @@ ul[rn-carousel] li {
 	min-width: 170px;
 }
 
+.event .no-min-width {
+	min-width: 0;
+}
+
 .half-hour-marker .marker {
 	opacity: .1;
 }
