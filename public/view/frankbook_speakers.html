@@ -26,6 +26,7 @@
 		<link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
 		<link rel="stylesheet" href="../libraries/angular-carousel/dist/angular-carousel.min.css" />
+		<link rel="stylesheet" type="text/css" href="../libraries/ng-table-master/dist/ng-table.css">
 		<link rel="stylesheet" href="../css/style.css" />
 		<!-- <link rel="stylesheet" href="../css/frankbook.css" /> -->
 		<link rel="stylesheet" href="../css/speaker-frankbook.css" />
@@ -44,19 +45,19 @@
 				<ul data-role="page" id="speakercarousel" ng-class="{'speakercarousel-portrait': portrait, 'speakercarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls>
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" id="carousel-item-{{$index}}" ng-repeat="speaker in speakers | filter:carouselFilter track by $index">
 						<div ng-class="{'speakercarousel-content-portrait': portrait, 'speakercarousel-content-landscape': !portrait}" class="speakercarousel-content">
-							<img ng-class="{'speakerpic-portrait': portrait, 'speakerpic-landscape': !portrait}" class="speakerpic" src="{{speaker.image}}" />
+							<div ng-class="{'speakerpic-portrait': portrait, 'speakerpic-landscape': !portrait}" class="speakerpic" style="background-image : url('{{speaker.image}}');"></div>
 							<a ng-click="scrollToBio($index)" role="button" class="bio-link" ng-style="{'left' : getBioLinkLeftPos()}">Bio <i class="fa fa-chevron-down"></i></a>
 							<div ng-class="{'sidecontent-landscape' : !portrait, 'sidecontent-portrait' : portrait}" id="{{'bio' + $index}}"> <!--  ng-style="{'width' : sideContent}" -->
 								<div ng-if="portrait" class="sidecontent-text" ng-class="{'sidecontent-text-portrait' : portrait}">
 									<h1 class="speakername-portrait speakername"> {{speaker.name}}</h1>
-									<p class="speakeremail-portrait speakeremail">{{speaker.organization}}</p>
+									<p class="speakeremail-portrait speakeremail"><b>{{speaker.organization}}</b></p>
 									<div class="speaker-bio-portrait">
 										<span ng-bind-html="speaker.bio"></span>
 									</div>
 								</div>
 								<div ng-if="!portrait">
-									<h1 class="speakername-landscape speakername" data-fittext data-fittext-max="50px">{{speaker.name}}</h1><br/>
-									<p class="speakeremail-landscape speakeremail" data-fittext data-fittext-max="23px">{{speaker.organization}}</p>
+									<h1 class="speakername-landscape speakername">{{speaker.name}}</h1><br/>
+									<p class="speakeremail-landscape speakeremail"><b>{{speaker.organization}}</b></p>
 									<div class="speaker-bio-landscape">
 										<span ng-bind-html="speaker.bio"></span>
 									</div>
@@ -78,12 +79,12 @@
 					</select>
 					<hr />
 					<div class="frank-table">
-						<table infinite-scroll="loadMore()" infinite-scroll-distance="3">
+						<table infinite-scroll="loadMore()" infinite-scroll-distance="3" class="ng-table">
 							<tr>
 								<th ng-show="showing.name">Name</th>
 								<th ng-show="showing.organization">Organization</th>
 							</tr>
-							<tr ng-repeat="speaker in speakers | filter:query | limitTo:tableLimit" bindonce>
+							<tr ng-repeat="speaker in speakers | filter:query | limitTo:tableLimit" ng-class="{'dark-row' : $even, 'light-row' : $odd}" bindonce>
 								<td ng-show="showing.name" bo-text="speaker.name"></td>
 								<td ng-show="showing.organization" bo-text="speaker.organization"></td>
 							</tr>

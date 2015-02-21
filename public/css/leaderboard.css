@@ -1,0 +1,111 @@
+table {
+  width: 100vw;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 5px;
+}
+
+th {
+  padding-left: 15px;
+  padding-right: 15px;
+  background: #333232;
+  color: white;
+}
+
+.frank-table {
+  margin:0px;padding:0px;
+  width:100%;
+  border:1px solid #000;
+  
+  -moz-border-radius-bottomleft:0px;
+  -webkit-border-bottom-left-radius:0px;
+  border-bottom-left-radius:0px;
+  
+  -moz-border-radius-bottomright:0px;
+  -webkit-border-bottom-right-radius:0px;
+  border-bottom-right-radius:0px;
+  
+  -moz-border-radius-topright:0px;
+  -webkit-border-top-right-radius:0px;
+  border-top-right-radius:0px;
+  
+  -moz-border-radius-topleft:0px;
+  -webkit-border-top-left-radius:0px;
+  border-top-left-radius:0px;
+}
+
+.frank-table table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  width:100%;
+  height:100%;
+  margin:0px;padding:0px;
+}
+
+.frank-table td, .frank-table th {
+  border-right: 1px solid #E8E9EB;
+}
+
+.frank-table .dark-row {
+  background-color: rgb(115, 201, 45);
+}
+
+.frank-table .light-row {
+  background-color: white;
+}
+
+.frank-table .member-row {
+  background-color: #E6E6E6;
+}
+
+.frank-table tbody tr:nth-child(2) {
+  border-top: 1px solid black;
+}
+
+.frank-table tbody tr:last-child {
+  border-bottom: 2px solid black;
+}
+
+.member-link {
+  font-size: 20px;
+  color: darkblue;
+  line-height: 0;
+}
+
+.ng-table th.sortable div:before {
+  border-top: 4px solid #E8E9EB;
+}
+
+.ng-table th.sortable div:after, .ng-table th.sortable div:before {
+  border-color: #E8E9EB transparent;
+}
+
+.ng-table th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
+  background-color: #333232;
+}
+
+.ng-table th.sortable.sort-desc div:after, .ng-table th.sortable.sort-asc div:before {
+  border-color: white transparent;
+  opacity: 1;
+}
+
+.ng-table th.sortable.sort-asc div:after, .ng-table th.sortable.sort-asc div:hover:after {
+  opacity: 1;
+}
+
+.ng-table th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
+  text-shadow: none;
+}
+
+.team-member {
+  margin-left: 15px;
+}
+
+.team-score {
+  text-align: center;
+}
+
+#snap-content {
+  overflow: auto;
+  overflow-x: hidden;
+}

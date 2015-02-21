@@ -1,0 +1,49 @@
+body {
+	width: 100vw;
+	height: 100vh;
+}
+
+.description {
+	margin-left: 20px;
+}
+
+.heading {
+	font-weight: 900;
+	color: #c54e90;
+}
+
+.instructions {
+	margin-left: 25px;
+}
+
+.instruction-section {
+	margin-left: 5px;
+}
+
+.lower-section {
+	width: 90vw;
+	margin:auto;
+	margin-top: 100px;
+}
+
+.main-heading {
+	width: 100vw;
+	text-align: center;
+	margin-top: 15vh;
+}
+
+.main-heading h2 {
+	font-size: 80px;
+	font-size: 8vh;
+	color: #73c92d;
+}
+
+.main-heading h1 {
+	font-size: 100px;
+	font-size: 10vh;
+	color: #f7b518;
+}
+
+.main-heading img {
+	height: 10vh;
+}

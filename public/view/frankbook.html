@@ -26,6 +26,7 @@
 		<link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
 		<link rel="stylesheet" href="../libraries/angular-carousel/dist/angular-carousel.min.css" />
+		<link rel="stylesheet" type="text/css" href="../libraries/ng-table-master/dist/ng-table.css">
 		<link rel="stylesheet" href="../css/style.css" />
 		<link rel="stylesheet" href="../css/frankbook.css" />
 	</head>
@@ -37,9 +38,9 @@
 		<snap-content id="snap-content">
 			<frank-header>frank book</frank-header>
 			<section ng-show="carousel">
-				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}">View Participant Table</span>
-				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(15)}"><i class="fa fa-search"></i></div>
-				<input class="search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(15)}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
+				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}" id="carousel-view-switch">View Participant Table</span>
+				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(7)}"><i class="fa fa-search"></i></div>
+				<input class="search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(9), 'max-width' : getSearchMaxWidth()}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" id="carousel-search-box" />
 				<ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls rn-carousel-buffered>
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in participants | filter:carouselFilter track by $index">
 						<div ng-class="{'participantcarousel-content-portrait': portrait, 'participantcarousel-content-landscape': !portrait}" class="participantcarousel-content">
@@ -47,15 +48,15 @@
 							<div ng-class="{'sidecontent-landscape' : !portrait, 'sidecontent-portrait' : portrait}"> <!--  ng-style="{'width' : sideContent}" -->
 								<div ng-if="portrait" class="sidecontent-text" ng-class="{'sidecontent-text-portrait' : portrait}">
 									<h1 class="participantname-portrait participantname"> {{participant.name}}</h1>
-									<p class="participantemail-portrait participantemail">{{participant.email}}</p>
+									<p class="participantemail-portrait participantemail"><a href="mailto:{{participant.email}}">{{participant.email}}</a></p>
 									<br />
-									<p class="participanttwitter-portrait participanttwitter">{{participant.twitter}}</p>
+									<p class="participanttwitter-portrait participanttwitter"><a href="https://twitter.com/{{participant.twitter.slice(1,participant.twitter.length)}}" target="_blank">{{participant.twitter}}</a></p>
 								</div>
 								<div ng-if="!portrait">
 									<h1 class="participantname-landscape participantname" data-fittext data-fittext-max="50px">{{participant.name}}</h1><br/>
-									<p class="participantemail-landscape participantemail" data-fittext data-fittext-max="23px">{{participant.email}}</p>
+									<p class="participantemail-landscape participantemail" data-fittext data-fittext-max="23px"><a href="mailto:{{participant.email}}">{{participant.email}}</a></p>
 									<br />
-									<p class="participanttwitter-landscape participanttwitter">{{participant.twitter}}</p>
+									<p class="participanttwitter-landscape participanttwitter"><a href="https://twitter.com/{{participant.twitter.slice(1,participant.twitter.length)}}" target="_blank">{{participant.twitter}}</a></p>
 								</div>
 								<div ng-class="{'interests-portrait': portrait, 'interests-landscape': !portrait}" class="interests">
 									<div ng-repeat="interest in participant.interests track by $index">
@@ -67,7 +68,7 @@
 					</li>
 				</ul>
 			</section>
-			<section ng-hide="carousel" style="overflow-y:auto; height:100vh;">
+			<section ng-hide="carousel">
 				<span class="view-switch" ng-click="carousel = true" ng-style="{'margin-top' : getTopMargin(15)}">View Participant Carousel</span>
 				<div ng-style="{'margin-top' : getTopMargin(40)}" class="ptable-body">
 					<label for="search">Search: </label><input ng-model="query[queryBy]" name="search"/><br />
@@ -83,16 +84,16 @@
 					<span style="font-weight:bold;">Fields: <label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.name"> Name</label><label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.email"> Email</label><label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.twitter"> Twitter</label><label class="checkbox-label"><input type="checkbox" class="field-checkbox" ng-model="showing.interests"> Interests</label></span>
 					<hr />
 					<div class="frank-table">
-						<table infinite-scroll="loadMore()" infinite-scroll-distance="3">
+						<table infinite-scroll="loadMore()" infinite-scroll-distance="3" class="table ng-table">
 							<tr>
 								<th ng-show="showing.name">Name</th>
 								<th ng-show="showing.email">Email</th>
 								<th ng-show="showing.twitter">Twitter Handle</th>
 								<th ng-show="showing.interests">Interests</th>
 							</tr>
-							<tr ng-repeat="participant in participants | filter:query | limitTo:tableLimit" bindonce>
+							<tr ng-repeat="participant in participants | filter:query | limitTo:tableLimit" ng-class="{'dark-row' : $even, 'light-row' : $odd}" bindonce>
 								<td ng-show="showing.name" bo-text="participant.name"></td>
-								<td ng-show="showing.email" bo-text="participant.email"></td>
+								<td ng-show="showing.email"><a  bo-href="'mailto:' + participant.email" bo-text="participant.email"></a></td>
 								<td ng-show="showing.twitter" bo-text="participant.twitter"></td>
 								<td ng-show="showing.interests">
 									<span ng-repeat="interest in participant.interests track by $index" bindonce>

@@ -1,7 +1,7 @@
 var frankAppMap = angular.module('frankAppMap', ['ngFitText', 'frank2015', 'ngMap']);
 
-frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '$timeout',
-	function($scope, localStorageService, $window, $timeout) {
+frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '$timeout', '$http',
+	function($scope, localStorageService, $window, $timeout, $http) {
 		$scope.storage = localStorageService;
 		$scope.userLoc = false;
 		$scope.lat = 0;
@@ -10,11 +10,21 @@ frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '
 		$scope.showWooly = false;
 		$scope.showBDP = false;
 		$scope.showHampton = false;
+		$scope.showFB = false;
+		$scope.showEC = false;
+		$scope.showVBG = false;
+		$scope.showVCTC = false;
+		$scope.showMC = false;
+		$scope.showSB = false;
+		$scope.showBull = false;
+		$scope.showHC = false;
+		$scope.showTS = false;
 		$scope.trackUser = true;
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
-		/*var user_id = $scope.storage.get('user_id'),
-			email = $scope.storage.get('email');
+		var user_id = $scope.storage.get('user_id'),
+			email = $scope.storage.get('email'),
+			username = $scope.storage.get('username');
 		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).error(function() {
 				$scope.storage.remove('user_id');
@@ -29,7 +39,7 @@ frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '
 			$scope.storage.remove('username');
 
 			$window.location.href = 'login.html';
-		}*/
+		}
 
 		$scope.getTopMargin = function(height) {
 			var margin = parseInt(angular.element("#header").css('height'), 10) + height;
@@ -86,6 +96,33 @@ frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '
 				case "wooly_iw":
 					show = $scope.showWooly;
 					break;
+				case "fb_iw":
+					show = $scope.showFB;
+					break
+				case "ec_iw":
+					show = $scope.showEC;
+					break;
+				case "vbg_iw":
+					show = $scope.showVBG;
+					break;
+				case "vctc_iw":
+					show = $scope.showVCTC;
+					break;
+				case "mc_iw":
+					show = $scope.showMC;
+					break;
+				case "sb_iw":
+					show = $scope.showSB;
+					break;
+				case "bull_iw":
+					show = $scope.showBull;
+					break;
+				case "hc_iw":
+					show = $scope.showHC;
+					break;
+				case "ts_iw":
+					show = $scope.showTS;
+					break;
 				case "reset_all":
 					$timeout(function() {
 						angular.forEach($scope.map.infoWindows, function(value, key) {
@@ -118,6 +155,33 @@ frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '
 					break;
 				case "wooly_iw":
 					$scope.showWooly = false;
+					break;
+				case "fb_iw":
+					$scope.showFB = false;
+					break
+				case "ec_iw":
+					$scope.showEC = false;
+					break;
+				case "vbg_iw":
+					$scope.showVBG = false;
+					break;
+				case "vctc_iw":
+					$scope.showVCTC = false;
+					break;
+				case "mc_iw":
+					$scope.showMC = false;
+					break;
+				case "sb_iw":
+					$scope.showSB = false;
+					break;
+				case "bull_iw":
+					$scope.showBull = false;
+					break;
+				case "hc_iw":
+					$scope.showHC = false;
+					break;
+				case "ts_iw":
+					$scope.showTS = false;
 					break;
 				default:
 					return;

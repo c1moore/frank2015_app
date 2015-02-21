@@ -93,7 +93,8 @@ var appWindow = angular.module('appWindow', ['snap']);
 						"<a href='./events/event.html#1' target='_self' class='btn btn-sidebar sidebar-item sidebar-item-2' role='button'><i class='fa fa-share-alt'></i> Huddle 1</a> <br />" +
 						"<a href='./events/event.html#2' target='_self' class='btn btn-sidebar sidebar-item sidebar-item-2' role='button'><i class='fa fa-share-alt'></i> Huddle 2</a> <br />" +
 						"<a href='map.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-map-marker'></i> Map</a> <br />" +
-						"<a href='vote.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-check-square-o'></i> Voting</a> <br />",
+						"<a href='vote.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-check-square-o'></i> Voting</a> <br />" +
+						"<a href='leaderboard.html' target='_self' class='btn btn-sidebar sidebar-item' role='button'><i class='fa fa-trophy'></i> Krewe Leaderboard</a> <br />",
 			link : function postlink() {
 				$timeout(
 					function() {

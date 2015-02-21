@@ -14,7 +14,8 @@ frankAppLogin.controller('signinCtrl', ['$scope', 'localStorageService', '$http'
 
 		//Check if the user is already logged in.  If they are, they should be redirected to the directory page.
 		var user_id = $scope.storage.get('user_id'),
-			email = $scope.storage.get('email');
+			email = $scope.storage.get('email'),
+			username = $scope.storage.get('username');
 		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
 				$window.location.href = 'directory.html';

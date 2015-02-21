@@ -16,7 +16,7 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService',
 		var user_id = $scope.storage.get('user_id'),
 			email = $scope.storage.get('email'),
 			username = $scope.storage.get('username');
-		/*if(user_id && email) {
+		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username, 'check_admin' : true}).error(function() {
 				$scope.storage.remove('user_id');
 				$scope.storage.remove('email');
@@ -30,7 +30,7 @@ frankAdmin.controller('votesCtrl', ['$scope', '$timeout', 'localStorageService',
 			$scope.storage.remove('username');
 
 			$window.location.href = 'login.html';
-		}*/
+		}
 
 		/**
 		* This function is used to make sure everything is filled out

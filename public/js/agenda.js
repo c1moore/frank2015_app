@@ -20,8 +20,9 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		$scope.halfHrIntervals = ["", "1am", "", "2am", "", "3am", "", "4am", "", "5am", "", "6am", "", "7am", "", "8am", "", "9am", "", "10am", "", "11am", "", "12pm", "", "1pm", "", "2pm", "", "3pm", "", "4pm", "", "5pm", "", "6pm", "", "7pm", "", "8pm", "", "9pm", "", "10pm", "", "11pm", ""];
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
-		/*var user_id = $scope.storage.get('user_id'),
-			email = $scope.storage.get('email');
+		var user_id = $scope.storage.get('user_id'),
+			email = $scope.storage.get('email'),
+			username = $scope.storage.get('username');
 		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).error(function() {
 				$scope.storage.remove('user_id');
@@ -36,7 +37,7 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 			$scope.storage.remove('username');
 
 			$window.location.href = 'login.html';
-		}*/
+		}
 
 		/**
 		* Returns the width of that an hourly event should have.  The width is the width
@@ -239,7 +240,7 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		* days, manipulate it, and add it to the array.
 		*/
 		$scope.dailyCalendar = [];
-		$http.post('../../app/controllers/get_agenda.php', {'start_date' : 0}).success(function(response) {
+		$http.post('../../app/controllers/get_agenda.php', {user_id : user_id, email : email, username : username, 'start_date' : 0}).success(function(response) {
 			$scope.segregateDays(response);
 			setPageScrollTop();
 
@@ -269,7 +270,7 @@ frankAgenda.filter('millisToTime', function() {
 		if(!hour)
 			hour = 12;
 
-		if(minutes < 9)
+		if(minutes <= 9)
 			minutes = '0' + minutes;
 
 		return hour + ':' + minutes + meridian;
@@ -283,7 +284,7 @@ frankAgenda.directive('marker', function($timeout) {
 			halfHrIntervals : '=',
 			currentIndex: '='
 		},
-		template : "<div class=\"marker\">{{halfHrIntervals[currentIndex]}}</div>",	// ng-style=\"{top : getMarkerPosition(currentIndex)}\"
+		template : "<div class=\"marker\"><span class='marker-time'>{{halfHrIntervals[currentIndex]}}</span></div>",	// ng-style=\"{top : getMarkerPosition(currentIndex)}\"
 		link : function postLink(scope, element, attrs) {
 			/**
 			* Return the value for the CSS top value of each half-hour marker.  In order to position

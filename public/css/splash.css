@@ -1,5 +1,5 @@
 body {
-	background-image: url("../img/splash_bg.gif");
-	background-size: cover;
+	background-image: url("../img/splash.gif");
+	background-size: contain;
 	background-repeat: no-repeat;
 }

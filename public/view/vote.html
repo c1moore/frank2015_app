@@ -35,7 +35,11 @@
 			<frank-header>frank Voting</frank-header>
 			<div ng-style="{'margin-top' : getTopMargin(15)}">
 				<accordion close-others="{{true}}">
-					<accordion-group ng-repeat="vote in votes track by vote.id" is-disabled="!voteOpen[$index]" heading="{{vote.name}}">
+					<accordion-group ng-repeat="vote in votes track by vote.id" is-disabled="!voteOpen[$index]" is-open="status.open[$index]" ng-class="{disabled : !voteOpen[$index]}">
+						<accordion-heading>
+							<span>{{vote.name}}</span>
+							<i class="fa accordion-icon" ng-class="{'fa-chevron-right' : !status.open[$index], 'fa-chevron-down' : status.open[$index]}"></i>
+						</accordion-heading>
 						<div class="vote">
 							<form class="ballot" name="ballot" id="ballot" ng-class="{disabled : !ballotOpen[$index] || vote.user_choice}" ng-disabled="!ballotOpen[$index] || vote.user_choice" ng-submit="submitVote($index, vote.id)">
 								<span class="question">{{vote.question}}</span>

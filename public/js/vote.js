@@ -5,6 +5,8 @@ frankAppVoter.controller('voteCtrl', ['$scope', '$http', 'localStorageService', 
 	function($scope, $http, localStorageService, $timeout, $window, $interval) {
 		$scope.storage = localStorageService;
 		$scope.userVote = [];
+		$scope.status = {};
+		$scope.status.open = [];
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
 		var user_id = $scope.storage.get('user_id'),

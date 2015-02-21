@@ -9,8 +9,9 @@ frankAppDirectory.controller('directoryCtrl', ['$scope', 'localStorageService', 
 		$scope.storage = localStorageService;
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
-		/*var user_id = $scope.storage.get('user_id'),
-			email = $scope.storage.get('email');
+		var user_id = $scope.storage.get('user_id'),
+			email = $scope.storage.get('email'),
+			username = $scope.storage.get('username');
 		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).error(function() {
 				$scope.storage.remove('user_id');
@@ -25,7 +26,7 @@ frankAppDirectory.controller('directoryCtrl', ['$scope', 'localStorageService', 
 			$scope.storage.remove('username');
 
 			$window.location.href = 'login.html';
-		}*/
+		}
 
 		$scope.getTopMargin = function() {
 			var margin = parseInt(angular.element("#header").css('height'), 10) + 25;

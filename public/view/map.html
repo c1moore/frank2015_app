@@ -56,15 +56,69 @@
 				</info-window>
 				<marker ng-if="userLoc" position="{{lat}}, {{lng}}" title="Your Location" icon="{{crosshairs}}" visible="true">
 				</marker>
+				<info-window position="29.650835,-82.325302" visible="true" id="fb_iw" title="fb_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">FIVE Bar</h4>
+					</div>
+				</info-window>
+				<info-window position="29.650873,-82.324646" visible="true" id="ec_iw" title="ec_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Emiliano's Cafe</h4>
+					</div>
+				</info-window>
+				<info-window position="29.650633,-82.323728" visible="true" id="vbg_iw" title="vbg_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Vellos Brickstreet Grill</h4>
+					</div>
+				</info-window>
+				<info-window position="29.651212,-82.32665" visible="true" id="vctc_iw" title="vctc_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Volta Coffee, Tea &amp; Chocolate</h4>
+					</div>
+				</info-window>
+				<info-window position="29.64956,-82.323692" visible="true" id="mc_iw" title="mc_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Maude's Cafe</h4>
+					</div>
+				</info-window>
+				<info-window position="29.649796,-82.323738" visible="true" id="sb_iw" title="sb_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Starbucks</h4>
+					</div>
+				</info-window>
+				<info-window position="29.651159,-82.325755" visible="true" id="bull_iw" title="bull_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">The Bull</h4>
+					</div>
+				</info-window>
+				<info-window position="29.650488,-82.324102" visible="true" id="hc_iw" title="hc_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Half Cork'd</h4>
+					</div>
+				</info-window>
+				<info-window position="29.6450977,-82.3230101" visible="true" id="hc_iw" title="ts_iw" on-closeclick="infoClosed()">
+					<div ng-non-bindable>
+						<h4 class="marker_title">Depot Park</h4>
+					</div>
+				</info-window>
 			</map>
 			<button ng-click="toggleTracking()" ng-class="{'tracking-active' : trackUser, 'tracking-inactive' : !trackUser}" class="track-but"><i class="fa fa-crosshairs"></i></button>
 			<div class="marker_selector" id="marker_selector">
-				<span class="marker_selector_title">Show markers:</span>
+				<span class="marker_selector_title">Select markers:</span>
 				<form class="marker_selector_options">
 					<label><input type="checkbox" ng-click="updateMarkers('hipp_iw')" ng-model="showHipp" />Hippodrome State Theatre</label>
 					<label><input type="checkbox" ng-click="updateMarkers('wooly_iw')" ng-model="showWooly" ng-true-value="true" ng-false-value="false" />The Wooly</label>
 					<label><input type="checkbox" ng-click="updateMarkers('bdp_iw')" ng-model="showBDP" ng-true-value="true" ng-false-value="false" />Bo Diddley Plaza</label>
 					<label><input type="checkbox" ng-click="updateMarkers('hamp_inn_iw')" ng-model="showHampton" ng-true-value="true" ng-false-value="false" />Hampton Inn</label>
+					<label><input type="checkbox" ng-click="updateMarkers('fb_iw')" ng-model="showFB" ng-true-value="true" ng-false-value="false" />FIVE Bar</label>
+					<label><input type="checkbox" ng-click="updateMarkers('ec_iw')" ng-model="showEC" ng-true-value="true" ng-false-value="false" />Emiliano's Cafe</label>
+					<label><input type="checkbox" ng-click="updateMarkers('vbg_iw')" ng-model="showVBG" ng-true-value="true" ng-false-value="false" />Vellos Brickstreet Grill</label>
+					<label><input type="checkbox" ng-click="updateMarkers('vctc_iw')" ng-model="showVCTC" ng-true-value="true" ng-false-value="false" />Volta Coffee, Tea &amp; Chocolate</label>
+					<label><input type="checkbox" ng-click="updateMarkers('mc_iw')" ng-model="showMC" ng-true-value="true" ng-false-value="false" />Maude's Cafe</label>
+					<label><input type="checkbox" ng-click="updateMarkers('sb_iw')" ng-model="showSB" ng-true-value="true" ng-false-value="false" />Starbucks</label>
+					<label><input type="checkbox" ng-click="updateMarkers('bull_iw')" ng-model="showBull" ng-true-value="true" ng-false-value="false" />The Bull</label>
+					<label><input type="checkbox" ng-click="updateMarkers('hc_iw')" ng-model="showHC" ng-true-value="true" ng-false-value="false" />Half Cork'd</label>
+					<label><input type="checkbox" ng-click="updateMarkers('ts_iw')" ng-model="showTS" ng-true-value="true" ng-false-value="false" />Depot Park</label>
 				</form>
 			</div>
 		</snap-content>

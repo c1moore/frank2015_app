@@ -14,28 +14,28 @@ frankAppSplash.controller('splashCtrl', ['$scope', '$timeout', 'localStorageServ
 		$scope.storage = localStorageService;
 		
 		//Let the splash page display for 5 seconds, then check user authentication to redirect them properly.
-		$timeout(function() {
-			var user_id = $scope.storage.get('user_id'),
-				email = $scope.storage.get('email'),
-				username = $scope.storage.get('username');
+		// $timeout(function() {
+		// 	var user_id = $scope.storage.get('user_id'),
+		// 		email = $scope.storage.get('email'),
+		// 		username = $scope.storage.get('username');
 
-			if(user_id && email) {
-				$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
-					$window.location.href = 'directory.html';
-				}).error(function() {
-					$scope.storage.remove('user_id');
-					$scope.storage.remove('email');
-					$scope.storage.remove('username');
+		// 	if(user_id && email) {
+		// 		$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).success(function() {
+		// 			$window.location.href = 'directory.html';
+		// 		}).error(function() {
+		// 			$scope.storage.remove('user_id');
+		// 			$scope.storage.remove('email');
+		// 			$scope.storage.remove('username');
 
-					$window.location.href = 'login.html';
-				});
-			} else {
-				$scope.storage.remove('user_id');
-				$scope.storage.remove('email');
-				$scope.storage.remove('username');
+		// 			$window.location.href = 'login.html';
+		// 		});
+		// 	} else {
+		// 		$scope.storage.remove('user_id');
+		// 		$scope.storage.remove('email');
+		// 		$scope.storage.remove('username');
 
-				$window.location.href = 'login.html';
-			}
-		}, 2000);
+		// 		$window.location.href = 'login.html';
+		// 	}
+		// }, 2000);
 	}
 ]);

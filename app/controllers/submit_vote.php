@@ -32,8 +32,8 @@ error_reporting(-1);
 	$_POST = json_decode(file_get_contents("php://input"), true);
 
 	//Make sure user is an authenticated user.
-	/*$send_response_on_success = false;
-	require './check_credentials.php';*/
+	$send_response_on_success = false;
+	require './check_credentials.php';
 
 	/**
 	* Obtain the vote from the database to make sure the ballot was submitted while

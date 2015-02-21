@@ -26,8 +26,8 @@
 	//exit();
 
 	//Make sure user is an authenticated user.
-	/*$send_response_on_success = false;
-	require './check_credentials.php';*/
+	$send_response_on_success = false;
+	require './check_credentials.php';
 
 	include_once "../storage_info.php";
 
@@ -39,6 +39,8 @@
 
 			if(mysqli_stmt_execute($stmt)) {
 				$vote_id = mysqli_insert_id($conn);
+
+				mysqli_stmt_close($stmt);
 
 				if($stmt = mysqli_prepare($conn, "INSERT INTO Answer(vote_id, `option`, value) VALUES (?, ?, ?)")) {
 					$length =count($_POST['options']);

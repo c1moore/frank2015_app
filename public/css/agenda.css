@@ -90,9 +90,14 @@ ul[rn-carousel] li {
 	text-align: left;
 	height: 60px;
 	vertical-align: bottom;
-	display: table-cell;
+	display: block;
 	width: 100vw;
 	top: -21px;
+}
+
+.marker-time {
+	position: absolute;
+	bottom: 0;
 }
 
 .rn-carousel-control {
@@ -102,13 +107,13 @@ ul[rn-carousel] li {
 .time-bar {
 	position: relative;
 	border-bottom-width: 1px;
-	border-bottom-color: #C54E90;
-	border-bottom-style: solid;
+	border-bottom-color: red;
+	border-bottom-style: double;
 	width: 100vw;
 	text-align: right;
 	z-index: 500;
 }
 
 .faded-time-bar {
-	opacity : .3;
+	opacity : .6;
 }

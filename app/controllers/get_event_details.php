@@ -22,8 +22,8 @@
 	$_POST = json_decode(file_get_contents("php://input"), true);
 
 	//Make sure user is an authenticated user.
-	// $send_response_on_success = false;
-	// require './check_credentials.php';
+	$send_response_on_success = false;
+	require './check_credentials.php';
 
 	if(!isset($_POST['event_id'])) {
 		header('HTTP/1.1 400 Bad request.', true, 400);

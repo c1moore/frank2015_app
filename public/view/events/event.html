@@ -32,7 +32,7 @@
 			<frank-sidebar-menu></frank-sidebar-menu>
 		</snap-drawer>
 		<snap-content id="snap-content">
-			<frank-header>{{getHeader()}}</frank-header>
+			<frank-header>{{eventHeader}}</frank-header>
 			<section ng-style="{'margin-top' : getTopMargin(15)}" style="position:absolute; width:100vw;">
 				<accordion close-others="{{false}}">
 					<accordion-group ng-repeat="event in events track by $index" is-open="status.open[$index]">
@@ -42,7 +42,7 @@
 							<i class="fa accordion-icon" ng-class="{'fa-chevron-right' : !status.open[$index], 'fa-chevron-down' : status.open[$index]}"></i>
 						</accordion-heading>
 						<span class="event-location"><b>Location: </b>{{event.location}}</span>
-						<span class="event-description" ng-if="event.description">{{event.description}}</span>
+						<span class="event-description" ng-if="event.description" ng-bind-html="event.description"></span>
 						<div class="twitter_box" ng-if="event.twitter_enabled">
 						</div>
 					</accordion-group>

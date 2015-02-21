@@ -11,8 +11,9 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 		$scope.intServArr = interestsService.interests;
 
 		//Check if the user is logged in.  If not, they should be redirected to the login page.
-		/*var user_id = $scope.storage.get('user_id'),
-			email = $scope.storage.get('email');
+		var user_id = $scope.storage.get('user_id'),
+			email = $scope.storage.get('email'),
+			username = $scope.storage.get('username');
 		if(user_id && email) {
 			$http.post('../../app/controllers/check_credentials.php', {user_id : user_id, email : email, username : username}).error(function() {
 				$scope.storage.remove('user_id');
@@ -27,7 +28,7 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 			$scope.storage.remove('username');
 
 			$window.location.href = 'login.html';
-		}*/
+		}
 		$scope.query = {};
 		$scope.queryBy = '$';
 		$scope.carouselQuery = '';
@@ -63,31 +64,25 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 
 		$scope.loadMore = function() {
 			$scope.tableLimit += 20;
-		}
+		};
+
+		/**
+		* Return the max width for the search bar.  On some screens, the set width is too large and
+		* causes it to move to below the link to view the participant table.  To determine the max-width,
+		* find the 'View Participant Table' element, determine its width, subtract that from the total
+		* width of the screen along with any margins, and return the resulting value.  Unfortunately,
+		* this cannot change the problem with the animations.
+		*/
+		$scope.getSearchMaxWidth = function() {
+			var linkelem = angular.element("#carousel-view-switch");
+			return $window.innerWidth - linkelem.outerWidth() - 20 - parseInt(angular.element("#carousel-search-box").css('margin-right'), 10);	/*20 is the number of pixels that should remain between the link and the search box.*/
+		};
 		
 		$scope.participants = [];
-		$http.post('../../app/controllers/get_participants.php', {'default_path' : '../img/profile_pics/default.jpg', 'default_interests' : ['frank']}).success(function(response) {
+		$http.post('../../app/controllers/get_participants.php', {user_id : user_id, email : email, username : username, 'default_path' : '../img/profile_pics/default.jpg', 'default_interests' : ['frank']}).success(function(response) {
 			$scope.participants = response;
 		}).error(function(response, status) {
 			$window.alert("There was an error connecting to the servers (possibly due to all the cool people here).  Please try again later.");
 		});
 	}
 ]);
-	
-	
-/*var participantTable = angular.module('participantTable', []);
-	
-	participantTable.controller('PTableController', ['$scope', function($scope) {
-		$scope.showing = {name : true, email : true, twitter : false, interests : false};
-		
-		$scope.showColumn = function(searchby) {
-			angular.forEach($scope.showing, function(key, value) {
-				if(key === 'name') {
-					continue;
-				} else {
-					$scope.showing[key] = !($scope.showing[key]);
-				}
-			});
-			$scope.showing[searchby] = true;
-		};
-	}]);*/
