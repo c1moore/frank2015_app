@@ -216,8 +216,13 @@ ul[rn-carousel]>li {
   display: block;
 }
 
+.rn-carousel-control {
+  opacity: 1 !important;
+  color: #C54E90;
+}
+
 .rn-carousel-control.rn-carousel-control-next {
-  left: 99vw;
+  right: 19.5em;
 }
 
 .search-box {
@@ -426,6 +431,10 @@ ul[rn-carousel]>li {
 
 .speaker-bio-landscape span {
   margin-bottom: 50px;
+}
+
+.speakercarousel-landscape .rn-carousel-control.rn-carousel-control-next {
+  right: 57.5em;
 }
 
 .speakercarousel-content-landscape {

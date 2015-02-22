@@ -213,8 +213,13 @@ ul[rn-carousel]>li {
   display: block;
 }
 
+.rn-carousel-control {
+  opacity: 1 !important;
+  color: #C54E90;
+}
+
 .rn-carousel-control.rn-carousel-control-next {
-  left: 99vw;
+  right: 19.5em;
 }
 
 .search-box {
@@ -427,6 +432,10 @@ ul[rn-carousel]>li {
 
 .interests-landscape img {
   width: 9vw;
+}
+
+.participantcarousel-landscape .rn-carousel-control.rn-carousel-control-next {
+  right: 57.5em;
 }
 
 .participantcarousel-content-landscape {

@@ -318,7 +318,7 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                             // dont use a directive for this
                             var tpl = '<div class="rn-carousel-controls">\n' +
                                 '  <span class="rn-carousel-control rn-carousel-control-prev" ng-click="prevSlide()" ng-if="carouselIndex > 0"></span>\n' +
-                                '  <span class="rn-carousel-control rn-carousel-control-next" ng-click="nextSlide()" ng-if="carouselIndex < ' + repeatCollection + '.length - 1"></span>\n' +
+                                '  <span class="rn-carousel-control rn-carousel-control-next" ng-click="nextSlide()" ng-if="carouselIndex < (' + repeatCollection + ').length - 1"></span>\n' +
                                 '</div>';
                             iElement.append($compile(angular.element(tpl))(scope));
                         }
