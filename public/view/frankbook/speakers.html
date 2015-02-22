@@ -39,9 +39,9 @@
 		<snap-content id="snap-content">
 			<frank-header>Speakers</frank-header>
 			<section ng-show="carousel">
-				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}">View Speaker Table</span>
-				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(15)}"><i class="fa fa-search"></i></div>
-				<input class="search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(15)}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
+				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}" id="carousel-view-switch">View Speaker Table</span>
+				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(8)}"><i class="fa fa-search"></i></div>
+				<input class="search-box" id="carousel-search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(8), 'max-width' : getSearchMaxWidth()}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
 				<ul data-role="page" id="speakercarousel" ng-class="{'speakercarousel-portrait': portrait, 'speakercarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls>
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" id="carousel-item-{{$index}}" ng-repeat="speaker in speakers | filter:carouselFilter track by $index">
 						<div ng-class="{'speakercarousel-content-portrait': portrait, 'speakercarousel-content-landscape': !portrait}" class="speakercarousel-content">

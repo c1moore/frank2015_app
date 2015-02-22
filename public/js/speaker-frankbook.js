@@ -66,6 +66,18 @@ frankAppSFBook.controller('SpeakerController', ['$scope', '$http', 'localStorage
 				document.getElementById(elemId).scrollTop = $window.innerHeight * .75;
 			},0);
 		};
+
+		/**
+		* Return the max width for the search bar.  On some screens, the set width is too large and
+		* causes it to move to below the link to view the participant table.  To determine the max-width,
+		* find the 'View Participant Table' element, determine its width, subtract that from the total
+		* width of the screen along with any margins, and return the resulting value.  Unfortunately,
+		* this cannot change the problem with the animations.
+		*/
+		$scope.getSearchMaxWidth = function() {
+			var linkelem = angular.element("#carousel-view-switch");
+			return $window.innerWidth - linkelem.outerWidth() - 20 - parseInt(angular.element("#carousel-search-box").css('margin-right'), 10);	/*20 is the number of pixels that should remain between the link and the search box.*/
+		};
 		
 		$scope.speakers = [
 			{

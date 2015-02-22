@@ -223,7 +223,7 @@ ul[rn-carousel]>li {
 .search-box {
   float: right;
   margin-right: 15px;
-  width: 250px;
+  width: 170px;
 }
 
 .search-box.ng-hide-remove {
@@ -250,7 +250,7 @@ ul[rn-carousel]>li {
     opacity: 0;
   }
   100% {
-    width: 250px;
+    width: 170px;
     opacity: 1;
   }
 }
@@ -260,7 +260,7 @@ ul[rn-carousel]>li {
     opacity: 0;
   }
   100% {
-    width: 250px;
+    width: 170px;
     opacity: 1;
   }
 }
@@ -270,7 +270,7 @@ ul[rn-carousel]>li {
     opacity: 0;
   }
   100% {
-    width: 250px;
+    width: 170px;
     opacity: 1;
   }
 }
@@ -280,7 +280,7 @@ ul[rn-carousel]>li {
     opacity: 0;
   }
   100% {
-    width: 250px;
+    width: 170px;
     opacity: 1;
   }
 }
