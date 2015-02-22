@@ -44,7 +44,7 @@
 				<ul data-role="page" id="participantcarousel" ng-class="{'participantcarousel-portrait': portrait, 'participantcarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls rn-carousel-buffered>
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" ng-repeat="participant in participants | filter:carouselFilter track by $index">
 						<div ng-class="{'participantcarousel-content-portrait': portrait, 'participantcarousel-content-landscape': !portrait}" class="participantcarousel-content">
-							<img ng-class="{'participantpic-portrait': portrait, 'participantpic-landscape': !portrait}" class="participantpic" src="{{participant.image}}" />
+							<div ng-class="{'participantpic-portrait': portrait, 'participantpic-landscape': !portrait}" class="participantpic" style="background-image : url('{{participant.image}}');"></div>
 							<div ng-class="{'sidecontent-landscape' : !portrait, 'sidecontent-portrait' : portrait}"> <!--  ng-style="{'width' : sideContent}" -->
 								<div ng-if="portrait" class="sidecontent-text" ng-class="{'sidecontent-text-portrait' : portrait}">
 									<h1 class="participantname-portrait participantname"> {{participant.name}}</h1>
@@ -53,9 +53,8 @@
 									<p class="participanttwitter-portrait participanttwitter"><a href="https://twitter.com/{{participant.twitter.slice(1,participant.twitter.length)}}" target="_blank">{{participant.twitter}}</a></p>
 								</div>
 								<div ng-if="!portrait">
-									<h1 class="participantname-landscape participantname" data-fittext data-fittext-max="50px">{{participant.name}}</h1><br/>
-									<p class="participantemail-landscape participantemail" data-fittext data-fittext-max="23px"><a href="mailto:{{participant.email}}">{{participant.email}}</a></p>
-									<br />
+									<h1 class="participantname-landscape participantname" style="font-size : 40px">{{participant.name}}</h1>
+									<p class="participantemail-landscape participantemail" style="font-size : 23px"><a href="mailto:{{participant.email}}">{{participant.email}}</a></p>
 									<p class="participanttwitter-landscape participanttwitter"><a href="https://twitter.com/{{participant.twitter.slice(1,participant.twitter.length)}}" target="_blank">{{participant.twitter}}</a></p>
 								</div>
 								<div ng-class="{'interests-portrait': portrait, 'interests-landscape': !portrait}" class="interests">

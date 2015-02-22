@@ -195,6 +195,13 @@ ul[rn-carousel]>li {
   margin-top: 0;
 }
 
+.participantpic {
+  background-color: #333232;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .ptable-body {
   padding: 15px;
   background-color: whitesmoke;
@@ -345,6 +352,8 @@ ul[rn-carousel]>li {
 
 .interests-portrait img {
   width: 9vw;
+  position: relative;
+  right: 20px;
 }
 
 .participantcarousel-content-portrait {
@@ -356,6 +365,8 @@ ul[rn-carousel]>li {
 .participantemail-portrait {
   font-size: 4vmin;
   display: inline;
+  position: relative;
+  right: -10px;
 }
 
 .participantinterests-portrait {
@@ -365,7 +376,8 @@ ul[rn-carousel]>li {
 
 .participantname-portrait {
   font-size: 7vmin;
-  display: inline;
+  display: block;
+  margin: 0;
 }
 
 .participantpic-portrait {
@@ -376,6 +388,8 @@ ul[rn-carousel]>li {
 .participanttwitter-portrait {
   display: inline;
   font-size: 4vmin;
+  position: relative;
+  right: -5px;
 }
 
 .sidecontent-portrait {
@@ -402,12 +416,13 @@ ul[rn-carousel]>li {
   -moz-transform: matrix(1, 0, -0.6, 1, 0, 0);
   -o-transform: matrix(1, 0, -0.6, 1, 0, 0);
   width: 69vw;
+  position: relative;
+  right: 10px;
 }
 
 
 /* Styles for landscape orientation */
 .interests-landscape {
-  width: 55vw;
 }
 
 .interests-landscape img {
@@ -416,7 +431,6 @@ ul[rn-carousel]>li {
 
 .participantcarousel-content-landscape {
   margin: 0px auto;
-  width: 75vw;
   height: 80vh;
 }
 
@@ -437,7 +451,7 @@ ul[rn-carousel]>li {
 }
 
 .participantpic-landscape {
-  width: 25vw;
+  width: 30vw;
   height: 100%;
   display: inline-block;
   vertical-align: top;
@@ -449,12 +463,11 @@ ul[rn-carousel]>li {
 
 .sidecontent-landscape {
   display: inline-block;
-  margin-left: 20px;
-  height: 50vh;
-  margin-top: 15vh;
-  max-width: 40vw;
+  height: 100%;
+  width: 69vw;
   padding: 20px;
   background-color: rgba(115, 201, 45, .85);
+  text-align: center;
 }
 
 /*Angular-snap.css Modifications*/
