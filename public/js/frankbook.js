@@ -82,6 +82,14 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 		$http.post('../../app/controllers/get_participants.php', {user_id : user_id, email : email, username : username, 'default_path' : '../img/profile_pics/default.jpg', 'default_interests' : ['frank']}).success(function(response) {
 			$scope.participants = response;
 		}).error(function(response, status) {
+			if(status === 401) {
+				$scope.storage.remove('user_id');
+				$scope.storage.remove('username');
+				$scope.storage.remove('email');
+
+				$window.location.href = "login.html";
+			}
+			
 			$window.alert("There was an error connecting to the servers (possibly due to all the cool people here).  Please try again later.");
 		});
 	}

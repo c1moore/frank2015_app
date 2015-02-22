@@ -59,6 +59,8 @@ frankScoreboardAdmin.controller('scoreboardCtrl', ['$scope', '$timeout', 'localS
 							$scope.storage.remove('username');
 
 							$window.location.href = "login.html";
+						} else if(response.message === "Not an admin.") {
+							$window.location.href = "directory.html";
 						} else if(status === 500) {
 							$window.alert("There was an error connecting with the servers.  Please refresh the page.");
 						} else {

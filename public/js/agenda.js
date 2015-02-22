@@ -243,12 +243,16 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		$http.post('../../app/controllers/get_agenda.php', {user_id : user_id, email : email, username : username, 'start_date' : 0}).success(function(response) {
 			$scope.segregateDays(response);
 			setPageScrollTop();
-
-			/*$http.post('../../app/controllers/get_agenda.php', {'end_date' : getMidnightTime()}).success(function(response) {
-				segregateDays(response);
-			});*/
 		}).error(function(response, status) {
-			$window.alert("There was an error connecting to the servers (possibly due to all the cool people here).  Please try again later.");
+			if(status === 401) {
+				$scope.storage.remove('user_id');
+				$scope.storage.remove('username');
+				$scope.storage.remove('email');
+
+				$window.location.href = "login.html";
+			}
+			
+			$window.alert("There was an error connecting to the servers (possibly because our servers cannot handle all awesome people using our app).  Please try again later.");
 		});
 	}
 ]);

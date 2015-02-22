@@ -59,7 +59,15 @@ frankAppEvent.controller('eventCtrl', ['$scope', '$http', 'localStorageService',
 				}
 				$scope.events = response;
 			}).error(function(response, status) {
-				$window.alert("There was an error connecting to the servers (possibly due to all the cool people here).  Please try again later.");
+				if(status === 401) {
+					$scope.storage.remove('user_id');
+					$scope.storage.remove('username');
+					$scope.storage.remove('email');
+
+					$window.location.href = "login.html";
+				}
+				
+				$window.alert("There was an error connecting to the servers (possibly because our servers cannot handle all awesome people using our app).  Please try again later.");
 			});
 		};
 

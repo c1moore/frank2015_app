@@ -64,6 +64,14 @@ frankAppLeaderboard.controller('LeaderboardCtrl', ['$scope', '$http', 'localStor
 						
 						$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 					}).error(function(response, status) {
+						if(status === 401) {
+							$scope.storage.remove('user_id');
+							$scope.storage.remove('username');
+							$scope.storage.remove('email');
+
+							$window.location.href = "login.html";
+						}
+						
 						$window.alert("There was an error connecting to the servers (possibly due to all the cool people here).  Please try again later.");
 					});
 				} else {
