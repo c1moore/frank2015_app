@@ -1,0 +1,17 @@
+<div class="tweet_container">
+	<div class="twitter_header">Related Tweets <i class="fa fa-twitter"></i>
+	</div>
+	<div class="tweet" ng-repeat="tweet in tweets track by tweet.id" ng-if="!tweet_err">
+		<div class="tweet_author_image"><img src="{{tweet.user.profile_image_url}}" /></div>
+		<div class="tweet_author">{{tweet.user.name}}</div>
+		<div class="tweet_author_handle">@{{tweet.user.screen_name}}</div>
+		<div class="tweet_text" ng-bind-html="tweet.text"></div>
+		<div class="tweet_time">{{tweet.user.created_at}}</div>
+	</div>
+	<div ng-if="!tweets.length" class="tweetless">
+		Nothing here yet.  Start a conversation by using #frank2015{{hashtag ? ' #' + hashtag + '.' : '.'}}
+	</div>
+	<div class="tweet_err" ng-if="tweet_err">
+		There was an error retreiving Tweets.  Try again later.
+	</div>
+</div>

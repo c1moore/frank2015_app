@@ -23,6 +23,7 @@
 		<link data-require="bootstrap@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
 		<link data-require="font-awesome@*" data-semver="4.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
 		<link rel="stylesheet" href="../css/angular-snap.css" type="text/css" />
+		<link rel="stylesheet" href="../css/tweets.css" type="text/css" />
 		<link rel="stylesheet" href="../css/style.css" />
 		<link rel="stylesheet" href="../css/event.css" />
 	</head>
@@ -44,6 +45,8 @@
 						<span class="event-location"><b>Location: </b>{{event.location}}</span>
 						<span class="event-description" ng-if="event.description" ng-bind-html="event.description"></span>
 						<div class="twitter_box" ng-if="event.twitter_enabled">
+							<twitter-feed feed-id="event.twitter_feed">
+							</twitter-feed>
 						</div>
 					</accordion-group>
 				</accordion>

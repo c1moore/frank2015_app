@@ -81,3 +81,43 @@ frankAppEvent.controller('eventCtrl', ['$scope', '$http', 'localStorageService',
 		);
 	}
 ]);
+
+frankAppEvent.directive('twitterFeed', ['$http', '$sce', '$interval',
+	function($http, $sce, $interval) {
+		var twitterFeedDefinition = {
+			restrict: 'E',
+			scope: {
+				feedId: '='
+			},
+			templateUrl: 'twitter_feed.html',
+			link: function postLink($scope, element, attrs) {
+				$scope.tweets = [];
+
+				var retreiveTweets = function() {
+					$http.get("http://frank.jou.ufl.edu/", {params : {feed : 'fetchtweets', id : $scope.feedId, output : 'json'}}).success(function(response) {
+						$scope.tweet_err = false;
+						for(var i = 0; i < response.length; i++) {
+							$scope.tweets[i] = {};
+							$scope.tweets[i].user = {};
+
+							$scope.tweets[i].id = response[i].id;
+							$scope.tweets[i].user.profile_image_url = response[i].user.profile_image_url;
+							$scope.tweets[i].user.name = response[i].user.name;
+							$scope.tweets[i].user.created_at = (new Date(response[i].user.created_at)).toLocaleString();
+							$scope.tweets[i].user.screen_name = response[i].user.screen_name;
+							$scope.tweets[i].text = $sce.trustAsHtml(response[i].text);
+						}
+					}).error(function() {
+						$scope.tweet_err = true;
+					});
+				};
+
+				retreiveTweets();
+
+				$interval(retreiveTweets, 60000);
+			}
+		};
+
+		return twitterFeedDefinition;
+	}
+]);

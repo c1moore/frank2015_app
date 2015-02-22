@@ -1,0 +1,56 @@
+.tweet {
+	position: relative;
+	margin: auto;
+	border-bottom: 2px inset #66757F;
+	background-color: white;
+	width: 99%;
+	padding: 5px;
+}
+
+.tweet_author {
+	display: inline-block;
+	position: absolute;
+	top: 10px;
+	margin-left: 10px;
+	font-weight: 800;
+}
+
+.tweet_author_handle {
+	display: inline-block;
+	top: 31px;
+	position: absolute;
+	margin-left: 10px;
+	color: #8899A6;
+}
+
+.tweet_author_image {
+	display: inline-block;
+}
+
+.tweet_container {
+	position: relative;
+	background-color: #55ACEE;
+}
+
+.twitter_header {
+	background-color: #292f33;
+	text-align: center;
+	font-size: 20px;
+	color: white;
+	padding: 5px;
+	margin-bottom: 7px;
+}
+
+.tweet_text {
+	width: 90%;
+	margin: auto;
+	padding: 5px;
+}
+
+.tweet_time {
+	font-size: 12px;
+	width: 90%;
+	margin: auto;
+	padding-left: 5px;
+	color: #8899a6;
+}

@@ -11,3 +11,12 @@
 .fa.fa-external-link {
 	color: black;
 }
+
+.twitter_box {
+	margin: auto;
+	max-width: 75vw;
+	height: 350px;
+	overflow: hidden;
+	overflow-y: auto;
+	border: 1px solid #E8E9EB;
+}
