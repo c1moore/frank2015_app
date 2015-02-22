@@ -200,7 +200,10 @@ frankAppMap.controller('mapCtrl', ['$scope', 'localStorageService', '$window', '
 				});
 			}
 
-			$scope.mapCenter = $scope.lat + ", " + $scope.lng;
+			$scope.mapCenter = 0 + ", " + 0;
+			$timeout(function() {
+				$scope.mapCenter = $scope.lat + ", " + $scope.lng;
+			}, 1);
 		};
 
 		//Stop tracking the user, deregister the lat and lng watchers, and set the deregistration functions to null.
