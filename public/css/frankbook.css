@@ -219,7 +219,7 @@ ul[rn-carousel]>li {
 }
 
 .rn-carousel-control.rn-carousel-control-next {
-  right: 19.5em;
+  right: 121vw;
 }
 
 .search-box {
@@ -432,10 +432,6 @@ ul[rn-carousel]>li {
 
 .interests-landscape img {
   width: 9vw;
-}
-
-.participantcarousel-landscape .rn-carousel-control.rn-carousel-control-next {
-  right: 57.5em;
 }
 
 .participantcarousel-content-landscape {

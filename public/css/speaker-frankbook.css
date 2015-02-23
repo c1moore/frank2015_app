@@ -222,7 +222,7 @@ ul[rn-carousel]>li {
 }
 
 .rn-carousel-control.rn-carousel-control-next {
-  right: 19.5em;
+  right: 121vw;
 }
 
 .search-box {
@@ -431,10 +431,6 @@ ul[rn-carousel]>li {
 
 .speaker-bio-landscape span {
   margin-bottom: 50px;
-}
-
-.speakercarousel-landscape .rn-carousel-control.rn-carousel-control-next {
-  right: 57.5em;
 }
 
 .speakercarousel-content-landscape {
