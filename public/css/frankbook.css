@@ -352,13 +352,13 @@ ul[rn-carousel]>li {
   -webkit-transform: matrix(1, 0, -0.6, 1, 0, 0);
   -moz-transform: matrix(1, 0, -0.6, 1, 0, 0);
   -o-transform: matrix(1, 0, -0.6, 1, 0, 0);
-  width: 60vw;
+  width: 70vw;
 }
 
 .interests-portrait img {
   width: 9vw;
   position: relative;
-  right: 20px;
+  /*right: 20px;*/
 }
 
 .participantcarousel-content-portrait {
@@ -368,10 +368,10 @@ ul[rn-carousel]>li {
 }
 
 .participantemail-portrait {
-  font-size: 4vmin;
+  font-size: 14px;
   display: inline;
   position: relative;
-  right: -10px;
+  /*right: -10px;*/
 }
 
 .participantinterests-portrait {
@@ -380,7 +380,7 @@ ul[rn-carousel]>li {
 }
 
 .participantname-portrait {
-  font-size: 7vmin;
+  font-size: 20px;
   display: block;
   margin: 0;
 }
@@ -392,14 +392,15 @@ ul[rn-carousel]>li {
 
 .participanttwitter-portrait {
   display: inline;
-  font-size: 4vmin;
+  font-size: 14px;
   position: relative;
-  right: -5px;
+  /*right: -5px;*/
 }
 
 .sidecontent-portrait {
   position: absolute;
-  width: 75vw;
+  width: 90vw;
+  min-height: 91px;
   top: 50vh;
   right: 0;
   background-color: rgb(115, 201, 45);
@@ -420,9 +421,9 @@ ul[rn-carousel]>li {
   -webkit-transform: matrix(1, 0, -0.6, 1, 0, 0);
   -moz-transform: matrix(1, 0, -0.6, 1, 0, 0);
   -o-transform: matrix(1, 0, -0.6, 1, 0, 0);
-  width: 69vw;
+  width: 80vw;
   position: relative;
-  right: 10px;
+  /*right: 10px;*/
 }
 
 
