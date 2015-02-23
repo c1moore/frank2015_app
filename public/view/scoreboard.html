@@ -49,10 +49,13 @@
 							<span class="members-header">Add Members</span>
 							<div class="member-names">
 								<div ng-repeat="members in team.members track by $index">
-									<a href="" ng-class="{disabled : team.members.length <= 1}" ng-click="team.members.length > 1 ? team.members.splice($index, 1) : 1+1" tabindex="-1"><i class="fa fa-times"></i></a>
-									<a href="" ng-click="team.members[team.members.length] = {}" tabindex="-1"><i class="fa fa-plus"></i></a>
+									<div style="text-align: right;">
+										<a href="" ng-class="{disabled : team.members.length <= 1}" ng-click="team.members.length > 1 ? team.members.splice($index, 1) : 1+1" tabindex="-1"><i class="fa fa-times"></i></a>
+										<a href="" ng-click="team.members[team.members.length] = {}" tabindex="-1"><i class="fa fa-plus"></i></a>
+									</div>
 									<label style="width: 100%;">First Name: <input type="text" ng-model="team.members[$index].member_fName" style="width: 70%;" maxlength="50" /></label>
 									<label style="width: 100%;">Last Name: <input type="text" ng-model="team.members[$index].member_lName" style="width: 70%;" maxlength="50" /></label>
+									<hr />
 								</div>
 							</div>
 						</form>
