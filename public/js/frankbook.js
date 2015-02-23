@@ -52,19 +52,51 @@ frankAppFBook.controller('ParticipantController', ['$scope', '$http', 'localStor
 			var interestMatches = false;
 			if(row.interests != undefined) {
 				for(var i=0; i<row.interests.length; i++) {
-					if(row.interests[i].toLowerCase().indexOf($scope.carouselQuery || '') !== -1) {
+					if(row.interests[i].toLowerCase().indexOf($scope.carouselQuery.toLowerCase() || '') !== -1) {
 						interestMatches = true;
 						break;
 					}
 				}
 			}
 
-			return (interestMatches || row.name.toLowerCase().indexOf($scope.carouselQuery || '') !== -1 || row.email.toLowerCase().indexOf($scope.carouselQuery || '') !== -1 || row.twitter.toLowerCase().indexOf($scope.carouselQuery || '') !== -1);
+			return (interestMatches || row.name.toLowerCase().indexOf($scope.carouselQuery.toLowerCase() || '') !== -1 || row.email.toLowerCase().indexOf($scope.carouselQuery.toLowerCase() || '') !== -1 || row.twitter.toLowerCase().indexOf($scope.carouselQuery.toLowerCase() || '') !== -1);
 		};
 
 		$scope.loadMore = function() {
 			$scope.tableLimit += 20;
 		};
+
+		var prevTime = Date.now();
+		var lastIndexLoaded = 4;		//The carousel loads the first 5 images when buffered.
+
+		/**
+		* As the user scrolls, load more images.  The number of images to load will be determined by
+		* how fast the user is scrolling.  If the user is scrolling slow (2 slides/5 seconds) only
+		* load 4 more images; otherwise, load 9 more images.
+		*/
+		$scope.$watch('carouselIndex', function() {
+			if(!($scope.carouselIndex % 2)) {
+				var largeTimePeriod = (Date.now() - prevTime) > 5000;
+
+				//Don't try to load more images if the images have already been loaded.
+				if(!(largeTimePeriod && lastIndexLoaded > $scope.carouselIndex + 7)) {
+					if(largeTimePeriod) {
+						var load = ($scope.participants.length > (lastIndexLoaded + 4)) ? 4 : ($scope.participants.length - (lastIndexLoaded + 1));
+
+						load = ($scope.carouselIndex + 7) - lastIndexLoaded;
+					} else {
+						var load = ($scope.participants.length > (lastIndexLoaded + 9)) ? 9 : ($scope.participants.length - (lastIndexLoaded + 1));
+					}
+
+					for(var i = 0; i < load; i++) {
+						var img = new Image();
+						img.src = $scope.participants[++lastIndexLoaded].image;
+					}
+				}
+
+				prevTime = Date.now();
+			}
+		});
 
 		/**
 		* Return the max width for the search bar.  On some screens, the set width is too large and

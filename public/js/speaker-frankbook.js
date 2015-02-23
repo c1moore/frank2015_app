@@ -49,7 +49,7 @@ frankAppSFBook.controller('SpeakerController', ['$scope', '$http', 'localStorage
 		};
 
 		$scope.carouselFilter = function(row) {
-			return (row.name.toLowerCase().indexOf($scope.carouselQuery || '') !== -1 || row.organization.toLowerCase().indexOf($scope.carouselQuery || '') !== -1 || $sce.getTrustedHtml(row.bio).toLowerCase().indexOf($scope.carouselQuery || '') !== -1);
+			return (row.name.toLowerCase().indexOf($scope.carouselQuery.toLowerCase() || '') !== -1 || row.organization.toLowerCase().indexOf($scope.carouselQuery.toLowerCase() || '') !== -1 || $sce.getTrustedHtml(row.bio).toLowerCase().indexOf($scope.carouselQuery.toLowerCase() || '') !== -1);
 		};
 
 		$scope.loadMore = function() {
@@ -78,6 +78,42 @@ frankAppSFBook.controller('SpeakerController', ['$scope', '$http', 'localStorage
 			var linkelem = angular.element("#carousel-view-switch");
 			return $window.innerWidth - linkelem.outerWidth() - 20 - parseInt(angular.element("#carousel-search-box").css('margin-right'), 10);	/*20 is the number of pixels that should remain between the link and the search box.*/
 		};
+
+		var speakerImgUrls = ['http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Anastasia-Khoo-0050-200x300.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Jenny-Lawson-highres-courtesy-of-authorWEB-1.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Yael-Lehmann.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Head-shot.png', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/loovis.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/sophia-3.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Dianes-headshot.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/milder-1.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/David-Morse-Placeholder-IMG-0752-head-c.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/RichNeimand-c.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/brendan-nyhan.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/John-Passacantando.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Steven-Pinker-2011-author-photo.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/ai-jen-headshot-lores.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Carlos.Roig-c.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/JimRoss.JJ-005-Edit-1.jpeg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/IMG_7993.jpeg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/DSC2264-c.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Sivan_Sherriffe-photo.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/tom-shroder.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Amy-Simon-Headshot-2013.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Joel-Simon-headshot.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Sleeth-Keppler.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/SanchezFeb19_3_lowres-2.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Vedantam-Headshot-crdit-Gary-Knight.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/JennWebber.JJ-028-Edit-c.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/lizz-winstead.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Sheryl-WuDunn-Headshot.jpg'];
+		var prevTime = Date.now();
+		var lastIndexLoaded = -1;
+
+		/**
+		* As the user scrolls, load more images.  The number of images to load will be determined by
+		* how fast the user is scrolling.  If the user is scrolling slow (2 slides/5 seconds) only
+		* load 2 more images; otherwise, load 6 more images.  Even though I will load images 10 slides
+		* before they are needed, the speakerImgUrls is missing the first 15 image urls so 15 has to
+		* be subtracted from any numbers I am using to calculated indices.
+		*/
+		$scope.$watch('carouselIndex', function() {
+			if(($scope.carouselIndex % 2) && $scope.carouselIndex > 4) {
+				var largeTimePeriod = (Date.now() - prevTime) > 5000;
+
+				//Don't try to load more images if the images have already been loaded.
+				if(!(largeTimePeriod && lastIndexLoaded > $scope.carouselIndex - 4)) {
+					if(largeTimePeriod) {
+						var load = (speakerImgUrls.length > (lastIndexLoaded + 2)) ? 2 : ($scope.speakers.length - ((($scope.carouselIndex > 15) ? $scope.carouselIndex : 15) + lastIndexLoaded));		//Only load images remaining.
+						
+						if(lastIndexLoaded >= 0)
+							load = ($scope.carouselIndex - 4) - lastIndexLoaded;	//Only load the images that have not been preloaded before.
+					} else {
+						var load = (speakerImgUrls.length > (lastIndexLoaded + 6)) ? 6 : ($scope.speakers.length - ((($scope.carouselIndex > 15) ? $scope.carouselIndex : 15) + lastIndexLoaded));		//Only load images remaining.
+					}
+
+					for(var i = 0; i < load; i++) {
+						var img = new Image();
+						img.src = speakerImgUrls[++lastIndexLoaded];
+					}
+				}
+
+				prevTime = Date.now();
+			}
+		});
 		
 		$scope.speakers = [
 			{
@@ -173,7 +209,7 @@ frankAppSFBook.controller('SpeakerController', ['$scope', '$http', 'localStorage
 			{
 				name : 'Anastasia Khoo',
 				organization : 'Human Rights Campaign',
-				image : 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Anastasia-Khoo-0050.jpg',
+				image : 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Anastasia-Khoo-0050-200x300.jpg',
 				bio : $sce.trustAsHtml('<p>Anastasia Khoo is the Marketing Director for the Human Rights Campaign. In this capacity, Khoo has overseen consistently innovative organizational marketing strategies-driving forward HRC\'s work in the areas of digital media, advertising and public relations.</p><p>Nowhere has this leadership been more notable than in the record-breaking "red equal sign" campaign in 2013. As historic marriage equality cases reached the United States Supreme Court, Khoo developed a strategic campaign to give HRC supporters an opportunity to show their support for marriage and be a part of history by changing their Facebook profile picture to a red-and-pink version of the HRC logo. In just a few short days, as many as 10 million people used the image on social media-including celebrities, major corporations and leading politicians. The logo was named 2013′s "Symbol of the Year" and Facebook declared the campaign the most successful viral effort in the site\'s history.</p><p>Khoo is a widely-sought commentator on marketing and digital media issues giving interviews in a wide variety of publications including The New Yorker, Washington Post, Stanford Social Innovation Review and Marketing Power. She\'s given celebrated presentations at conferences like The Guardian\'s Activate London Summit, Mashable Social Good and SXSW. And she continues to volunteer her time to share what she\'s learned with other socially-minded nonprofits and brands.</p><p>Her work has garnered top honors including Mashable\'s "Best Social Media Campaign", PR Week\'s Best Digital Campaign, SXSW "Best Digital Campaign", "Best Social Media Campaign" and the highly-coveted "Best in Show." Khoo was also named "Digital Innovator of the Year."</p><p>Prior to joining HRC, Khoo spent six years in the environmental movement with Greenpeace developing its communications and brand strategy as well as collaborating on a variety of high-profile corporate and grassroots campaigns. She has a bachelor\'s degree from Dickinson College.</p>')
 			},
 			{

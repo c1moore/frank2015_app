@@ -5,6 +5,17 @@
 		<base href="/tests_c1m/public/view/" />
 		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no">
 
+		<script type="text/javascript">
+			//To help improve performance, pre-load the first 15 images.
+			var images = [];
+			var urls = ['http://frank.jou.ufl.edu/wp-content/uploads/2014/10/bleich.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Chad-Boettcher-headshot-300dpi.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Taylor_Brandon-photo.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Andy.png', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Carey-auth-photo-c-Soo-Jeong-Kang.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/christiano.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/clayton.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/WBD-HeadshotNew1.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/chip_alt_c.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Kristen-Grimm-headshot.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/erin-hart.jpeg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/bencolor.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Bobby-Jones.jpg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/Yoo-Jin-Kang-.jpeg', 'http://frank.jou.ufl.edu/wp-content/uploads/2014/10/RLK-HEADSHOT-2013.small_.jpeg'];
+
+			for(var i = 0; i < urls.length; i++) {
+				images[i] = new Image();
+				images[i].src = urls[i];
+			}
+		</script>
+
 		<script data-require="jquery@*" data-semver="2.1.1" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script data-require="bootstrap@*" data-semver="3.2.0" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 		<script data-require="angular.js@*" data-semver="1.3.0" src="//code.angularjs.org/1.3.0/angular.js"></script>
@@ -42,7 +53,7 @@
 				<span class="view-switch" ng-click="carousel = false" ng-style="{'margin-top' : getTopMargin(15)}" id="carousel-view-switch">View Speaker Table</span>
 				<div class="search-icon" ng-hide="search" ng-click="search = !search" ng-style="{'margin-top' : getTopMargin(8)}"><i class="fa fa-search"></i></div>
 				<input class="search-box" id="carousel-search-box" type="text" ng-model="carouselQuery" name="search" placeholder="Search..." ng-show="search" ng-blur="search = !search" ng-style="{'margin-top' : getTopMargin(8), 'max-width' : getSearchMaxWidth()}" ng-model-options="{updateOn : 'default blur', debounce : {'default' : 500, 'blur' : 0}}" />
-				<ul data-role="page" id="speakercarousel" ng-class="{'speakercarousel-portrait': portrait, 'speakercarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls>
+				<ul data-role="page" id="speakercarousel" ng-class="{'speakercarousel-portrait': portrait, 'speakercarousel-landscape': !portrait}" class="personview carousel" rn-carousel ng-style="{'margin-top' : getTopMargin(40)}" rn-carousel-deep-watch rn-carousel-index="carouselIndex" rn-carousel-controls rn-carousel-buffered>
 					<li ng-class="{'carousel-item-portrait': portrait, 'carousel-item-landscape': !portrait}" class="carousel-item" id="carousel-item-{{$index}}" ng-repeat="speaker in speakers | filter:carouselFilter track by $index">
 						<div ng-class="{'speakercarousel-content-portrait': portrait, 'speakercarousel-content-landscape': !portrait}" class="speakercarousel-content">
 							<div ng-class="{'speakerpic-portrait': portrait, 'speakerpic-landscape': !portrait}" class="speakerpic" style="background-image : url('{{speaker.image}}');"></div>
