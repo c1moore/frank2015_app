@@ -9,7 +9,7 @@
 		<div class="tweet_time">{{tweet.user.created_at}}</div>
 	</div>
 	<div ng-if="!tweets.length" class="tweetless">
-		Nothing here yet.  Start a conversation by using #frank2015{{hashtag ? ' #' + hashtag + '.' : '.'}}
+		Nothing here yet.  Start a conversation by using #frank2015{{hashtag ? ' ' + hashtag + '.' : '.'}}
 	</div>
 	<div class="tweet_err" ng-if="tweet_err">
 		There was an error retreiving Tweets.  Try again later.
