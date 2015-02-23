@@ -763,7 +763,12 @@ app.directive('ngTablePagination', ['$compile',
             link: function(scope, element, attrs) {
 
                 scope.params.settings().$scope.$on('ngTableAfterReloadData', function() {
-                    scope.pages = scope.params.generatePagesArray(scope.params.page(), scope.params.total(), scope.params.count());
+                    /*c1moore: This needs to be modified so pagination is based on groups, not rows.*/
+                    if(scope.params.settings().groupBy) {
+                        scope.pages = scope.params.generatePagesArray(scope.params.page(), scope.params.data.length, scope.params.count());
+                    } else {
+                        scope.pages = scope.params.generatePagesArray(scope.params.page(), scope.params.total(), scope.params.count());
+                    }
                 }, true);
 
                 scope.$watch('templateUrl', function(templateUrl) {

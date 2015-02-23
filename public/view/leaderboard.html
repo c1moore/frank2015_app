@@ -54,8 +54,9 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody ng-repeat="group in $groups" ng-init="group.$hideRows = true" ng-class="{'dark-row' : $even, 'light-row' : $odd}">
-					<tr class="ng-table-group">
+				<!--  | slice:(($params.page - 1) * $params.count):($params.page * $params.count) -->
+				<tbody ng-repeat="group in $groups | slice:params.$params" ng-init="group.$hideRows = true" ng-class="{'dark-row' : $even, 'light-row' : $odd}">
+					<tr>
 						<td sortable="'team_name'" data-title="'Team Name'">
 							<a href="" ng-click="group.$hideRows = !group.$hideRows" class="member-link">
 								<i class="fa" ng-class="{'fa-plus-square-o' : group.$hideRows, 'fa-minus-square-o' : !group.$hideRows}"></i>

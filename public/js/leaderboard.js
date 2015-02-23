@@ -51,7 +51,7 @@ frankAppLeaderboard.controller('LeaderboardCtrl', ['$scope', '$http', 'localStor
 			filter: $scope.filters
 		}, {
 			groupBy : 'team_name',
-			counts : [5, 10, 15, 20],
+			counts : [1, 5, 10, 15, 20],
 			getData : function($defer, params) {
 				if(!$scope.krewes.length) {
 					$http.post('../../app/controllers/get_krewes.php', {user_id : user_id, username : username, email : email}).success(function(response) {
@@ -62,7 +62,8 @@ frankAppLeaderboard.controller('LeaderboardCtrl', ['$scope', '$http', 'localStor
 						var filteredData = params.filter() ? $filter('filter')($scope.krewes, params.filter().myfilter) : $scope.krewes;
 						var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : filteredData;
 						
-						$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+						//$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+					$defer.resolve(orderedData);
 					}).error(function(response, status) {
 						if(status === 401) {
 							$scope.storage.remove('user_id');
@@ -78,9 +79,16 @@ frankAppLeaderboard.controller('LeaderboardCtrl', ['$scope', '$http', 'localStor
 					var filteredData = params.filter() ? $filter('filter')($scope.krewes, params.filter().myfilter) : $scope.krewes;
 					var orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : filteredData;
 					
-					$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+					//$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+					$defer.resolve(orderedData);
 				}
 			}
 		});
 	}
 ]);
+
+frankAppLeaderboard.filter('slice', function() {
+	return function(arr, params) {
+		return (arr || []).slice((params.page - 1) * params.count, params.page * params.count);
+	}
+});
