@@ -45,7 +45,7 @@
 						<span class="event-location"><b>Location: </b>{{event.location}}</span>
 						<span class="event-description" ng-if="event.description" ng-bind-html="event.description"></span>
 						<div class="twitter_box" ng-if="event.twitter_enabled">
-							<twitter-feed feed-id="event.twitter_feed">
+							<twitter-feed feed-id="event.twitter_feed" hashtag="event.hashtag">
 							</twitter-feed>
 						</div>
 					</accordion-group>
