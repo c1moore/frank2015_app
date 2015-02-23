@@ -95,7 +95,8 @@ frankAppEvent.directive('twitterFeed', ['$http', '$sce', '$interval',
 		var twitterFeedDefinition = {
 			restrict: 'E',
 			scope: {
-				feedId: '='
+				feedId: '=',
+				hashtag: '='
 			},
 			templateUrl: 'twitter_feed.html',
 			link: function postLink($scope, element, attrs) {
