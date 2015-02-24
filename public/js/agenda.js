@@ -127,7 +127,7 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 		* Returns the number of days into the frank 2015.
 		*/
 		$scope.daysSinceStart = function() {
-			var x = (Date.now() - $scope.startDate) / $scope.millisInDay;
+			var x = Math.floor((Date.now() - $scope.startDate) / $scope.millisInDay);
 			return (x>=0) ? x : 0;
 		};
 
@@ -251,7 +251,7 @@ frankAgenda.controller('agendaController', ['$scope', '$http', 'localStorageServ
 
 				$window.location.href = "login.html";
 			}
-			
+
 			$window.alert("There was an error connecting to the servers (possibly because our servers cannot handle all awesome people using our app).  Please try again later.");
 		});
 	}

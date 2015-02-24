@@ -36,7 +36,7 @@
 		<snap-content id="snap-content">
 			<frank-header>Agenda</frank-header>
 			<div class="calendar">
-				<ul data-role="page" class="calendar-carousel" rn-carousel rn-carousel-index="day" rn-carousel-controls rn-carousel-deep-watch ng-style="{'margin-top' : getTopMargin(15), height : slideHeight(15)}">
+				<ul data-role="page" class="calendar-carousel" rn-carousel rn-carousel-index="day" rn-carousel-controls ng-style="{'margin-top' : getTopMargin(15), height : slideHeight(15)}">
 					<li class="calendar-day" ng-repeat="day in dailyCalendar track by $index">
 						<h1 class="date-heading">{{getHeader($index)}}</h1>
 						<div class="calendar-area">
