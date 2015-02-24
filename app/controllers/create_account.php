@@ -182,12 +182,14 @@
 			$_POST['username'] = '';
 		}
 
-		$_POST['interests'] = json_decode($_POST['interests']);		//For some reason, the interests array is not decoded.
+		if(isset($_POST['interests'])) {
+			//$_POST['interests'] = json_decode($_POST['interests']);		//For some reason, the interests array is not decoded.
 
-		if(!count($_POST['interests'])) {
-			$_POST['interests'] = '';
-		} else {
-			$_POST['interests'] = implode(",", $_POST['interests']);
+			if(!count($_POST['interests'])) {
+				$_POST['interests'] = '';
+			} else {
+				$_POST['interests'] = implode(",", $_POST['interests']);
+			}
 		}
 
 		//If there were any errors, send them now and exit execution.
@@ -228,7 +230,7 @@
 					$order_num = $attendee[$order_index];
 					$twitter_handle = $attendee[$twitter_index];
 
-					fclose();
+					fclose($fhandle);
 
 					create_user($conn, $order_num, $twitter_handle, $i);
 				}
